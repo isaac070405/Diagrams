@@ -24,5 +24,5 @@ Download the latest build from the Releases page.
 | 07 | Ecological pyramid | 18 | Dose–response curve |
 | 08 | Dichotomous key | 19 | SAR scheme |
 | 09 | Iceberg model | 20 | Curly-arrow mechanism |
-| 10 | Scale bar | 21 | Population over time |
+| 10 | Histological image | 21 | Population over time |
 | 11 | Gradient bar | | |
