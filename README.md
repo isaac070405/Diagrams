@@ -6,6 +6,8 @@ Biological and metabolic diagrams.
 
 A browser editor for scientific figures: 21 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
+Open it online: https://isaac070405.github.io/Diagrams/
+
 - `site/`: the built workspace. Open `site/index.html` in a browser. `pathway.html` and `icons/` must stay beside it.
 - `source/`: the code. Build steps are in `source/README.md`.
 
@@ -24,7 +26,3 @@ Download the latest build from the Releases page.
 | 09 | Iceberg model | 20 | Curly-arrow mechanism |
 | 10 | Scale bar | 21 | Population over time |
 | 11 | Gradient bar | | |
-
-## Other files
-
-- `Untitled Diagram.drawio`: draw.io diagram.
