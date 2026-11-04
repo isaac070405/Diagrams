@@ -2,6 +2,7 @@ import { S } from '../sheet';
 import { cells, EmptyHint, lines, num, Range, RowsText, Seg, Spec, startDrag, Swatches, Toggle } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
 import { SAMPLE } from './boneSample';
+import { AdjFilter, AdjPanel, adjOf, isNeutral } from './scaleadj';
 import { fmt, GfxList, GfxOverlay, GfxSelected, GfxTools, gfxClick, lastRuler, migrate, moveShape, Shapes } from './scalegfx';
 
 /* ===================== 10 Scale bar ===================== */
@@ -53,9 +54,13 @@ function ScaleRender({ data }: { data: any }) {
   const b = barBox(data), g = b.g, img = resolveImg(data.img);
   const color = data.barColor || 'var(--ink)', above = data.labelPos === 'above';
   const ty = above ? b.y - 6 : b.y + b.th + b.fs + 2;
+  const a = adjOf(data), adj = isNeutral(a) ? null : a;
   return (
     <g>
-      {img ? <image href={img} x={0} y={0} width={D} height={g.H} preserveAspectRatio="none" /> : <ExampleImage H={g.H} />}
+      {adj ? <defs><AdjFilter id="sb-adj" a={adj} /></defs> : null}
+      <g filter={adj ? 'url(#sb-adj)' : undefined}>
+        {img ? <image href={img} x={0} y={0} width={D} height={g.H} preserveAspectRatio="none" /> : <ExampleImage H={g.H} />}
+      </g>
       <Shapes shapes={data.shapes || []} ppu={g.ppu} unit={data.unit} />
       {data.barHidden ? null : <>
         {data.plate ? <rect x={b.x - 10} y={(above ? b.y - b.fs - 12 : b.y - 8)} width={b.len + 20} height={b.bh} className="mk-plate" style={{ fill: data.plateColor || undefined }} /> : null}
@@ -105,9 +110,10 @@ function ScaleControls(p: EditProps) {
       <GfxList {...p} />
       <S.Panel kicker="Image" help="Large photos are reduced to 1600 px on the longest side.">
         <label className="sd-tbtn mk-upload">Upload micrograph<input type="file" accept="image/png,image/jpeg,image/webp" hidden
-          onChange={(e: any) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) readImage(f, (img, w, h) => set({ img, imgW: w, imgH: h, shapes: [], draft: [], bx: undefined, by: undefined }), () => set({})); }} /></label>
-        {data.img !== 'sample:artery' ? <S.ToolButton onClick={() => set({ img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', shapes: [], draft: [], bx: undefined, by: undefined })}>Use the artery example</S.ToolButton> : null}
+          onChange={(e: any) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) readImage(f, (img, w, h) => set({ img, imgW: w, imgH: h, shapes: [], draft: [], adj: undefined, bx: undefined, by: undefined }), () => set({})); }} /></label>
+        {data.img !== 'sample:artery' ? <S.ToolButton onClick={() => set({ img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', shapes: [], draft: [], adj: undefined, bx: undefined, by: undefined })}>Use the artery example</S.ToolButton> : null}
       </S.Panel>
+      <AdjPanel {...p} />
       <S.Panel kicker="Calibration" help="The width of the whole image in real units, from your microscope's field of view or a stage micrometer.">
         <div className="mk-pair">
           <S.Field id="sb-fov" label="Image width" value={data.fov} onChange={(e: any) => set({ fov: e.target.value }, 'fov')} />
