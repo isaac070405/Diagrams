@@ -274,3 +274,27 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-overlay .mk-panel-pick { fill: transparent; stroke: transparent; cursor: pointer; }
 .mk-overlay .mk-panel-pick:hover { stroke: var(--accent-400); stroke-width: 1.2; stroke-dasharray: 6 4; }
 .mk-panel-letter { user-select: none; }
+
+/* ---------- icon library ---------- */
+.mk-libthumb { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 8px; width: 100%; height: 100%; }
+.mk-libthumb span { background: center / contain no-repeat; background-origin: content-box; padding: 4px; border: 1px solid var(--divider); background-color: var(--paper); }
+.mk-lib { min-height: 100vh; min-height: 100dvh; display: grid; grid-template-rows: auto 1fr; }
+.mk-lib-body { padding-block: 24px 56px; padding-left: var(--mk-gutter-l); padding-right: var(--mk-gutter-r); max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; display: grid; gap: 24px; align-content: start; }
+.mk-lib-head { display: grid; gap: 8px; }
+.mk-lib-head h1 { margin: 0; font: 400 40px/1.05 var(--font-ui-condensed); letter-spacing: -0.015em; }
+.mk-lib-head p { margin: 0; font: 400 14px/22px var(--font-ui); color: var(--neutral-700); max-width: 70ch; }
+.mk-lib-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px; }
+.mk-lib-search { flex: 1 1 280px; max-width: 420px; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--divider); background: var(--paper); border-radius: 0; font-size: 14px; }
+.mk-lib-open { font: 600 13px/1 var(--font-ui-condensed); letter-spacing: .04em; color: var(--accent-700); text-underline-offset: 3px; }
+.mk-lib-count { font-variant-numeric: tabular-nums; font-style: italic; }
+.mk-lib-empty { font-style: italic; color: var(--neutral-700); }
+.mk-lib-sec { display: grid; gap: 10px; }
+.mk-lib-sec h2 { margin: 0; }
+.mk-lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.mk-lib-tile { display: grid; grid-template-rows: 110px auto auto; gap: 6px; padding: 10px 8px 9px; border: 1px solid var(--divider); background: var(--paper); border-radius: 0; cursor: pointer; text-align: center; }
+.mk-lib-tile:hover { border-color: var(--accent); background: var(--accent-100); }
+.mk-lib-img { background: center / contain no-repeat; background-origin: content-box; padding: 4px; }
+.mk-lib-name { font-size: 12.5px; line-height: 16px; }
+.mk-lib-dl { font: 600 11px/1 var(--font-ui-condensed); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-700); opacity: 0; }
+.mk-lib-tile:hover .mk-lib-dl, .mk-lib-tile:focus-visible .mk-lib-dl { opacity: 1; }
+@media (hover: none) { .mk-lib-dl { opacity: 1; } }

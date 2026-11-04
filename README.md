@@ -27,6 +27,13 @@ Download the latest build from the Releases page.
 | 10 | Histological image | 21 | Population over time |
 | 11 | Gradient bar | | |
 
+## Icon library
+
+80 BioRender icons in 7 groups (receptors, proteins, nucleic acids, small molecules, cytokines and immune cells, lab equipment, cells), reached in two places:
+
+- **Home page:** the Icon library card sits beside Biological pathway. It has search, group filters and a PNG download for each icon.
+- **Inside Biological pathway:** the Icon library button at the top of the sidebar opens the same catalogue over the sheet. Click an icon to add it, or to replace the icon on the selected node.
+
 ## Histological image
 
 Annotate your own micrographs, or start from the artery example. Calibrate once with the image width, then every length, area and scale bar uses real units.
