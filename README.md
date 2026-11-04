@@ -35,6 +35,6 @@ Annotate your own micrographs, or start from the artery example. Calibrate once 
 - **Contour:** a smooth curve around a structure, with area and perimeter in calibrated units.
 - **Profile line:** draw a line across the image and a plot shows brightness, red, green or blue along it, with smoothing and the mean. The plot can be dragged and resized.
 - **Grid:** lines, crosses or dots at a spacing you set in real units, with an optional printed spacing.
-- **Crop and rotate:** 90° turns, flips, straighten and crop. The calibration follows.
+- **Crop and rotate:** 90° turns, flips, straighten and crop, with presets for 1:1, 4:3, 3:2 and 16:9 crops and 2×, 4× and 8× zoom. Turning keeps the framed region. The calibration follows.
 - **Stain and colour:** brightness, contrast, gamma, saturation, hue and red, green, blue balance, with an H&E preset.
 - **Panels:** up to 6 micrographs on one sheet, each with its own calibration, lettered A, B, C.

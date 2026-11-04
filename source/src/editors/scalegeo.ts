@@ -78,3 +78,28 @@ export function niceStep(v: number) {
 }
 
 export const fmt = (v: number) => v >= 100 ? Math.round(v).toString() : (+v.toPrecision(3)).toString();
+
+/* ---------- crop presets: crops are insets as fractions of the turned image ---------- */
+export const ASPECTS: [string, number][] = [['1:1', 1], ['4:3', 4 / 3], ['3:2', 3 / 2], ['16:9', 16 / 9]];
+export const ZOOMS = [2, 4, 8];
+const r4 = (v: number) => Math.round(v * 10000) / 10000;
+
+/* a crop of size nw x nh (fractions) centred as near the middle of the current crop as the picture allows */
+function centred(c: Crop, nw: number, nh: number): Crop {
+  const cx = Math.max(nw / 2, Math.min(1 - nw / 2, c.l + (1 - c.l - c.r) / 2)), cy = Math.max(nh / 2, Math.min(1 - nh / 2, c.t + (1 - c.t - c.b) / 2));
+  return { l: r4(cx - nw / 2), r: r4(1 - cx - nw / 2), t: r4(cy - nh / 2), b: r4(1 - cy - nh / 2) };
+}
+/* the largest crop with width:height = a, centred on the current crop */
+export function aspectCrop(OW: number, OH: number, c: Crop, a: number): Crop {
+  const wide = a >= OW / OH;
+  return centred(c, wide ? 1 : a * OH / OW, wide ? OW / (a * OH) : 1);
+}
+/* the current crop shape, shrunk about its centre until it spans 1/z of the picture width */
+export function zoomCrop(OW: number, OH: number, c: Crop, z: number): Crop {
+  const ar = (1 - c.l - c.r) * OW / ((1 - c.t - c.b) * OH);
+  let nw = 1 / z, nh = nw * OW / (ar * OH);
+  if (nh > 1) { nh = 1; nw = nh * ar * OH / OW; }
+  return centred(c, nw, nh);
+}
+/* the aspect ratio of a crop, or 0 for none */
+export const cropAspect = (OW: number, OH: number, c: Crop) => c.l + c.r + c.t + c.b > 0 ? (1 - c.l - c.r) * OW / ((1 - c.t - c.b) * OH) : 0;

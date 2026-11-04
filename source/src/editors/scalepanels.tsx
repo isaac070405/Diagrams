@@ -1,7 +1,7 @@
 import { S } from '../sheet';
 import { num, Range, RowX, Seg, startDrag, Swatches, Toggle } from '../ui';
 import type { EditProps } from '../shell';
-import { cropOf, niceStep, panelGeo, SHEET_W, type Crop } from './scalegeo';
+import { ASPECTS, aspectCrop, cropAspect, cropOf, niceStep, panelGeo, SHEET_W, ZOOMS, zoomCrop, type Crop } from './scalegeo';
 import { fmt } from './scalegfx';
 
 type XY = [number, number];
@@ -55,15 +55,30 @@ export function GridPanel({ data, set }: EditProps) {
 export function CropPanel({ data, set, top }: EditProps & { top: EditProps }) {
   const c = cropOf(data), q = num(data.q, 0), cropped = c.l + c.r + c.t + c.b > 0, turned = q % 4 !== 0 || data.flipX || data.flipY || num(data.ang, 0) !== 0;
   const edge = (k: keyof Crop, label: string) => <Range id={'cr-' + k} label={label + ' %'} value={Math.round(c[k] * 100)} min={0} max={80} onChange={v => set({ crop: { ...c, [k]: v / 100 } }, 'cr-' + k)} />;
+  /* turning or flipping carries the crop with the image, so the same region stays framed */
+  const cw90 = (k: Crop): Crop => ({ l: k.b, t: k.l, r: k.t, b: k.r });
+  const turn = (to: number) => { let k = c; for (let i = ((to - q) % 4 + 4) % 4; i > 0; i--) k = cw90(k); set({ q: ((to % 4) + 4) % 4, ...(cropped ? { crop: k } : {}) }); };
+  const flip = (horizontal: boolean) => {
+    const sourceX = horizontal !== (q % 2 === 1);
+    set({ ...(sourceX ? { flipX: !data.flipX } : { flipY: !data.flipY }), ...(cropped ? { crop: horizontal ? { ...c, l: c.r, r: c.l } : { ...c, t: c.b, b: c.t } } : {}) });
+  };
+  const pw = num(data.pw, SHEET_W), full = panelGeo(data, pw), ca = cropAspect(full.OW, full.OH, c), none = !cropped;
+  const asp = none ? 'full' : (ASPECTS.find(([, a]) => Math.abs(a / ca - 1) < 0.01) || ['free'])[0];
   return (
     <S.Panel kicker="Crop and rotate" help="The calibration follows the crop and the turn, and graphics stay on the same spot of the image.">
+      <Seg wrap value={q % 4} options={[[0, 'Original'], [1, '90° cw'], [2, '180°'], [3, '90° ccw']]} onChange={v => turn(v)} />
+      <Seg wrap value={asp} options={[['full', 'Full'], ...ASPECTS.map(([n]) => [n, n] as [string, string])]}
+        onChange={v => set({ crop: v === 'full' ? undefined : aspectCrop(full.OW, full.OH, c, ASPECTS.find(([n]) => n === v)![1]) })} />
       <div className="sd-row-btns">
-        <S.ToolButton compact onClick={() => set({ q: (q + 3) % 4 })} title="Rotate 90° anticlockwise">↺ 90°</S.ToolButton>
-        <S.ToolButton compact onClick={() => set({ q: (q + 1) % 4 })} title="Rotate 90° clockwise">↻ 90°</S.ToolButton>
+        {ZOOMS.map(z => <S.ToolButton key={z} compact disabled={full.cw <= 1 / z + 0.005} onClick={() => set({ crop: zoomCrop(full.OW, full.OH, c, z) })} title={'Zoom to ' + Math.round(100 / z) + '% of the width, about the centre of the crop'}>{z + '×'}</S.ToolButton>)}
       </div>
       <div className="sd-row-btns">
-        <S.ToolButton compact on={!!(q % 2 ? data.flipY : data.flipX)} onClick={() => set(q % 2 ? { flipY: !data.flipY } : { flipX: !data.flipX })}>Flip ↔</S.ToolButton>
-        <S.ToolButton compact on={!!(q % 2 ? data.flipX : data.flipY)} onClick={() => set(q % 2 ? { flipX: !data.flipX } : { flipY: !data.flipY })}>Flip ↕</S.ToolButton>
+        <S.ToolButton compact onClick={() => turn(q + 3)} title="Rotate 90° anticlockwise">↺ 90°</S.ToolButton>
+        <S.ToolButton compact onClick={() => turn(q + 1)} title="Rotate 90° clockwise">↻ 90°</S.ToolButton>
+      </div>
+      <div className="sd-row-btns">
+        <S.ToolButton compact on={!!(q % 2 ? data.flipY : data.flipX)} onClick={() => flip(true)}>Flip ↔</S.ToolButton>
+        <S.ToolButton compact on={!!(q % 2 ? data.flipX : data.flipY)} onClick={() => flip(false)}>Flip ↕</S.ToolButton>
       </div>
       <Range id="cr-ang" label="Straighten °" value={num(data.ang, 0)} min={-45} max={45} step={0.5} onChange={v => set({ ang: v }, 'cr-ang')} />
       <Toggle on={!!top.data.cropping} label={top.data.cropping ? 'Cropping: drag the frame, then switch off' : 'Crop on the sheet'} onChange={v => top.set({ cropping: v, tool: 'select', draft: [] })} />
