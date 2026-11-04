@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { S } from '../sheet';
 import { num, Range, RowX, Seg, startDrag, Swatches, Toggle, uid } from '../ui';
 import type { EditProps } from '../shell';
+import { panelGeo, SHEET_W } from './scalegeo';
 
 /* Graphics for the Scale bar editor, modelled on the Graphics tools of ZEN: a tool strip,
    an object list (show, lock, type, name), z-order, and burn-in on export.
@@ -162,7 +163,7 @@ export function Shapes({ shapes, ppu, unit }: { shapes: Shape[]; ppu: number; un
 /* ---------- on the sheet: select, move, reshape, and a preview while drawing ---------- */
 export function GfxOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: (x: number, y: number) => XY }) {
   const tool = data.tool || 'select', draft: XY[] = data.draft || [], shapes: Shape[] = data.shapes || [];
-  const ppu = 800 / Math.max(1e-9, num(data.fov, 200));
+  const ppu = panelGeo(data, num(data.pw, SHEET_W), !!data.cropping).ppu;
   const [cur, setCur] = useState<XY | null>(null);
   const to = useRef(toSvg); to.current = toSvg;
   useEffect(() => {
@@ -300,7 +301,7 @@ export function GfxSelected({ data, set, sel }: EditProps) {
   const shapes: Shape[] = data.shapes || [];
   const i = sel && sel.kind === 'shape' ? shapes.findIndex(s => s.id === sel.id) : -1;
   if (i < 0) return null;
-  const s = shapes[i], ppu = 800 / Math.max(1e-9, num(data.fov, 200));
+  const s = shapes[i], ppu = panelGeo(data, num(data.pw, SHEET_W), !!data.cropping).ppu;
   const upd = (patch: any, key?: string) => set({ shapes: shapes.map(q => q.id === s.id ? { ...q, ...patch } : q) }, key);
   const isText = s.type === 'text' || s.type === 'label', dim = dimText(s, ppu, data.unit);
   const to = (m: 'front' | 'forward' | 'backward' | 'back') => set({ shapes: reorder(shapes, s.id, m) });

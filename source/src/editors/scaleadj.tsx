@@ -22,11 +22,11 @@ const f3 = (v: number) => String(Math.round(v * 1000) / 1000);
 
 const FN = ['feFuncR', 'feFuncG', 'feFuncB'] as const;
 
-export function AdjFilter({ id, a }: { id: string; a: Adj }) {
+export function AdjFilter({ id, a, w, h }: { id: string; a: Adj; w: number; h: number }) {
   const k = (100 + a.ct) / 100, o = 0.5 - 0.5 * k + a.br / 200, e = 1 / Math.max(0.05, a.ga);
   const gains = [a.r, a.g, a.b].map(v => v / 100);
   return (
-    <filter id={id} x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+    <filter id={id} filterUnits="userSpaceOnUse" x="0" y="0" width={w} height={h} colorInterpolationFilters="sRGB">
       <feColorMatrix type="hueRotate" values={String(a.hu)} />
       <feColorMatrix type="saturate" values={f3(a.sa / 100)} />
       <feComponentTransfer>{FN.map(T => <T key={T} type="gamma" amplitude="1" exponent={f3(e)} offset="0" />)}</feComponentTransfer>

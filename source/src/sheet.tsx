@@ -76,7 +76,10 @@ export function Sheet(p: {
     for (const [t, k] of textKeys()) { const d = nz[k]; t.style.translate = d ? d[0] + 'px ' + d[1] + 'px' : ''; }
     const g = gRef.current; if (!g || dragState.on) return;
     let b: DOMRect;
-    try { b = g.getBBox(); } catch (e) { return; }
+    /* content a clip-path cuts off (a cropped micrograph) must not widen the sheet: measure without it */
+    const cut = Array.from(g.querySelectorAll('[data-clip]')) as SVGElement[];
+    cut.forEach(e => { e.style.display = 'none'; });
+    try { b = g.getBBox(); } catch (e) { return; } finally { cut.forEach(e => { e.style.display = ''; }); }
     const nb = { x: Math.floor(b.x), y: Math.floor(b.y), w: Math.ceil(b.width) || 200, h: Math.ceil(b.height) || 100 };
     const moved = Math.abs(nb.x - box.x) > 1 || Math.abs(nb.y - box.y) > 1 || Math.abs(nb.w - box.w) > 1 || Math.abs(nb.h - box.h) > 1;
     if (!moved) { spins.current = 0; return; }

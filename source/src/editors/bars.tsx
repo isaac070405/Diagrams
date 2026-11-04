@@ -1,17 +1,21 @@
+import { useEffect } from 'react';
 import { S } from '../sheet';
 import { cells, EmptyHint, lines, num, Range, RowsText, Seg, Spec, startDrag, Swatches, Toggle } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
 import { SAMPLE } from './boneSample';
 import { AdjFilter, AdjPanel, adjOf, isNeutral } from './scaleadj';
+import { apply, fovFor, inv, layout, letterOf, mul, panelGeo, SHEET_W, sameM, type M } from './scalegeo';
+import { CropOverlay, CropPanel, GridPanel, GridSvg, PanelsPanel } from './scalepanels';
 import { fmt, GfxList, GfxOverlay, GfxSelected, GfxTools, gfxClick, lastRuler, migrate, moveShape, Shapes } from './scalegfx';
 
 /* ===================== 10 Scale bar ===================== */
-const D = 800;
+/* The sheet holds panels. Each panel is a micrograph with its own calibration, crop, scale bar and graphics.
+   Panel components receive a "view": the panel's fields plus the shared tool state and the panel width (pw). */
+const D = SHEET_W;
 const resolveImg = (img: any) => img === 'sample:artery' ? SAMPLE : img;
 function sb(d: any) {
-  const w = num(d.imgW, 1200), h = num(d.imgH, 800), H = D * h / w;
-  const ppu = D / Math.max(1e-9, num(d.fov, 200));
-  return { H, ppu, len: num(d.bar, 50) * ppu };
+  const pw = num(d.pw, SHEET_W), g = panelGeo(d, pw, !!d.cropping);
+  return { H: g.ph, ppu: g.ppu, len: num(d.bar, 50) * g.ppu, pw, g };
 }
 const BAR_INKS = ['var(--ink)', 'var(--paper)', 'var(--accent-700)', 'var(--edge-feedback-neg)', 'var(--swatch-6)', 'var(--swatch-11)'];
 
@@ -47,19 +51,27 @@ function barBox(d: any) {
   const bh = th + fs + 14;
   if (d.bx != null && d.by != null) return { x: d.bx, y: d.by, len, th, fs, bh, g };
   const left = d.corner === 'bl' || d.corner === 'tl', top = d.corner === 'tl' || d.corner === 'tr';
-  return { x: left ? m + 10 : D - m - 10 - len, y: top ? m + 8 : g.H - m - bh + 8, len, th, fs, bh, g };
+  return { x: left ? m + 10 : g.pw - m - 10 - len, y: top ? m + 8 : g.H - m - bh + 8, len, th, fs, bh, g };
 }
 
-function ScaleRender({ data }: { data: any }) {
-  const b = barBox(data), g = b.g, img = resolveImg(data.img);
+function PanelRender({ data, id }: { data: any; id: number }) {
+  const b = barBox(data), g = b.g, img = resolveImg(data.img), pw = g.pw, ph = g.H;
   const color = data.barColor || 'var(--ink)', above = data.labelPos === 'above';
   const ty = above ? b.y - 6 : b.y + b.th + b.fs + 2;
-  const a = adjOf(data), adj = isNeutral(a) ? null : a;
+  const a = adjOf(data), adj = isNeutral(a) ? null : a, clip = 'sb-clip-' + id, fid = 'sb-adj-' + id;
+  const size = num(data.letterSize, 26);
   return (
     <g>
-      {adj ? <defs><AdjFilter id="sb-adj" a={adj} /></defs> : null}
-      <g filter={adj ? 'url(#sb-adj)' : undefined}>
-        {img ? <image href={img} x={0} y={0} width={D} height={g.H} preserveAspectRatio="none" /> : <ExampleImage H={g.H} />}
+      <rect className="mk-panel-bg" x={0} y={0} width={pw} height={ph} style={{ fill: 'var(--paper)' }} />
+      <g data-clip="1" clipPath={'url(#' + clip + ')'}>
+        <defs><clipPath id={clip}><rect x={0} y={0} width={pw} height={ph} /></clipPath>{adj ? <AdjFilter id={fid} a={adj} w={pw} h={ph} /> : null}</defs>
+        <g filter={adj ? 'url(#' + fid + ')' : undefined}>
+          <g transform={'matrix(' + g.g.m.map(v => +v.toFixed(6)).join(' ') + ')'}>
+            {img ? <image href={img} x={0} y={0} width={g.g.iw} height={g.g.ih} preserveAspectRatio="none" />
+              : <g transform={'scale(' + g.g.iw / D + ')'}><ExampleImage H={D * g.g.ih / g.g.iw} /></g>}
+          </g>
+        </g>
+        <GridSvg d={data} ppu={g.ppu} pw={pw} ph={ph} />
       </g>
       <Shapes shapes={data.shapes || []} ppu={g.ppu} unit={data.unit} />
       {data.barHidden ? null : <>
@@ -67,6 +79,7 @@ function ScaleRender({ data }: { data: any }) {
         <rect x={b.x} y={b.y} width={b.len} height={b.th} style={{ fill: color }} />
         <text className="mk-bar-label" x={b.x + b.len / 2} y={ty} style={{ fill: color, fontSize: b.fs + 'px', fontWeight: data.barBold ? 700 : 400 }}>{fmt(num(data.bar, 50)) + ' ' + data.unit}</text>
       </>}
+      {data.letter ? <text className="mk-panel-letter" x={10} y={10 + size * 0.8} style={{ fill: 'var(--ink)', fontSize: size + 'px', fontWeight: 700, stroke: 'var(--paper)', strokeWidth: size * 0.16, paintOrder: 'stroke' }}>{data.letter}</text> : null}
     </g>
   );
 }
@@ -85,8 +98,8 @@ function ScaleOverlay(p: EditProps & { toSvg: any }) {
   );
 }
 
-function ScaleControls(p: EditProps) {
-  const { data, set, sel } = p;
+function ScaleControls(p: EditProps & { top: EditProps }) {
+  const { data, set, sel, top } = p;
   const g = sb(data);
   const shapes: any[] = data.shapes || [];
   const picked = sel && sel.kind === 'shape' ? shapes.find(q => q.id === sel.id) : null;
@@ -108,19 +121,22 @@ function ScaleControls(p: EditProps) {
       ) : null}
       <GfxSelected {...p} />
       <GfxList {...p} />
-      <S.Panel kicker="Image" help="Large photos are reduced to 1600 px on the longest side.">
+      <PanelsPanel {...top} />
+      <S.Panel kicker="Image" help="Large photos are reduced to 1600 px on the longest side. This replaces the image of the selected panel.">
         <label className="sd-tbtn mk-upload">Upload micrograph<input type="file" accept="image/png,image/jpeg,image/webp" hidden
-          onChange={(e: any) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) readImage(f, (img, w, h) => set({ img, imgW: w, imgH: h, shapes: [], draft: [], adj: undefined, bx: undefined, by: undefined }), () => set({})); }} /></label>
-        {data.img !== 'sample:artery' ? <S.ToolButton onClick={() => set({ img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', shapes: [], draft: [], adj: undefined, bx: undefined, by: undefined })}>Use the artery example</S.ToolButton> : null}
+          onChange={(e: any) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) readImage(f, (img, w, h) => set({ img, imgW: w, imgH: h, shapes: [], draft: [], adj: undefined, crop: undefined, q: 0, ang: 0, flipX: false, flipY: false, bx: undefined, by: undefined }), () => set({})); }} /></label>
+        {data.img !== 'sample:artery' ? <S.ToolButton onClick={() => set({ img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', shapes: [], draft: [], adj: undefined, crop: undefined, q: 0, ang: 0, flipX: false, flipY: false, bx: undefined, by: undefined })}>Use the artery example</S.ToolButton> : null}
       </S.Panel>
+      <CropPanel {...p} />
       <AdjPanel {...p} />
-      <S.Panel kicker="Calibration" help="The width of the whole image in real units, from your microscope's field of view or a stage micrometer.">
+      <GridPanel {...p} />
+      <S.Panel kicker="Calibration" help="The width of the whole image in real units, from your microscope's field of view or a stage micrometer. A crop or turn keeps it valid.">
         <div className="mk-pair">
           <S.Field id="sb-fov" label="Image width" value={data.fov} onChange={(e: any) => set({ fov: e.target.value }, 'fov')} />
           <S.Field id="sb-unit" label="Unit" value={data.unit} placeholder="e.g. µm" onChange={(e: any) => set({ unit: e.target.value }, 'unit')} />
         </div>
         {ruler ? <S.Field id="sb-known" label={(picked && ruler === picked ? 'Selected ' + ruler.type : 'Last caliper or line') + ' is really…'} placeholder={'e.g. 7.5 (' + data.unit + ')'} value=""
-          onChange={(e: any) => { const v = parseFloat(e.target.value); if (v > 0) { const px = Math.hypot(ruler.p[2] - ruler.p[0], ruler.p[3] - ruler.p[1]); set({ fov: Math.round(D / (px / v) * 100) / 100 }, 'cal'); } }}
+          onChange={(e: any) => { const v = parseFloat(e.target.value); if (v > 0) { const px = Math.hypot(ruler.p[2] - ruler.p[0], ruler.p[3] - ruler.p[1]); set({ fov: fovFor(data, g.pw, px, v) }, 'cal'); } }}
           help="Type the true length of a known object you measured to recalibrate." /> : null}
       </S.Panel>
       <S.Panel kicker="Bar" help="Click the bar on the sheet for colour, thickness and text. The Scale bar tool places it with one click.">
@@ -132,6 +148,104 @@ function ScaleControls(p: EditProps) {
   );
 }
 
+/* ---------- panels: routing between the sheet's data and one panel's view ---------- */
+const TOP = new Set(['tool', 'draft', 'keep', 'active', 'cols', 'gap', 'letters', 'letterSize', 'cropping', 'panels']);
+const PANEL0 = { shapes: [] as any[] };
+const TOP0 = { active: 0, cols: 1, gap: 12, letters: '', letterSize: 26, tool: 'select', keep: false, draft: [] as any[], cropping: false };
+
+function viewOf(d: any, i: number, L: ReturnType<typeof layout>) {
+  return { ...d.panels[i], tool: d.tool, draft: i === L.active ? d.draft : [], keep: d.keep, cropping: !!d.cropping && i === L.active, pw: L.pw, letter: d.panels.length > 1 || d.letters ? letterOf(i, d.letters) : '', letterSize: d.letterSize };
+}
+
+/* a patch from a panel component, or a change to the sheet itself, becomes a change to the sheet's data.
+   When the picture or the panel size changes, graphics are carried with the image, so they stay on the same cells. */
+function route(d: any, patch: any, i: number = d.active) {
+  const top: any = {}, pp: any = {};
+  for (const k of Object.keys(patch)) (TOP.has(k) ? top : pp)[k] = patch[k];
+  let panels: any[] = top.panels || d.panels;
+  if (Object.keys(pp).length) { const k = top.panels ? Math.min(top.active ?? i, panels.length - 1) : i; panels = panels.map((q, j) => j === k ? { ...q, ...pp } : q); }
+  const oL = layout(d), nL = layout({ ...d, ...top, panels });
+  const old = new Map<string, { q: any; g: any }>(d.panels.map((q: any, j: number) => [q.pid, { q, g: oL.boxes[j].g }]));
+  const view = (q: any) => JSON.stringify([q.q || 0, q.ang || 0, !!q.flipX, !!q.flipY, q.crop || null]);
+  const pts = (A: M, a: number[]) => { const o: number[] = []; for (let k = 0; k < a.length; k += 2) { const [x, y] = apply(A, a[k], a[k + 1]); o.push(Math.round(x), Math.round(y)); } return o; };
+  let moved = false;
+  panels = panels.map((q, j) => {
+    const was = old.get(q.pid), ng = nL.boxes[j].g; if (!was || sameM(was.g.m, ng.m)) return q;
+    moved = true;
+    const A = mul(ng.m, inv(was.g.m)), o = { ...q, shapes: (q.shapes || []).map((sh: any) => ({ ...sh, p: pts(A, sh.p) })) };
+    if (view(was.q) === view(q)) { if (q.bx != null) { o.bx = Math.round(q.bx * nL.pw / oL.pw); o.by = Math.round(q.by * ng.ph / was.g.ph); } }
+    else { o.bx = undefined; o.by = undefined; }
+    return o;
+  });
+  return { ...top, panels, ...(moved ? { draft: [] } : {}) };
+}
+
+/* a click on the sheet with a tool: the panel under the pointer gets it, unless a graphic is half drawn */
+function sheetClick(d: any, pt: [number, number]) {
+  const tool = d.tool || 'select';
+  if (tool === 'select' || d.cropping) return null;
+  const L = layout(d);
+  let i = L.active;
+  if (!(d.draft || []).length) {
+    i = L.boxes.findIndex(b => pt[0] >= b.x && pt[0] <= b.x + b.w && pt[1] >= b.y && pt[1] <= b.y + b.h);
+    if (i < 0) return null;
+  }
+  const b = L.boxes[i], lp: [number, number] = [pt[0] - b.x, pt[1] - b.y], v = viewOf(d, i, L);
+  const patch = tool === 'bar'
+    ? { bx: Math.round(lp[0] - sb(v).len / 2), by: Math.round(lp[1]), barHidden: false, barLocked: false, tool: d.keep ? 'bar' : 'select', draft: [] }
+    : gfxClick(v, lp);
+  return patch ? { ...route(d, patch, i), active: i } : null;
+}
+
+function MultiOverlay(p: EditProps & { toSvg: (x: number, y: number) => [number, number] }) {
+  const { data, set, toSvg, setSel } = p;
+  const L = layout(data), i = L.active, b = L.boxes[i], view = viewOf(data, i, L);
+  const pset = (patch: any, key?: string) => set(route(data, patch, i), key);
+  const local = (x: number, y: number): [number, number] => { const q = toSvg(x, y); return [q[0] - b.x, q[1] - b.y]; };
+  const picking = (data.tool || 'select') === 'select' && !data.cropping;
+  return (
+    <>
+      {L.boxes.length > 1 ? L.boxes.map((bx, j) => j === i
+        ? <rect key={j} className="mk-panel-on" x={bx.x} y={bx.y} width={bx.w} height={bx.h} />
+        : picking ? <rect key={j} className="mk-panel-pick" x={bx.x} y={bx.y} width={bx.w} height={bx.h}
+          onPointerDown={e => { e.stopPropagation(); set({ active: j }); setSel(null); }} /> : null) : null}
+      <g transform={'translate(' + b.x + ',' + b.y + ')'}>
+        {data.cropping ? <CropOverlay {...p} data={view} set={pset} toSvg={local} /> : <ScaleOverlay {...p} data={view} set={pset} toSvg={local} />}
+      </g>
+    </>
+  );
+}
+
+function MultiControls(p: EditProps) {
+  const { data, set, setSel } = p;
+  const L = layout(data), i = L.active, view = viewOf(data, i, L);
+  const pset = (patch: any, key?: string) => set(route(data, patch, i), key);
+  const top = { ...p, set: (patch: any, key?: string) => set(route(data, patch), key) };
+  useEffect(() => { setSel(null); }, [i]);
+  return <ScaleControls {...p} data={view} set={pset} top={top} />;
+}
+
+function MultiRender({ data }: { data: any }) {
+  const L = layout(data);
+  return <g>{L.boxes.map((b, i) => <g key={data.panels[i].pid} transform={'translate(' + b.x + ',' + b.y + ')'}><PanelRender data={viewOf(data, i, L)} id={i} /></g>)}</g>;
+}
+
+/* the old single-image sheets and the new panel sheets both load as panel sheets */
+function toPanels(d: any) {
+  const base = d.img && typeof d.img === 'string' && d.img === SAMPLE ? { ...d, img: 'sample:artery' } : d;
+  let o: any;
+  if (Array.isArray(base.panels)) o = { ...TOP0, ...base, panels: base.panels.map((q: any) => migrate(q)) };
+  else {
+    const { tool, draft, keep, ...panel } = migrate(base);
+    void tool; void draft;
+    o = { ...TOP0, panels: [panel], keep: !!keep };
+  }
+  const taken: string[] = [];
+  o.panels = o.panels.map((q: any, j: number) => { const { tool, draft, ...r } = q; void tool; void draft; let pid = r.pid; while (!pid || taken.includes(pid)) pid = 'p' + (j + 1 + taken.length + 100); taken.push(pid); return { ...PANEL0, ...r, pid }; });
+  return { ...o, tool: 'select', draft: [], cropping: false, active: Math.max(0, Math.min(o.panels.length - 1, num(o.active, 0))) };
+}
+const sheetOf = (panels: any[], extra: any = {}) => toPanels({ ...TOP0, panels, ...extra });
+
 /* the artery example, annotated the way ZEN figures are: leader labels and calipers (points are sheet units on the 800 px wide image) */
 const L = (id: string, text: string, p: number[]) => ({ id, type: 'label', p, text, size: 15, width: 1.6, head: true, halo: true });
 const C = (id: string, p: number[]) => ({ id, type: 'caliper', p, width: 2, showValue: true, halo: true });
@@ -139,46 +253,52 @@ const ARTERY_GFX = [
   C('g1', [352, 240, 410, 240]), C('g2', [324, 200, 356, 200]),
   L('g3', 'tunica adventitia', [286, 190, 226, 160]), L('g4', 'tunica media', [322, 262, 226, 300]), L('g5', 'lumen', [380, 290, 226, 372]),
 ];
-const GFX0 = { shapes: [] as any[], tool: 'select', keep: false, draft: [] as any[] };
+const ARTERY = { img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', bar: 200, corner: 'bl', plate: true };
+const EXTRA = (shapes: any[] = []) => ({ shapes });
 
 export const scalebar: EditorDef = {
   id: 'scale-bar', num: '10', name: 'Scale bar', field: 'Cells and measurement',
-  blurb: 'Calibrated scale bars on your own micrographs, with a ZEN-style graphics toolbar: text, lines, arrows, shapes, calipers and leader labels.',
-  hint: 'Pick a tool in Graphics, then click the image. Use Select to move graphics; the Graphics list shows, locks, names and reorders them.',
-  normalize: d => migrate(d.img && typeof d.img === 'string' && d.img === SAMPLE ? { ...d, img: 'sample:artery' } : d),
+  blurb: 'Calibrated scale bars on your own micrographs, with a ZEN-style graphics toolbar, multi-panel figures, crop and rotate, and a calibrated grid.',
+  hint: 'Pick a tool in Graphics, then click the image. Add panels for a multi-panel figure, then click a panel on the sheet to edit it.',
+  normalize: toPanels,
   templates: [
     { name: 'Muscular artery', desc: 'Cross-section with labelled wall layers and a lumen caliper', title: 'Muscular artery in cross-section',
       caption: 'Smooth muscle of the tunica media surrounds the lumen; collagen of the tunica adventitia lies outside it.',
-      data: { img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', bar: 200, corner: 'bl', plate: true, ...GFX0, shapes: ARTERY_GFX } },
-    { name: 'Light microscope', desc: 'Drawn example field, 100 µm bar', title: 'Onion epidermis, 40× objective', data: { img: null, imgW: 1200, imgH: 800, fov: 450, unit: 'µm', bar: 100, corner: 'br', plate: true, ...GFX0 } },
-    { name: 'Electron micrograph', desc: '2 µm field, 500 nm bar', title: 'Mitochondrion, TEM', data: { img: null, imgW: 1200, imgH: 900, fov: 2000, unit: 'nm', bar: 500, corner: 'bl', plate: true, ...GFX0 } }
+      data: sheetOf([{ ...ARTERY, ...EXTRA(ARTERY_GFX) }]) },
+    { name: 'Overview and detail', desc: 'Two panels: whole vessel, then a cropped close-up', title: 'Muscular artery: overview and detail',
+      caption: 'A, whole cross-section; the box marks the region enlarged in B. Both bars are calibrated to the same micrograph.',
+      data: sheetOf([
+        { ...ARTERY, bar: 500, ...EXTRA([{ id: 'g1', type: 'rect', p: [118, 33, 276, 188], width: 1.6, color: 'var(--paper)' }]) },
+        { ...ARTERY, bar: 100, crop: { l: 0.3, r: 0.3, t: 0.15, b: 0.15 }, corner: 'br', ...EXTRA() },
+      ], { cols: 2, letters: 'A', active: 1 }) },
+    { name: 'Light microscope', desc: 'Drawn example field, 100 µm bar', title: 'Onion epidermis, 40× objective', data: sheetOf([{ img: null, imgW: 1200, imgH: 800, fov: 450, unit: 'µm', bar: 100, corner: 'br', plate: true }]) },
+    { name: 'Electron micrograph', desc: '2 µm field, 500 nm bar', title: 'Mitochondrion, TEM', data: sheetOf([{ img: null, imgW: 1200, imgH: 900, fov: 2000, unit: 'nm', bar: 500, corner: 'bl', plate: true }]) }
   ],
-  Controls: ScaleControls,
-  Overlay: ScaleOverlay,
-  sheetClick: (d, pt) => {
-    if ((d.tool || 'select') === 'bar') return { bx: Math.round(pt[0] - sb(d).len / 2), by: Math.round(pt[1]), barHidden: false, barLocked: false, tool: d.keep ? 'bar' : 'select', draft: [] };
-    return gfxClick(d, pt);
-  },
-  blank: { img: null, imgW: 1200, imgH: 800, fov: 500, unit: 'µm', bar: 100, corner: 'br', plate: true, ...GFX0 },
+  Controls: MultiControls,
+  Overlay: MultiOverlay,
+  sheetClick,
+  blank: sheetOf([{ img: null, imgW: 1200, imgH: 800, fov: 500, unit: 'µm', bar: 100, corner: 'br', plate: true }]),
   nudge: (d, sel, dx, dy) => {
-    if (sel.kind === 'bar') { if (d.barLocked) return null; const b = barBox(d); return { bx: b.x + dx, by: b.y + dy }; }
-    if (sel.kind === 'shape') { const s = (d.shapes || []).find((q: any) => q.id === sel.id); return s && !s.locked ? { shapes: d.shapes.map((q: any) => q === s ? moveShape(s, dx, dy) : q) } : null; }
+    const L = layout(d), i = L.active, v = viewOf(d, i, L);
+    if (sel.kind === 'bar') { if (v.barLocked) return null; const b = barBox(v); return route(d, { bx: b.x + dx, by: b.y + dy }); }
+    if (sel.kind === 'shape') { const s = (v.shapes || []).find((q: any) => q.id === sel.id); return s && !s.locked ? route(d, { shapes: v.shapes.map((q: any) => q === s ? moveShape(s, dx, dy) : q) }) : null; }
     return null;
   },
-  findText: (d, text) => text.endsWith(' ' + d.unit) && text.startsWith(fmt(num(d.bar, 50))) ? { kind: 'bar', id: 'bar' } : null,
+  findText: (d, text) => { const v = viewOf(d, layout(d).active, layout(d)); return text.endsWith(' ' + v.unit) && text.startsWith(fmt(num(v.bar, 50))) ? { kind: 'bar', id: 'bar' } : null; },
   remove: (d, sel) => {
-    if (sel.kind === 'bar') return d.barLocked ? null : { barHidden: true };
-    if (sel.kind === 'shape') { const s = (d.shapes || []).find((q: any) => q.id === sel.id); return s && !s.locked ? { shapes: d.shapes.filter((q: any) => q !== s) } : null; }
+    const v = viewOf(d, layout(d).active, layout(d));
+    if (sel.kind === 'bar') return v.barLocked ? null : route(d, { barHidden: true });
+    if (sel.kind === 'shape') { const s = (v.shapes || []).find((q: any) => q.id === sel.id); return s && !s.locked ? route(d, { shapes: v.shapes.filter((q: any) => q !== s) }) : null; }
     return null;
   },
   duplicate: (d, sel) => {
     if (sel.kind !== 'shape') return null;
-    const shapes = d.shapes || [], s = shapes.find((q: any) => q.id === sel.id); if (!s) return null;
+    const v = viewOf(d, layout(d).active, layout(d)), shapes = v.shapes || [], s = shapes.find((q: any) => q.id === sel.id); if (!s) return null;
     let n = shapes.length + 1; while (shapes.some((q: any) => q.id === 'g' + n)) n++;
     const c = { ...moveShape(s, 16, 16), id: 'g' + n, name: undefined, locked: false };
-    return { patch: { shapes: [...shapes, c] }, sel: { kind: 'shape', id: c.id } };
+    return { patch: route(d, { shapes: [...shapes, c] }), sel: { kind: 'shape', id: c.id } };
   },
-  Render: ({ data }) => <ScaleRender data={data} />,
+  Render: ({ data }) => <MultiRender data={data} />,
 };
 
 /* ===================== 11 Gradient bar ===================== */
