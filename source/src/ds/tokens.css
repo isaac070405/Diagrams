@@ -1,0 +1,1277 @@
+/* Scientific Diagram — generated from tokens.json */
+:root, [data-theme="paper"] {
+  --ground: #f2f2f3; /* Editor ground behind panels and the sheet (Industry --color-bg). */
+  --surface: #e9e9ea; /* Recessed UI fields where a fill is needed (Industry --color-surface). */
+  --text: #1d1f20; /* UI text on ground and surface (16:1). */
+  --divider: #1d1f2029; /* Hairline frames, panel rules, button borders (ink at 16%). Decorative structure only. */
+  --accent: #4c7298; /* Steel accent: selected tool, primary button fill, focus ring, slider. 3.6:1 on ground: marks and large text only. */
+  --accent-100: #eef6ff; /* Selected tint, tag fill. */
+  --accent-200: #d6ebff; /* Accent ramp step. */
+  --accent-300: #b5d9fd; /* Hover tint on light fills. */
+  --accent-400: #94bce3; /* Accent ramp step. */
+  --accent-500: #749dc4; /* Accent tone for figure highlights (signal path). */
+  --accent-600: #597ea3; /* Primary button hover. */
+  --accent-700: #416180; /* Accent text: kickers, links, positive-feedback edges (5.6:1 on ground). */
+  --accent-800: #2c455d; /* Text on accent-100 tags. */
+  --accent-900: #1d2d3d; /* Deep steel field for section dividers. */
+  --neutral-100: #f5f5f8; /* Process and output box fill on the sheet. */
+  --neutral-200: #e7e7ea; /* Neutral ramp step. */
+  --neutral-300: #d4d4d7; /* Legend band rule, sheet grid. */
+  --neutral-400: #b7b7ba; /* Colour-strip frame in the gradient editor. */
+  --neutral-500: #98989b; /* Placeholder text (italic). */
+  --neutral-600: #7a7a7d; /* Help text, version meta, compartment outlines. */
+  --neutral-700: #5d5d60; /* Field labels, stats, compartment and sublabel text (6.4:1 on paper). */
+  --neutral-800: #424244; /* Text on neutral tags. */
+  --neutral-900: #2b2b2d; /* Neutral ramp step. */
+  --paper: #ffffff; /* The figure sheet and every export background (white PNG, JPEG). Transparent PNG drops it. Night: the dark sheet for screen and slides on dark backgrounds; reports still export on Paper. */
+  --ink: #1d1f20; /* Diagram labels, node outlines, activate, inhibit, convert and translocate edges, scale ticks. */
+  --ink-muted: #5d5d60; /* Sublabels, compartment names, subtitles, legend labels (6.4:1 on paper). */
+  --structure: #8a8a8d; /* Grey structural glyphs (membranes, organelles) when the accent marks the signal path. */
+  --compartment-line: #7a7a7d; /* Compartment outline (1.2px, radius-compartment) and double envelope. */
+  --membrane-fill: #f2f2f4; /* Phospholipid bilayer band fill. */
+  --membrane-head: #a3a3a7; /* Phospholipid head dots on both faces of the bilayer band. */
+  --rule: #d4d4d7; /* Legend band top rule and caption dividers on the sheet. */
+  --edge-induce: #3d7a4f; /* Induction (expression) edge: dotted, filled head (5.2:1 on paper). */
+  --edge-feedback-pos: var(--accent-700); /* Positive feedback edge: dashed steel, filled head. */
+  --edge-feedback-neg: #b03a2e; /* Negative feedback edge: dashed red with a bar (6:1 on paper). Always dashed, so colour is never the only cue. */
+  --ligand-line: var(--accent-700); /* Outline of ligand pills, so the signal entry point reads in steel. */
+  --tone-accent: var(--accent-500); /* Tint for icon glyphs on the signal path. */
+  --tone-grey: #b0b0b3; /* Tint for icon glyphs that are structure, not signal. */
+  --badge-fill: #ffd52e; /* Phosphorylation badge (P) fill on a node corner. */
+  --badge-line: #5b4300; /* Phosphorylation badge outline; the P inside is ink. */
+  --halo: var(--paper); /* 4px halo behind edge labels so text stays readable over lines. */
+  --cat-1: var(--accent); /* Categorical first category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-2: #1d8e87; /* Categorical second category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-3: #5f8a52; /* Categorical third category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-4: #9b7534; /* Categorical fourth category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-5: #ad6656; /* Categorical fifth category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-6: #946aa0; /* Categorical sixth category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --grad-ph-1: #d7191c; /* pH indicator gradient, stop 1 at 0%. */
+  --grad-ph-2: #f46d43; /* pH indicator gradient, stop 2 at 14%. */
+  --grad-ph-3: #fdae61; /* pH indicator gradient, stop 3 at 28%. */
+  --grad-ph-4: #e6e65a; /* pH indicator gradient, stop 4 at 42%. */
+  --grad-ph-5: #5cb85c; /* pH indicator gradient, stop 5 at 50%. */
+  --grad-ph-6: #26a69a; /* pH indicator gradient, stop 6 at 64%. */
+  --grad-ph-7: #3f51b5; /* pH indicator gradient, stop 7 at 80%. */
+  --grad-ph-8: #6a1b9a; /* pH indicator gradient, stop 8 at 100%. */
+  --grad-diverge-1: #b2182b; /* Red to blue diverging gradient, stop 1 at 0%. */
+  --grad-diverge-2: #ef8a62; /* Red to blue diverging gradient, stop 2 at 25%. */
+  --grad-diverge-3: #e6e6e6; /* Red to blue diverging gradient, stop 3 at 50%. */
+  --grad-diverge-4: #67a9cf; /* Red to blue diverging gradient, stop 4 at 75%. */
+  --grad-diverge-5: #2166ac; /* Red to blue diverging gradient, stop 5 at 100%. */
+  --grad-rg-1: #d73027; /* Red to green gradient, stop 1 at 0%. */
+  --grad-rg-2: #fee08b; /* Red to green gradient, stop 2 at 50%. */
+  --grad-rg-3: #1a9850; /* Red to green gradient, stop 3 at 100%. */
+  --grad-temp-1: #313695; /* Cold to hot gradient, stop 1 at 0%. */
+  --grad-temp-2: #74add1; /* Cold to hot gradient, stop 2 at 35%. */
+  --grad-temp-3: #f7f7f7; /* Cold to hot gradient, stop 3 at 50%. */
+  --grad-temp-4: #f46d43; /* Cold to hot gradient, stop 4 at 70%. */
+  --grad-temp-5: #a50026; /* Cold to hot gradient, stop 5 at 100%. */
+  --grad-spectrum-1: #61008a; /* Visible light 380 to 750 nm gradient, stop 1 at 0%. */
+  --grad-spectrum-2: #6a00ff; /* Visible light 380 to 750 nm gradient, stop 2 at 10.8%. */
+  --grad-spectrum-3: #0050ff; /* Visible light 380 to 750 nm gradient, stop 3 at 18.9%. */
+  --grad-spectrum-4: #00d5ff; /* Visible light 380 to 750 nm gradient, stop 4 at 29.7%. */
+  --grad-spectrum-5: #1fff00; /* Visible light 380 to 750 nm gradient, stop 5 at 37.8%. */
+  --grad-spectrum-6: #e1ff00; /* Visible light 380 to 750 nm gradient, stop 6 at 50%. */
+  --grad-spectrum-7: #ffbe00; /* Visible light 380 to 750 nm gradient, stop 7 at 56.8%. */
+  --grad-spectrum-8: #ff3900; /* Visible light 380 to 750 nm gradient, stop 8 at 64.9%. */
+  --grad-spectrum-9: #d10000; /* Visible light 380 to 750 nm gradient, stop 9 at 86.5%. */
+  --grad-spectrum-10: #610000; /* Visible light 380 to 750 nm gradient, stop 10 at 100%. */
+  --grad-viridis-1: #440154; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 1 at 0%. */
+  --grad-viridis-2: #3b528b; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 2 at 25%. */
+  --grad-viridis-3: #21918c; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 3 at 50%. */
+  --grad-viridis-4: #5ec962; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 4 at 75%. */
+  --grad-viridis-5: #fde725; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 5 at 100%. */
+  --grad-steel-1: #e8eef5; /* Steel mono ramp gradient, stop 1 at 0%. */
+  --grad-steel-2: #1f3a56; /* Steel mono ramp gradient, stop 2 at 100%. */
+  --grad-grey-1: #ffffff; /* White to black gradient, stop 1 at 0%. */
+  --grad-grey-2: #1d1f20; /* White to black gradient, stop 2 at 100%. */
+  --wheel-ring: var(--neutral-300); /* Guide ring and its 12 ticks on the System Thinking wheel. */
+  --wheel-hub: var(--accent); /* Hub circle outline around the system title. */
+  --wheel-edge: #9b9797; /* Default relationship line colour on the wheel (2px). */
+  --wheel-node-ring: var(--paper); /* 1.2px ring separating a factor dot from the lines under it. */
+  --wheel-sat-1: #c1556f; /* System Thinking factor colour, "Saturated categories" set, swatch 1 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-2: #cc9a3d; /* System Thinking factor colour, "Saturated categories" set, swatch 2 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-3: #6e9e52; /* System Thinking factor colour, "Saturated categories" set, swatch 3 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-4: #3b9e82; /* System Thinking factor colour, "Saturated categories" set, swatch 4 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-5: #3a93ad; /* System Thinking factor colour, "Saturated categories" set, swatch 5 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-6: #4c7fd6; /* System Thinking factor colour, "Saturated categories" set, swatch 6 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-7: #8570d1; /* System Thinking factor colour, "Saturated categories" set, swatch 7 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-8: #c15ca8; /* System Thinking factor colour, "Saturated categories" set, swatch 8 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-1: #9e5c68; /* System Thinking factor colour, "Muted editorial" set, swatch 1 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-2: #b08a4a; /* System Thinking factor colour, "Muted editorial" set, swatch 2 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-3: #6f8a5c; /* System Thinking factor colour, "Muted editorial" set, swatch 3 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-4: #4f8579; /* System Thinking factor colour, "Muted editorial" set, swatch 4 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-5: #4e7c8c; /* System Thinking factor colour, "Muted editorial" set, swatch 5 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-6: #5c749e; /* System Thinking factor colour, "Muted editorial" set, swatch 6 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-7: #7a6e96; /* System Thinking factor colour, "Muted editorial" set, swatch 7 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-8: #96617f; /* System Thinking factor colour, "Muted editorial" set, swatch 8 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-1: #b68235; /* System Thinking factor colour, "Warm neutrals" set, swatch 1 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-2: #8e6b3a; /* System Thinking factor colour, "Warm neutrals" set, swatch 2 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-3: #6e5b44; /* System Thinking factor colour, "Warm neutrals" set, swatch 3 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-4: #a98b5b; /* System Thinking factor colour, "Warm neutrals" set, swatch 4 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-5: #7d6a55; /* System Thinking factor colour, "Warm neutrals" set, swatch 5 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-6: #5c4e3e; /* System Thinking factor colour, "Warm neutrals" set, swatch 6 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-7: #c0a377; /* System Thinking factor colour, "Warm neutrals" set, swatch 7 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-8: #463b2e; /* System Thinking factor colour, "Warm neutrals" set, swatch 8 of 8. Factor dots only; labels stay ink. */
+  --swatch-1: #5980a6; /* User-picked colour 1 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-2: #4c7fd6; /* User-picked colour 2 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-3: #3a93ad; /* User-picked colour 3 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-4: #3b9e82; /* User-picked colour 4 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-5: #00a161; /* User-picked colour 5 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-6: #6e9e52; /* User-picked colour 6 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-7: #888e00; /* User-picked colour 7 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-8: #cc9a3d; /* User-picked colour 8 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-9: #d9812c; /* User-picked colour 9 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-10: #8e6b3a; /* User-picked colour 10 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-11: #b3452f; /* User-picked colour 11 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-12: #c1556f; /* User-picked colour 12 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-13: #ce5882; /* User-picked colour 13 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-14: #a05195; /* User-picked colour 14 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-15: #8570d1; /* User-picked colour 15 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-16: #1f3a56; /* User-picked colour 16 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --band-producer: #6e9e52; /* Food web trophic band "Producers": band label, box marks and the arrows leaving that band. */
+  --band-primary: #cc9a3d; /* Food web trophic band "Primary consumers": band label, box marks and the arrows leaving that band. */
+  --band-secondary: #3b9e82; /* Food web trophic band "Secondary consumers": band label, box marks and the arrows leaving that band. */
+  --band-tertiary: #5980a6; /* Food web trophic band "Tertiary consumers": band label, box marks and the arrows leaving that band. */
+  --band-apex: #c1556f; /* Food web trophic band "Apex predators": band label, box marks and the arrows leaving that band. */
+  --tier-a-1: #6e9e52; /* Ecological pyramid tier colour, "Field (default)" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-2: #cc9a3d; /* Ecological pyramid tier colour, "Field (default)" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-3: #3b9e82; /* Ecological pyramid tier colour, "Field (default)" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-4: #5980a6; /* Ecological pyramid tier colour, "Field (default)" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-5: #c1556f; /* Ecological pyramid tier colour, "Field (default)" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-6: #8570d1; /* Ecological pyramid tier colour, "Field (default)" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-1: #b081a7; /* Ecological pyramid tier colour, "Dusk" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-2: #9a87b3; /* Ecological pyramid tier colour, "Dusk" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-3: #3d3948; /* Ecological pyramid tier colour, "Dusk" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-4: #3d3948; /* Ecological pyramid tier colour, "Dusk" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-5: #939293; /* Ecological pyramid tier colour, "Dusk" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-6: #cac1ca; /* Ecological pyramid tier colour, "Dusk" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-1: #b7c266; /* Ecological pyramid tier colour, "Earth" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-2: #f36962; /* Ecological pyramid tier colour, "Earth" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-3: #65c0cd; /* Ecological pyramid tier colour, "Earth" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-4: #f5bc59; /* Ecological pyramid tier colour, "Earth" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-5: #574934; /* Ecological pyramid tier colour, "Earth" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-6: #4b3b28; /* Ecological pyramid tier colour, "Earth" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-1: #fb61e6; /* Ecological pyramid tier colour, "Neon" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-2: #c063fa; /* Ecological pyramid tier colour, "Neon" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-3: #62cef8; /* Ecological pyramid tier colour, "Neon" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-4: #64fb68; /* Ecological pyramid tier colour, "Neon" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-5: #f8fb62; /* Ecological pyramid tier colour, "Neon" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-6: #fabd63; /* Ecological pyramid tier colour, "Neon" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-7: #fb6463; /* Ecological pyramid tier colour, "Neon" set, level 7 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --pheno-1: #5980a6; /* Punnett square phenotype 1: cell tint at 16% behind the genotype. */
+  --pheno-2: #cc9a3d; /* Punnett square phenotype 2: cell tint at 16% behind the genotype. */
+  --pheno-3: #6e9e52; /* Punnett square phenotype 3: cell tint at 16% behind the genotype. */
+  --pheno-4: #c1556f; /* Punnett square phenotype 4: cell tint at 16% behind the genotype. */
+  --pheno-5: #3b9e82; /* Punnett square phenotype 5: cell tint at 16% behind the genotype. */
+  --pheno-6: #8570d1; /* Punnett square phenotype 6: cell tint at 16% behind the genotype. */
+  --pheno-7: #8e6b3a; /* Punnett square phenotype 7: cell tint at 16% behind the genotype. */
+  --pheno-8: #4c7fd6; /* Punnett square phenotype 8: cell tint at 16% behind the genotype. */
+  --ice-a-1: #8cc6cd; /* Iceberg row fill, colour set A, row 1 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-2: #f8d88b; /* Iceberg row fill, colour set A, row 2 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-3: #f8ba84; /* Iceberg row fill, colour set A, row 3 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-4: #e2d498; /* Iceberg row fill, colour set A, row 4 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-5: #f3a184; /* Iceberg row fill, colour set A, row 5 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-1: #576378; /* Iceberg row fill, colour set B, row 1 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-2: #85707c; /* Iceberg row fill, colour set B, row 2 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-3: #b88f83; /* Iceberg row fill, colour set B, row 3 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-4: #d9ae96; /* Iceberg row fill, colour set B, row 4 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-5: #c2acac; /* Iceberg row fill, colour set B, row 5 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-1: #ededeb; /* Iceberg row fill, colour set C, row 1 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-2: #f4fdfe; /* Iceberg row fill, colour set C, row 2 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-3: #d0fefe; /* Iceberg row fill, colour set C, row 3 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-4: #75b344; /* Iceberg row fill, colour set C, row 4 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-5: #015686; /* Iceberg row fill, colour set C, row 5 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-tip: #fbfdff; /* The visible tip above the waterline: near-white ice. */
+  --ice-body-1: #e2ecf4; /* Ice just below the waterline (second section). */
+  --ice-body-2: #d0dfeb; /* Third section of the keel. */
+  --ice-body-3: #bfd2e1; /* Fourth section of the keel. */
+  --ice-body-4: #aec5d7; /* Fifth section and deeper. */
+  --ice-edge: #7f9bb3; /* Iceberg outline. */
+  --ice-facet: #c3d5e3; /* Light-catching facet lines on the tip. */
+  --ice-seam: #9fb7cb; /* Hairline seams in the submerged keel. */
+  --ice-sky: #f4f8fb; /* Sky above the waterline behind the iceberg tip; paler than ice-sea so the water line reads. */
+  --ice-sea: var(--accent-100); /* Open sea behind the iceberg, from the waterline down. */
+  --ice-waterline: var(--accent-700); /* Dashed waterline, leverage arrow, SEEN / UNSEEN and level labels. */
+  --pfd-ccp: #b03a2e; /* Product flow diagram: critical control point tag, CCP box outline and critical limits. */
+  --pfd-ccp-text: #ffffff; /* Text on the CCP tag. */
+  --pfd-input: #3d7a4f; /* Arrows bringing ingredients and packaging into a step. */
+  --pfd-waste: #6e6e74; /* Arrows and labels for waste and by-products leaving a step. */
+  --pfd-control: var(--accent-700); /* Dashed process-control signal lines in a product flow diagram (sensor to controller to valve). */
+  --flow-1: #ce5882; /* Flow diagram node or arrow colour 1 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-2: #d35958; /* Flow diagram node or arrow colour 2 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-3: #cf6228; /* Flow diagram node or arrow colour 3 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-4: #c17000; /* Flow diagram node or arrow colour 4 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-5: #aa7f00; /* Flow diagram node or arrow colour 5 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-6: #888e00; /* Flow diagram node or arrow colour 6 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-7: #5a9a2d; /* Flow diagram node or arrow colour 7 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-8: #00a161; /* Flow diagram node or arrow colour 8 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-9: #00a38a; /* Flow diagram node or arrow colour 9 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-10: #009faf; /* Flow diagram node or arrow colour 10 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-11: #0097cb; /* Flow diagram node or arrow colour 11 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-12: #1f8bde; /* Flow diagram node or arrow colour 12 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-13: #627ee3; /* Flow diagram node or arrow colour 13 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-14: #8b71da; /* Flow diagram node or arrow colour 14 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-15: #a965c5; /* Flow diagram node or arrow colour 15 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-16: #bf5ca6; /* Flow diagram node or arrow colour 16 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --wheel-sat-9: #5980a6; /* Saturated categories, swatch 9 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-10: #00a161; /* Saturated categories, swatch 10 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-11: #888e00; /* Saturated categories, swatch 11 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-12: #d9812c; /* Saturated categories, swatch 12 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-13: #8e6b3a; /* Saturated categories, swatch 13 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-14: #b3452f; /* Saturated categories, swatch 14 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-15: #ce5882; /* Saturated categories, swatch 15 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-16: #1f3a56; /* Saturated categories, swatch 16 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-9: #7d8b9a; /* Muted editorial, swatch 9 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-10: #8a7a5e; /* Muted editorial, swatch 10 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-11: #5e7a6a; /* Muted editorial, swatch 11 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-12: #a0706a; /* Muted editorial, swatch 12 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-13: #6a6a8a; /* Muted editorial, swatch 13 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-14: #8f8470; /* Muted editorial, swatch 14 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-15: #5b6b7a; /* Muted editorial, swatch 15 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-16: #9a8a9a; /* Muted editorial, swatch 16 of 16: extra clade colours for phylogenetic trees. */
+  --geo-phanerozoic: #9ad9dd; /* Phanerozoic (eon, 538.8 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-proterozoic: #f73563; /* Proterozoic (eon, 2500 to 538.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-archean: #f0047f; /* Archean (eon, 4031 to 2500 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-hadean: #ae027e; /* Hadean (eon, 4567 to 4031 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cenozoic: #f2f91d; /* Cenozoic (era, 66 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mesozoic: #67c5ca; /* Mesozoic (era, 251.902 to 66 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleozoic: #99c08d; /* Paleozoic (era, 538.8 to 251.902 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-neoproterozoic: #feb342; /* Neoproterozoic (era, 1000 to 538.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-quaternary: #f9f97f; /* Quaternary (period, 2.58 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-neogene: #ffe619; /* Neogene (period, 23.03 to 2.58 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleogene: #fd9a52; /* Paleogene (period, 66 to 23.03 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cretaceous: #7fc64e; /* Cretaceous (period, 145 to 66 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-jurassic: #34b2c9; /* Jurassic (period, 201.4 to 145 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-triassic: #812b92; /* Triassic (period, 251.902 to 201.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-permian: #f04028; /* Permian (period, 298.9 to 251.902 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-carboniferous: #67a599; /* Carboniferous (period, 358.9 to 298.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-devonian: #cb8c37; /* Devonian (period, 419.2 to 358.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-silurian: #b3e1b6; /* Silurian (period, 443.8 to 419.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ordovician: #009270; /* Ordovician (period, 485.4 to 443.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cambrian: #7fa056; /* Cambrian (period, 538.8 to 485.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ediacaran: #fed96a; /* Ediacaran (period, 635 to 538.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cryogenian: #fecc5c; /* Cryogenian (period, 720 to 635 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-tonian: #febf4e; /* Tonian (period, 1000 to 720 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-holocene: #fef2e0; /* Holocene (epoch, 0.0117 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pleistocene: #fff2ae; /* Pleistocene (epoch, 2.58 to 0.0117 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pliocene: #ffff99; /* Pliocene (epoch, 5.333 to 2.58 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-miocene: #ffff00; /* Miocene (epoch, 23.03 to 5.333 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-oligocene: #fec07a; /* Oligocene (epoch, 33.9 to 23.03 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-eocene: #fdb46c; /* Eocene (epoch, 56 to 33.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleocene: #fda75f; /* Paleocene (epoch, 66 to 56 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-cretaceous: #a6d84a; /* Late Cretaceous (epoch, 100.5 to 66 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-cretaceous: #8ccd57; /* Early Cretaceous (epoch, 145 to 100.5 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-jurassic: #b3e3ee; /* Late Jurassic (epoch, 161.5 to 145 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-jurassic: #80cfd8; /* Middle Jurassic (epoch, 174.7 to 161.5 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-jurassic: #42aed0; /* Early Jurassic (epoch, 201.4 to 174.7 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-triassic: #bd8cc3; /* Late Triassic (epoch, 237 to 201.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-triassic: #b168b1; /* Middle Triassic (epoch, 247.2 to 237 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-triassic: #983999; /* Early Triassic (epoch, 251.902 to 247.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mesoproterozoic: #fdb462; /* Mesoproterozoic (era, 1600 to 1000 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleoproterozoic: #f74370; /* Paleoproterozoic (era, 2500 to 1600 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-neoarchean: #f99bc1; /* Neoarchean (era, 2800 to 2500 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mesoarchean: #f768a9; /* Mesoarchean (era, 3200 to 2800 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleoarchean: #f4449f; /* Paleoarchean (era, 3600 to 3200 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-eoarchean: #da037f; /* Eoarchean (era, 4031 to 3600 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-stenian: #fed99a; /* Stenian (period, 1200 to 1000 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ectasian: #fdcc8a; /* Ectasian (period, 1400 to 1200 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-calymmian: #fdc07a; /* Calymmian (period, 1600 to 1400 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-statherian: #f875a7; /* Statherian (period, 1800 to 1600 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-orosirian: #f76898; /* Orosirian (period, 2050 to 1800 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-rhyacian: #f75b89; /* Rhyacian (period, 2300 to 2050 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-siderian: #f74f7c; /* Siderian (period, 2500 to 2300 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-lopingian: #fba794; /* Lopingian (epoch, 259.51 to 251.902 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-guadalupian: #fb745c; /* Guadalupian (epoch, 274.4 to 259.51 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cisuralian: #ef5845; /* Cisuralian (epoch, 298.9 to 274.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pennsylvanian: #99c2b5; /* Pennsylvanian (epoch, 323.4 to 298.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mississippian: #678f66; /* Mississippian (epoch, 358.9 to 323.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-devonian: #f1e19d; /* Late Devonian (epoch, 382.7 to 358.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-devonian: #f1c868; /* Middle Devonian (epoch, 393.3 to 382.7 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-devonian: #e5ac4d; /* Early Devonian (epoch, 419.2 to 393.3 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pridoli: #e6f5e1; /* Pridoli (epoch, 423.0 to 419.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ludlow: #bfe6cf; /* Ludlow (epoch, 427.4 to 423.0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-wenlock: #b3e1c2; /* Wenlock (epoch, 433.4 to 427.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-llandovery: #99d7b3; /* Llandovery (epoch, 443.8 to 433.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-ordovician: #7fca93; /* Late Ordovician (epoch, 458.2 to 443.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-ordovician: #4db47e; /* Middle Ordovician (epoch, 471.3 to 458.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-ordovician: #1a9d6f; /* Early Ordovician (epoch, 485.4 to 471.3 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-furongian: #b3e095; /* Furongian (epoch, 497 to 485.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-miaolingian: #a6cf86; /* Miaolingian (epoch, 506.5 to 497 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-series-2: #99c078; /* Series 2 (epoch, 521 to 506.5 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-terreneuvian: #8cb06c; /* Terreneuvian (epoch, 538.8 to 521 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-text: #1d1f20; /* Unit names on geological timescale bands; stays dark in Night because the bands keep their chart colours. */
+  --geo-text-light: #ffffff; /* Unit names on the darkest chart bands (Archean, Hadean, Triassic, Early Triassic, Eoarchean), where white reads better than geo-text. */
+  --geo-line: #1d1f20; /* Hairline between timescale bands and around the strip. */
+  --shadow-sm: 0 1px 2px rgba(43, 43, 45, 0.14); /* A node or chip while it is being dragged on the canvas. */
+  --shadow-md: 0 3px 10px rgba(43, 43, 45, 0.16); /* Toasts, menus and the floating inspector band. */
+  --shadow-lg: 0 12px 32px rgba(43, 43, 45, 0.22); /* Dialogs over the backdrop (version manager, confirm clear). */
+}
+[data-theme="night"] {
+  --ground: #15181b;
+  --surface: #1d2125;
+  --text: #e4e6e8;
+  --divider: #e4e6e82e;
+  --accent: #7fa7cf;
+  --accent-100: #1b2836;
+  --accent-200: #22364a;
+  --accent-300: #2f4a66;
+  --accent-400: #416180;
+  --accent-500: #5980a6;
+  --accent-600: #8fb4da;
+  --accent-700: #a9cbef;
+  --accent-800: #cfe4fa;
+  --accent-900: #eef6ff;
+  --neutral-100: #24282c;
+  --neutral-200: #2c3135;
+  --neutral-300: #3a3f44;
+  --neutral-400: #555a5f;
+  --neutral-500: #7a7f84;
+  --neutral-600: #9a9fa4;
+  --neutral-700: #b4b8bc;
+  --neutral-800: #d0d3d6;
+  --neutral-900: #e8eaec;
+  --paper: #1b1e22;
+  --ink: #e4e6e8;
+  --ink-muted: #a7acb1;
+  --structure: #8c9196;
+  --compartment-line: #8c9196;
+  --membrane-fill: #272b30;
+  --membrane-head: #6b7176;
+  --rule: #3a3f44;
+  --edge-induce: #6dc28c;
+  --edge-feedback-pos: var(--accent-700);
+  --edge-feedback-neg: #ef7d6e;
+  --ligand-line: var(--accent-700);
+  --tone-accent: var(--accent-500);
+  --tone-grey: #5f656a;
+  --badge-fill: #ffd52e;
+  --badge-line: #5b4300;
+  --halo: var(--paper);
+  --cat-1: var(--accent);
+  --wheel-ring: var(--neutral-300);
+  --wheel-hub: var(--accent);
+  --wheel-edge: #8f8b8b;
+  --wheel-node-ring: var(--paper);
+  --wheel-warm-8: #8d7a62;
+  --swatch-16: #7d9ab8;
+  --tier-b-3: #8a83a3;
+  --tier-b-4: #8a83a3;
+  --tier-c-5: #9a8668;
+  --tier-c-6: #8a7556;
+  --ice-tip: #4b5d6c;
+  --ice-body-1: #3d4f5e;
+  --ice-body-2: #364754;
+  --ice-body-3: #2f3f4b;
+  --ice-body-4: #293742;
+  --ice-edge: #8aa4ba;
+  --ice-facet: #7d93a6;
+  --ice-seam: #53687a;
+  --ice-sky: #20272e;
+  --ice-sea: var(--accent-100);
+  --ice-waterline: var(--accent-700);
+  --pfd-ccp: #ef7d6e;
+  --pfd-ccp-text: #15181b;
+  --pfd-input: #6dc28c;
+  --pfd-waste: #9a9ea3;
+  --pfd-control: var(--accent-700);
+  --wheel-sat-16: #7d9ab8;
+  --geo-phanerozoic: #9ad9dd;
+  --geo-proterozoic: #f73563;
+  --geo-archean: #f0047f;
+  --geo-hadean: #ae027e;
+  --geo-cenozoic: #f2f91d;
+  --geo-mesozoic: #67c5ca;
+  --geo-paleozoic: #99c08d;
+  --geo-neoproterozoic: #feb342;
+  --geo-quaternary: #f9f97f;
+  --geo-neogene: #ffe619;
+  --geo-paleogene: #fd9a52;
+  --geo-cretaceous: #7fc64e;
+  --geo-jurassic: #34b2c9;
+  --geo-triassic: #812b92;
+  --geo-permian: #f04028;
+  --geo-carboniferous: #67a599;
+  --geo-devonian: #cb8c37;
+  --geo-silurian: #b3e1b6;
+  --geo-ordovician: #009270;
+  --geo-cambrian: #7fa056;
+  --geo-ediacaran: #fed96a;
+  --geo-cryogenian: #fecc5c;
+  --geo-tonian: #febf4e;
+  --geo-holocene: #fef2e0;
+  --geo-pleistocene: #fff2ae;
+  --geo-pliocene: #ffff99;
+  --geo-miocene: #ffff00;
+  --geo-oligocene: #fec07a;
+  --geo-eocene: #fdb46c;
+  --geo-paleocene: #fda75f;
+  --geo-late-cretaceous: #a6d84a;
+  --geo-early-cretaceous: #8ccd57;
+  --geo-late-jurassic: #b3e3ee;
+  --geo-middle-jurassic: #80cfd8;
+  --geo-early-jurassic: #42aed0;
+  --geo-late-triassic: #bd8cc3;
+  --geo-middle-triassic: #b168b1;
+  --geo-early-triassic: #983999;
+  --geo-mesoproterozoic: #fdb462;
+  --geo-paleoproterozoic: #f74370;
+  --geo-neoarchean: #f99bc1;
+  --geo-mesoarchean: #f768a9;
+  --geo-paleoarchean: #f4449f;
+  --geo-eoarchean: #da037f;
+  --geo-stenian: #fed99a;
+  --geo-ectasian: #fdcc8a;
+  --geo-calymmian: #fdc07a;
+  --geo-statherian: #f875a7;
+  --geo-orosirian: #f76898;
+  --geo-rhyacian: #f75b89;
+  --geo-siderian: #f74f7c;
+  --geo-lopingian: #fba794;
+  --geo-guadalupian: #fb745c;
+  --geo-cisuralian: #ef5845;
+  --geo-pennsylvanian: #99c2b5;
+  --geo-mississippian: #678f66;
+  --geo-late-devonian: #f1e19d;
+  --geo-middle-devonian: #f1c868;
+  --geo-early-devonian: #e5ac4d;
+  --geo-pridoli: #e6f5e1;
+  --geo-ludlow: #bfe6cf;
+  --geo-wenlock: #b3e1c2;
+  --geo-llandovery: #99d7b3;
+  --geo-late-ordovician: #7fca93;
+  --geo-middle-ordovician: #4db47e;
+  --geo-early-ordovician: #1a9d6f;
+  --geo-furongian: #b3e095;
+  --geo-miaolingian: #a6cf86;
+  --geo-series-2: #99c078;
+  --geo-terreneuvian: #8cb06c;
+  --geo-text: #1d1f20;
+  --geo-text-light: #ffffff;
+  --geo-line: #1d1f20;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 3px 10px #0000008c;
+  --shadow-lg: 2px 12px 32px #000000cc;
+}
+:root {
+  --space-1: 3.4px; /* Icon to text gap; edge stops this short of a node. */
+  --space-2: 6.8px; /* Gap between sidebar controls; label offset from an edge. */
+  --space-3: 10.2px; /* Sidebar side padding; inner padding of compact panels. */
+  --space-4: 13.6px; /* Header padding; sheet padding inside the canvas area. */
+  --space-6: 20.4px; /* Gap between sidebar sections; header columns. */
+  --space-8: 27.2px; /* Gap between figure blocks on guide pages. */
+  --radius-ui: 0px; /* Every button, input, panel, card and frame in the editor. */
+  --radius-box: 3px; /* Process and output boxes on the sheet. */
+  --radius-envelope: 18px; /* Inner line of a double-envelope compartment. */
+  --radius-compartment: 22px; /* Compartment outline (cell, nucleus, mitochondrion). */
+  --radius-pill: 9999px; /* Metabolite, ligand and messenger pills (half the height in SVG). */
+  --line-hairline: 1px; /* UI frames, minor ticks, legend rule, selection box. */
+  --line-node: 0.8px; /* Node outlines. */
+  --line-edge: 1px; /* Activate, inhibit and translocate edges. */
+  --line-induce: 1.1px; /* Induction edges. */
+  --line-feedback: 1.2px; /* Feedback edges, compartment outlines, major ticks. */
+  --line-convert: 1.35px; /* Metabolic conversion edges, slightly heavier. */
+  --line-bold-arrow: 2.2px; /* Bold range arrows on a gradient bar. */
+  --line-wheel-edge: 2px; /* Relationship lines on the wheel; selected lines add 1px. */
+  --line-role: 1.3px; /* Role rings around factors (outcome draws two, 3px apart). */
+  --line-flow-border: 1.1px; /* Flow node outline (hairline); medium 1.8px, bold 2.8px. */
+  --line-flow-thin: 1.4px; /* Flow arrow, thin (default). */
+  --line-flow-medium: 2.2px; /* Flow arrow, medium. */
+  --line-flow-thick: 3.2px; /* Flow arrow, thick. */
+  --line-pedigree: 1.4px; /* Pedigree symbol outlines, mating, sibship and descent lines. */
+  --line-web-minor: 0.9px; /* Food web minor link (dashed, 75% opacity). */
+  --line-web-normal: 1.5px; /* Food web normal link. */
+  --line-web-major: 2.4px; /* Food web major link. */
+  --dash-induce: 2 4; /* Induction (expression). */
+  --dash-translocate: 9 4 2 4; /* Translocation (dash-dot). */
+  --dash-feedback: 7 5; /* Positive and negative feedback. */
+  --dash-selection: 4 3; /* Selection box around the picked object, in accent. */
+  --dash-uncertain: 5.2 4.4; /* Uncertain link on the wheel (dashed, notched arrow). */
+  --dash-moderate: 6 2.8 1.2 2.8; /* Moderates (interaction) link, dash-dot with a diamond end. */
+  --dash-confounder: 3 2.5; /* Ring around a confounder factor. */
+  --dash-mediator: 1 2.4; /* Dotted ring around a mediator factor. */
+  --dash-moderator: 5 2 1 2; /* Dash-dot ring around a moderator factor. */
+  --dash-align: 1.5 3; /* Phylogram: dotted guide from a short tip to its aligned label. */
+  --dash-note: 4 3; /* Flow diagram note shape outline. */
+  --dash-flow: 5 4; /* Dashed flow arrow. */
+  --dash-dotted: 1.6 2.6; /* Dotted flow arrow. */
+  --dash-adopted: 3.5 3; /* Pedigree adopted-out brackets. */
+  --dash-minor: 4 3; /* Food web minor feeding link. */
+  --dash-waterline: 5 4; /* Iceberg waterline. */
+  --sheet-width: 1600px; /* Pathway sheet width (16:9). */
+  --sheet-height: 900px; /* Pathway sheet height. */
+  --export-scale: 3; /* PNG export multiplier (4800 × 2700 for the sheet). */
+  --slide-scale: 1.5; /* Slide preset multiplier for type and strokes. */
+  --font-ui: "Barlow", system-ui, "Segoe UI", sans-serif;
+  --font-ui-condensed: "Barlow Condensed", "Barlow", system-ui, sans-serif;
+  --font-ui-semi: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --font-arial: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-roboto: Roboto, Arial, sans-serif;
+  --font-open-sans: "Open Sans", Arial, sans-serif;
+  --font-georgia: Georgia, "Times New Roman", Times, serif;
+  --font-times: "Times New Roman", Times, Georgia, serif;
+  --text-ui-title: 400 29px/32px var(--font-ui-condensed); /* Editable document title in the editor header. */
+  --text-ui-heading: 600 25px/28px var(--font-ui-condensed); /* Section heads on guide and home pages. */
+  --text-ui-kicker: 400 10.5px/14px var(--font-ui-condensed); /* Uppercase panel label in accent-700. */
+  --text-ui-button: 600 13.5px/17px var(--font-ui-condensed); /* ToolButton text. */
+  --text-ui-body: 400 15px/23px var(--font-ui); /* Guide and help paragraphs. */
+  --text-ui-input: 400 13px/18px var(--font-ui); /* Inputs and text areas. */
+  --text-ui-label: 400 12px/16px var(--font-ui); /* Field labels in neutral-700. */
+  --text-ui-help: italic 400 11px/16px var(--font-ui); /* Inline hints in neutral-600. */
+  --text-figure-title: 600 28px/32px var(--font-arial); /* Title above a figure (twice the base size). */
+  --text-figure-subtitle: italic 400 15px/20px var(--font-arial); /* Subtitle or units under the title, ink-muted. */
+  --text-node-label: 600 13px/16px var(--font-arial); /* Node names. */
+  --text-node-sublabel: italic 400 12px/15px var(--font-arial); /* Second line under a node, ink-muted. */
+  --text-gene: italic 600 13px/16px var(--font-arial); /* Gene symbols (italic by HGNC convention). */
+  --text-edge-label: 400 12px/15px var(--font-arial); /* Enzymes and cofactors on arrows, with a halo. */
+  --text-compartment-label: 600 11px/14px var(--font-arial); /* Uppercase region names, ink-muted. */
+  --text-scale-label: 400 14px/18px var(--font-arial); /* Tick labels and item labels on a gradient bar (base size, adjustable 9 to 28px). */
+  --text-end-label: 600 15.4px/20px var(--font-arial); /* Labels at the two ends of a gradient bar (1.1 × base). */
+  --text-legend: 400 12.5px/16px var(--font-arial); /* Legend entries in the band under the sheet. */
+  --text-caption: 400 13px/19px var(--font-arial); /* Caption below the sheet; lead in 700. */
+}
+.ui-title {
+  font-family: var(--font-ui-condensed);
+  font-size: 29px;
+  line-height: 32px;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+}
+.ui-heading {
+  font-family: var(--font-ui-condensed);
+  font-size: 25px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.ui-kicker {
+  font-family: var(--font-ui-condensed);
+  font-size: 10.5px;
+  line-height: 14px;
+  font-weight: 400;
+  letter-spacing: 0.13em;
+}
+.ui-button {
+  font-family: var(--font-ui-condensed);
+  font-size: 13.5px;
+  line-height: 17px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.ui-body {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 23px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.ui-input {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.ui-label {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.ui-help {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-style: italic;
+}
+.figure-title {
+  font-family: var(--font-arial);
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.figure-subtitle {
+  font-family: var(--font-arial);
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-style: italic;
+}
+.node-label {
+  font-family: var(--font-arial);
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.node-sublabel {
+  font-family: var(--font-arial);
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-style: italic;
+}
+.gene {
+  font-family: var(--font-arial);
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  font-style: italic;
+}
+.edge-label {
+  font-family: var(--font-arial);
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.compartment-label {
+  font-family: var(--font-arial);
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+}
+.scale-label {
+  font-family: var(--font-arial);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.end-label {
+  font-family: var(--font-arial);
+  font-size: 15.4px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.legend {
+  font-family: var(--font-arial);
+  font-size: 12.5px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.caption {
+  font-family: var(--font-arial);
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+/* Night tokens follow the viewer theme */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #15181b;
+  --surface: #1d2125;
+  --text: #e4e6e8;
+  --divider: #e4e6e82e;
+  --accent: #7fa7cf;
+  --accent-100: #1b2836;
+  --accent-200: #22364a;
+  --accent-300: #2f4a66;
+  --accent-400: #416180;
+  --accent-500: #5980a6;
+  --accent-600: #8fb4da;
+  --accent-700: #a9cbef;
+  --accent-800: #cfe4fa;
+  --accent-900: #eef6ff;
+  --neutral-100: #24282c;
+  --neutral-200: #2c3135;
+  --neutral-300: #3a3f44;
+  --neutral-400: #555a5f;
+  --neutral-500: #7a7f84;
+  --neutral-600: #9a9fa4;
+  --neutral-700: #b4b8bc;
+  --neutral-800: #d0d3d6;
+  --neutral-900: #e8eaec;
+  --paper: #1b1e22;
+  --ink: #e4e6e8;
+  --ink-muted: #a7acb1;
+  --structure: #8c9196;
+  --compartment-line: #8c9196;
+  --membrane-fill: #272b30;
+  --membrane-head: #6b7176;
+  --rule: #3a3f44;
+  --edge-induce: #6dc28c;
+  --edge-feedback-pos: var(--accent-700);
+  --edge-feedback-neg: #ef7d6e;
+  --ligand-line: var(--accent-700);
+  --tone-accent: var(--accent-500);
+  --tone-grey: #5f656a;
+  --badge-fill: #ffd52e;
+  --badge-line: #5b4300;
+  --halo: var(--paper);
+  --cat-1: var(--accent);
+  --wheel-ring: var(--neutral-300);
+  --wheel-hub: var(--accent);
+  --wheel-edge: #8f8b8b;
+  --wheel-node-ring: var(--paper);
+  --wheel-warm-8: #8d7a62;
+  --swatch-16: #7d9ab8;
+  --tier-b-3: #8a83a3;
+  --tier-b-4: #8a83a3;
+  --tier-c-5: #9a8668;
+  --tier-c-6: #8a7556;
+  --ice-tip: #4b5d6c;
+  --ice-body-1: #3d4f5e;
+  --ice-body-2: #364754;
+  --ice-body-3: #2f3f4b;
+  --ice-body-4: #293742;
+  --ice-edge: #8aa4ba;
+  --ice-facet: #7d93a6;
+  --ice-seam: #53687a;
+  --ice-sky: #20272e;
+  --ice-sea: var(--accent-100);
+  --ice-waterline: var(--accent-700);
+  --pfd-ccp: #ef7d6e;
+  --pfd-ccp-text: #15181b;
+  --pfd-input: #6dc28c;
+  --pfd-waste: #9a9ea3;
+  --pfd-control: var(--accent-700);
+  --wheel-sat-16: #7d9ab8;
+  --geo-phanerozoic: #9ad9dd;
+  --geo-proterozoic: #f73563;
+  --geo-archean: #f0047f;
+  --geo-hadean: #ae027e;
+  --geo-cenozoic: #f2f91d;
+  --geo-mesozoic: #67c5ca;
+  --geo-paleozoic: #99c08d;
+  --geo-neoproterozoic: #feb342;
+  --geo-quaternary: #f9f97f;
+  --geo-neogene: #ffe619;
+  --geo-paleogene: #fd9a52;
+  --geo-cretaceous: #7fc64e;
+  --geo-jurassic: #34b2c9;
+  --geo-triassic: #812b92;
+  --geo-permian: #f04028;
+  --geo-carboniferous: #67a599;
+  --geo-devonian: #cb8c37;
+  --geo-silurian: #b3e1b6;
+  --geo-ordovician: #009270;
+  --geo-cambrian: #7fa056;
+  --geo-ediacaran: #fed96a;
+  --geo-cryogenian: #fecc5c;
+  --geo-tonian: #febf4e;
+  --geo-holocene: #fef2e0;
+  --geo-pleistocene: #fff2ae;
+  --geo-pliocene: #ffff99;
+  --geo-miocene: #ffff00;
+  --geo-oligocene: #fec07a;
+  --geo-eocene: #fdb46c;
+  --geo-paleocene: #fda75f;
+  --geo-late-cretaceous: #a6d84a;
+  --geo-early-cretaceous: #8ccd57;
+  --geo-late-jurassic: #b3e3ee;
+  --geo-middle-jurassic: #80cfd8;
+  --geo-early-jurassic: #42aed0;
+  --geo-late-triassic: #bd8cc3;
+  --geo-middle-triassic: #b168b1;
+  --geo-early-triassic: #983999;
+  --geo-mesoproterozoic: #fdb462;
+  --geo-paleoproterozoic: #f74370;
+  --geo-neoarchean: #f99bc1;
+  --geo-mesoarchean: #f768a9;
+  --geo-paleoarchean: #f4449f;
+  --geo-eoarchean: #da037f;
+  --geo-stenian: #fed99a;
+  --geo-ectasian: #fdcc8a;
+  --geo-calymmian: #fdc07a;
+  --geo-statherian: #f875a7;
+  --geo-orosirian: #f76898;
+  --geo-rhyacian: #f75b89;
+  --geo-siderian: #f74f7c;
+  --geo-lopingian: #fba794;
+  --geo-guadalupian: #fb745c;
+  --geo-cisuralian: #ef5845;
+  --geo-pennsylvanian: #99c2b5;
+  --geo-mississippian: #678f66;
+  --geo-late-devonian: #f1e19d;
+  --geo-middle-devonian: #f1c868;
+  --geo-early-devonian: #e5ac4d;
+  --geo-pridoli: #e6f5e1;
+  --geo-ludlow: #bfe6cf;
+  --geo-wenlock: #b3e1c2;
+  --geo-llandovery: #99d7b3;
+  --geo-late-ordovician: #7fca93;
+  --geo-middle-ordovician: #4db47e;
+  --geo-early-ordovician: #1a9d6f;
+  --geo-furongian: #b3e095;
+  --geo-miaolingian: #a6cf86;
+  --geo-series-2: #99c078;
+  --geo-terreneuvian: #8cb06c;
+  --geo-text: #1d1f20;
+  --geo-text-light: #ffffff;
+  --geo-line: #1d1f20;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 3px 10px #0000008c;
+  --shadow-lg: 2px 12px 32px #000000cc;
+  color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --ground: #15181b;
+  --surface: #1d2125;
+  --text: #e4e6e8;
+  --divider: #e4e6e82e;
+  --accent: #7fa7cf;
+  --accent-100: #1b2836;
+  --accent-200: #22364a;
+  --accent-300: #2f4a66;
+  --accent-400: #416180;
+  --accent-500: #5980a6;
+  --accent-600: #8fb4da;
+  --accent-700: #a9cbef;
+  --accent-800: #cfe4fa;
+  --accent-900: #eef6ff;
+  --neutral-100: #24282c;
+  --neutral-200: #2c3135;
+  --neutral-300: #3a3f44;
+  --neutral-400: #555a5f;
+  --neutral-500: #7a7f84;
+  --neutral-600: #9a9fa4;
+  --neutral-700: #b4b8bc;
+  --neutral-800: #d0d3d6;
+  --neutral-900: #e8eaec;
+  --paper: #1b1e22;
+  --ink: #e4e6e8;
+  --ink-muted: #a7acb1;
+  --structure: #8c9196;
+  --compartment-line: #8c9196;
+  --membrane-fill: #272b30;
+  --membrane-head: #6b7176;
+  --rule: #3a3f44;
+  --edge-induce: #6dc28c;
+  --edge-feedback-pos: var(--accent-700);
+  --edge-feedback-neg: #ef7d6e;
+  --ligand-line: var(--accent-700);
+  --tone-accent: var(--accent-500);
+  --tone-grey: #5f656a;
+  --badge-fill: #ffd52e;
+  --badge-line: #5b4300;
+  --halo: var(--paper);
+  --cat-1: var(--accent);
+  --wheel-ring: var(--neutral-300);
+  --wheel-hub: var(--accent);
+  --wheel-edge: #8f8b8b;
+  --wheel-node-ring: var(--paper);
+  --wheel-warm-8: #8d7a62;
+  --swatch-16: #7d9ab8;
+  --tier-b-3: #8a83a3;
+  --tier-b-4: #8a83a3;
+  --tier-c-5: #9a8668;
+  --tier-c-6: #8a7556;
+  --ice-tip: #4b5d6c;
+  --ice-body-1: #3d4f5e;
+  --ice-body-2: #364754;
+  --ice-body-3: #2f3f4b;
+  --ice-body-4: #293742;
+  --ice-edge: #8aa4ba;
+  --ice-facet: #7d93a6;
+  --ice-seam: #53687a;
+  --ice-sky: #20272e;
+  --ice-sea: var(--accent-100);
+  --ice-waterline: var(--accent-700);
+  --pfd-ccp: #ef7d6e;
+  --pfd-ccp-text: #15181b;
+  --pfd-input: #6dc28c;
+  --pfd-waste: #9a9ea3;
+  --pfd-control: var(--accent-700);
+  --wheel-sat-16: #7d9ab8;
+  --geo-phanerozoic: #9ad9dd;
+  --geo-proterozoic: #f73563;
+  --geo-archean: #f0047f;
+  --geo-hadean: #ae027e;
+  --geo-cenozoic: #f2f91d;
+  --geo-mesozoic: #67c5ca;
+  --geo-paleozoic: #99c08d;
+  --geo-neoproterozoic: #feb342;
+  --geo-quaternary: #f9f97f;
+  --geo-neogene: #ffe619;
+  --geo-paleogene: #fd9a52;
+  --geo-cretaceous: #7fc64e;
+  --geo-jurassic: #34b2c9;
+  --geo-triassic: #812b92;
+  --geo-permian: #f04028;
+  --geo-carboniferous: #67a599;
+  --geo-devonian: #cb8c37;
+  --geo-silurian: #b3e1b6;
+  --geo-ordovician: #009270;
+  --geo-cambrian: #7fa056;
+  --geo-ediacaran: #fed96a;
+  --geo-cryogenian: #fecc5c;
+  --geo-tonian: #febf4e;
+  --geo-holocene: #fef2e0;
+  --geo-pleistocene: #fff2ae;
+  --geo-pliocene: #ffff99;
+  --geo-miocene: #ffff00;
+  --geo-oligocene: #fec07a;
+  --geo-eocene: #fdb46c;
+  --geo-paleocene: #fda75f;
+  --geo-late-cretaceous: #a6d84a;
+  --geo-early-cretaceous: #8ccd57;
+  --geo-late-jurassic: #b3e3ee;
+  --geo-middle-jurassic: #80cfd8;
+  --geo-early-jurassic: #42aed0;
+  --geo-late-triassic: #bd8cc3;
+  --geo-middle-triassic: #b168b1;
+  --geo-early-triassic: #983999;
+  --geo-mesoproterozoic: #fdb462;
+  --geo-paleoproterozoic: #f74370;
+  --geo-neoarchean: #f99bc1;
+  --geo-mesoarchean: #f768a9;
+  --geo-paleoarchean: #f4449f;
+  --geo-eoarchean: #da037f;
+  --geo-stenian: #fed99a;
+  --geo-ectasian: #fdcc8a;
+  --geo-calymmian: #fdc07a;
+  --geo-statherian: #f875a7;
+  --geo-orosirian: #f76898;
+  --geo-rhyacian: #f75b89;
+  --geo-siderian: #f74f7c;
+  --geo-lopingian: #fba794;
+  --geo-guadalupian: #fb745c;
+  --geo-cisuralian: #ef5845;
+  --geo-pennsylvanian: #99c2b5;
+  --geo-mississippian: #678f66;
+  --geo-late-devonian: #f1e19d;
+  --geo-middle-devonian: #f1c868;
+  --geo-early-devonian: #e5ac4d;
+  --geo-pridoli: #e6f5e1;
+  --geo-ludlow: #bfe6cf;
+  --geo-wenlock: #b3e1c2;
+  --geo-llandovery: #99d7b3;
+  --geo-late-ordovician: #7fca93;
+  --geo-middle-ordovician: #4db47e;
+  --geo-early-ordovician: #1a9d6f;
+  --geo-furongian: #b3e095;
+  --geo-miaolingian: #a6cf86;
+  --geo-series-2: #99c078;
+  --geo-terreneuvian: #8cb06c;
+  --geo-text: #1d1f20;
+  --geo-text-light: #ffffff;
+  --geo-line: #1d1f20;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 3px 10px #0000008c;
+  --shadow-lg: 2px 12px 32px #000000cc;
+  color-scheme: dark;
+}
+/* the export container always renders on paper */
+[data-theme="paper"] {
+  --ground: #f2f2f3; /* Editor ground behind panels and the sheet (Industry --color-bg). */
+  --surface: #e9e9ea; /* Recessed UI fields where a fill is needed (Industry --color-surface). */
+  --text: #1d1f20; /* UI text on ground and surface (16:1). */
+  --divider: #1d1f2029; /* Hairline frames, panel rules, button borders (ink at 16%). Decorative structure only. */
+  --accent: #4c7298; /* Steel accent: selected tool, primary button fill, focus ring, slider. 3.6:1 on ground: marks and large text only. */
+  --accent-100: #eef6ff; /* Selected tint, tag fill. */
+  --accent-200: #d6ebff; /* Accent ramp step. */
+  --accent-300: #b5d9fd; /* Hover tint on light fills. */
+  --accent-400: #94bce3; /* Accent ramp step. */
+  --accent-500: #749dc4; /* Accent tone for figure highlights (signal path). */
+  --accent-600: #597ea3; /* Primary button hover. */
+  --accent-700: #416180; /* Accent text: kickers, links, positive-feedback edges (5.6:1 on ground). */
+  --accent-800: #2c455d; /* Text on accent-100 tags. */
+  --accent-900: #1d2d3d; /* Deep steel field for section dividers. */
+  --neutral-100: #f5f5f8; /* Process and output box fill on the sheet. */
+  --neutral-200: #e7e7ea; /* Neutral ramp step. */
+  --neutral-300: #d4d4d7; /* Legend band rule, sheet grid. */
+  --neutral-400: #b7b7ba; /* Colour-strip frame in the gradient editor. */
+  --neutral-500: #98989b; /* Placeholder text (italic). */
+  --neutral-600: #7a7a7d; /* Help text, version meta, compartment outlines. */
+  --neutral-700: #5d5d60; /* Field labels, stats, compartment and sublabel text (6.4:1 on paper). */
+  --neutral-800: #424244; /* Text on neutral tags. */
+  --neutral-900: #2b2b2d; /* Neutral ramp step. */
+  --paper: #ffffff; /* The figure sheet and every export background (white PNG, JPEG). Transparent PNG drops it. Night: the dark sheet for screen and slides on dark backgrounds; reports still export on Paper. */
+  --ink: #1d1f20; /* Diagram labels, node outlines, activate, inhibit, convert and translocate edges, scale ticks. */
+  --ink-muted: #5d5d60; /* Sublabels, compartment names, subtitles, legend labels (6.4:1 on paper). */
+  --structure: #8a8a8d; /* Grey structural glyphs (membranes, organelles) when the accent marks the signal path. */
+  --compartment-line: #7a7a7d; /* Compartment outline (1.2px, radius-compartment) and double envelope. */
+  --membrane-fill: #f2f2f4; /* Phospholipid bilayer band fill. */
+  --membrane-head: #a3a3a7; /* Phospholipid head dots on both faces of the bilayer band. */
+  --rule: #d4d4d7; /* Legend band top rule and caption dividers on the sheet. */
+  --edge-induce: #3d7a4f; /* Induction (expression) edge: dotted, filled head (5.2:1 on paper). */
+  --edge-feedback-pos: var(--accent-700); /* Positive feedback edge: dashed steel, filled head. */
+  --edge-feedback-neg: #b03a2e; /* Negative feedback edge: dashed red with a bar (6:1 on paper). Always dashed, so colour is never the only cue. */
+  --ligand-line: var(--accent-700); /* Outline of ligand pills, so the signal entry point reads in steel. */
+  --tone-accent: var(--accent-500); /* Tint for icon glyphs on the signal path. */
+  --tone-grey: #b0b0b3; /* Tint for icon glyphs that are structure, not signal. */
+  --badge-fill: #ffd52e; /* Phosphorylation badge (P) fill on a node corner. */
+  --badge-line: #5b4300; /* Phosphorylation badge outline; the P inside is ink. */
+  --halo: var(--paper); /* 4px halo behind edge labels so text stays readable over lines. */
+  --cat-1: var(--accent); /* Categorical first category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-2: #1d8e87; /* Categorical second category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-3: #5f8a52; /* Categorical third category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-4: #9b7534; /* Categorical fourth category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-5: #ad6656; /* Categorical fifth category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --cat-6: #946aa0; /* Categorical sixth category (clades, trophic levels, groups). Matched OKLCH lightness 0.59 from the steel accent; use only when colour encodes a category, mono otherwise. */
+  --grad-ph-1: #d7191c; /* pH indicator gradient, stop 1 at 0%. */
+  --grad-ph-2: #f46d43; /* pH indicator gradient, stop 2 at 14%. */
+  --grad-ph-3: #fdae61; /* pH indicator gradient, stop 3 at 28%. */
+  --grad-ph-4: #e6e65a; /* pH indicator gradient, stop 4 at 42%. */
+  --grad-ph-5: #5cb85c; /* pH indicator gradient, stop 5 at 50%. */
+  --grad-ph-6: #26a69a; /* pH indicator gradient, stop 6 at 64%. */
+  --grad-ph-7: #3f51b5; /* pH indicator gradient, stop 7 at 80%. */
+  --grad-ph-8: #6a1b9a; /* pH indicator gradient, stop 8 at 100%. */
+  --grad-diverge-1: #b2182b; /* Red to blue diverging gradient, stop 1 at 0%. */
+  --grad-diverge-2: #ef8a62; /* Red to blue diverging gradient, stop 2 at 25%. */
+  --grad-diverge-3: #e6e6e6; /* Red to blue diverging gradient, stop 3 at 50%. */
+  --grad-diverge-4: #67a9cf; /* Red to blue diverging gradient, stop 4 at 75%. */
+  --grad-diverge-5: #2166ac; /* Red to blue diverging gradient, stop 5 at 100%. */
+  --grad-rg-1: #d73027; /* Red to green gradient, stop 1 at 0%. */
+  --grad-rg-2: #fee08b; /* Red to green gradient, stop 2 at 50%. */
+  --grad-rg-3: #1a9850; /* Red to green gradient, stop 3 at 100%. */
+  --grad-temp-1: #313695; /* Cold to hot gradient, stop 1 at 0%. */
+  --grad-temp-2: #74add1; /* Cold to hot gradient, stop 2 at 35%. */
+  --grad-temp-3: #f7f7f7; /* Cold to hot gradient, stop 3 at 50%. */
+  --grad-temp-4: #f46d43; /* Cold to hot gradient, stop 4 at 70%. */
+  --grad-temp-5: #a50026; /* Cold to hot gradient, stop 5 at 100%. */
+  --grad-spectrum-1: #61008a; /* Visible light 380 to 750 nm gradient, stop 1 at 0%. */
+  --grad-spectrum-2: #6a00ff; /* Visible light 380 to 750 nm gradient, stop 2 at 10.8%. */
+  --grad-spectrum-3: #0050ff; /* Visible light 380 to 750 nm gradient, stop 3 at 18.9%. */
+  --grad-spectrum-4: #00d5ff; /* Visible light 380 to 750 nm gradient, stop 4 at 29.7%. */
+  --grad-spectrum-5: #1fff00; /* Visible light 380 to 750 nm gradient, stop 5 at 37.8%. */
+  --grad-spectrum-6: #e1ff00; /* Visible light 380 to 750 nm gradient, stop 6 at 50%. */
+  --grad-spectrum-7: #ffbe00; /* Visible light 380 to 750 nm gradient, stop 7 at 56.8%. */
+  --grad-spectrum-8: #ff3900; /* Visible light 380 to 750 nm gradient, stop 8 at 64.9%. */
+  --grad-spectrum-9: #d10000; /* Visible light 380 to 750 nm gradient, stop 9 at 86.5%. */
+  --grad-spectrum-10: #610000; /* Visible light 380 to 750 nm gradient, stop 10 at 100%. */
+  --grad-viridis-1: #440154; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 1 at 0%. */
+  --grad-viridis-2: #3b528b; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 2 at 25%. */
+  --grad-viridis-3: #21918c; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 3 at 50%. */
+  --grad-viridis-4: #5ec962; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 4 at 75%. */
+  --grad-viridis-5: #fde725; /* Viridis (perceptually uniform, colour-blind safe) gradient, stop 5 at 100%. */
+  --grad-steel-1: #e8eef5; /* Steel mono ramp gradient, stop 1 at 0%. */
+  --grad-steel-2: #1f3a56; /* Steel mono ramp gradient, stop 2 at 100%. */
+  --grad-grey-1: #ffffff; /* White to black gradient, stop 1 at 0%. */
+  --grad-grey-2: #1d1f20; /* White to black gradient, stop 2 at 100%. */
+  --wheel-ring: var(--neutral-300); /* Guide ring and its 12 ticks on the System Thinking wheel. */
+  --wheel-hub: var(--accent); /* Hub circle outline around the system title. */
+  --wheel-edge: #9b9797; /* Default relationship line colour on the wheel (2px). */
+  --wheel-node-ring: var(--paper); /* 1.2px ring separating a factor dot from the lines under it. */
+  --wheel-sat-1: #c1556f; /* System Thinking factor colour, "Saturated categories" set, swatch 1 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-2: #cc9a3d; /* System Thinking factor colour, "Saturated categories" set, swatch 2 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-3: #6e9e52; /* System Thinking factor colour, "Saturated categories" set, swatch 3 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-4: #3b9e82; /* System Thinking factor colour, "Saturated categories" set, swatch 4 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-5: #3a93ad; /* System Thinking factor colour, "Saturated categories" set, swatch 5 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-6: #4c7fd6; /* System Thinking factor colour, "Saturated categories" set, swatch 6 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-7: #8570d1; /* System Thinking factor colour, "Saturated categories" set, swatch 7 of 8. Factor dots only; labels stay ink. */
+  --wheel-sat-8: #c15ca8; /* System Thinking factor colour, "Saturated categories" set, swatch 8 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-1: #9e5c68; /* System Thinking factor colour, "Muted editorial" set, swatch 1 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-2: #b08a4a; /* System Thinking factor colour, "Muted editorial" set, swatch 2 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-3: #6f8a5c; /* System Thinking factor colour, "Muted editorial" set, swatch 3 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-4: #4f8579; /* System Thinking factor colour, "Muted editorial" set, swatch 4 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-5: #4e7c8c; /* System Thinking factor colour, "Muted editorial" set, swatch 5 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-6: #5c749e; /* System Thinking factor colour, "Muted editorial" set, swatch 6 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-7: #7a6e96; /* System Thinking factor colour, "Muted editorial" set, swatch 7 of 8. Factor dots only; labels stay ink. */
+  --wheel-muted-8: #96617f; /* System Thinking factor colour, "Muted editorial" set, swatch 8 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-1: #b68235; /* System Thinking factor colour, "Warm neutrals" set, swatch 1 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-2: #8e6b3a; /* System Thinking factor colour, "Warm neutrals" set, swatch 2 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-3: #6e5b44; /* System Thinking factor colour, "Warm neutrals" set, swatch 3 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-4: #a98b5b; /* System Thinking factor colour, "Warm neutrals" set, swatch 4 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-5: #7d6a55; /* System Thinking factor colour, "Warm neutrals" set, swatch 5 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-6: #5c4e3e; /* System Thinking factor colour, "Warm neutrals" set, swatch 6 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-7: #c0a377; /* System Thinking factor colour, "Warm neutrals" set, swatch 7 of 8. Factor dots only; labels stay ink. */
+  --wheel-warm-8: #463b2e; /* System Thinking factor colour, "Warm neutrals" set, swatch 8 of 8. Factor dots only; labels stay ink. */
+  --swatch-1: #5980a6; /* User-picked colour 1 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-2: #4c7fd6; /* User-picked colour 2 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-3: #3a93ad; /* User-picked colour 3 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-4: #3b9e82; /* User-picked colour 4 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-5: #00a161; /* User-picked colour 5 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-6: #6e9e52; /* User-picked colour 6 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-7: #888e00; /* User-picked colour 7 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-8: #cc9a3d; /* User-picked colour 8 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-9: #d9812c; /* User-picked colour 9 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-10: #8e6b3a; /* User-picked colour 10 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-11: #b3452f; /* User-picked colour 11 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-12: #c1556f; /* User-picked colour 12 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-13: #ce5882; /* User-picked colour 13 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-14: #a05195; /* User-picked colour 14 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-15: #8570d1; /* User-picked colour 15 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --swatch-16: #1f3a56; /* User-picked colour 16 of 16, shared by the food web, dichotomous key, pedigree notes and free text. Marks and outlines only; text stays ink. */
+  --band-producer: #6e9e52; /* Food web trophic band "Producers": band label, box marks and the arrows leaving that band. */
+  --band-primary: #cc9a3d; /* Food web trophic band "Primary consumers": band label, box marks and the arrows leaving that band. */
+  --band-secondary: #3b9e82; /* Food web trophic band "Secondary consumers": band label, box marks and the arrows leaving that band. */
+  --band-tertiary: #5980a6; /* Food web trophic band "Tertiary consumers": band label, box marks and the arrows leaving that band. */
+  --band-apex: #c1556f; /* Food web trophic band "Apex predators": band label, box marks and the arrows leaving that band. */
+  --tier-a-1: #6e9e52; /* Ecological pyramid tier colour, "Field (default)" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-2: #cc9a3d; /* Ecological pyramid tier colour, "Field (default)" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-3: #3b9e82; /* Ecological pyramid tier colour, "Field (default)" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-4: #5980a6; /* Ecological pyramid tier colour, "Field (default)" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-5: #c1556f; /* Ecological pyramid tier colour, "Field (default)" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-a-6: #8570d1; /* Ecological pyramid tier colour, "Field (default)" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-1: #b081a7; /* Ecological pyramid tier colour, "Dusk" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-2: #9a87b3; /* Ecological pyramid tier colour, "Dusk" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-3: #3d3948; /* Ecological pyramid tier colour, "Dusk" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-4: #3d3948; /* Ecological pyramid tier colour, "Dusk" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-5: #939293; /* Ecological pyramid tier colour, "Dusk" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-b-6: #cac1ca; /* Ecological pyramid tier colour, "Dusk" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-1: #b7c266; /* Ecological pyramid tier colour, "Earth" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-2: #f36962; /* Ecological pyramid tier colour, "Earth" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-3: #65c0cd; /* Ecological pyramid tier colour, "Earth" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-4: #f5bc59; /* Ecological pyramid tier colour, "Earth" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-5: #574934; /* Ecological pyramid tier colour, "Earth" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-c-6: #4b3b28; /* Ecological pyramid tier colour, "Earth" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-1: #fb61e6; /* Ecological pyramid tier colour, "Neon" set, level 1 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-2: #c063fa; /* Ecological pyramid tier colour, "Neon" set, level 2 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-3: #62cef8; /* Ecological pyramid tier colour, "Neon" set, level 3 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-4: #64fb68; /* Ecological pyramid tier colour, "Neon" set, level 4 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-5: #f8fb62; /* Ecological pyramid tier colour, "Neon" set, level 5 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-6: #fabd63; /* Ecological pyramid tier colour, "Neon" set, level 6 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --tier-d-7: #fb6463; /* Ecological pyramid tier colour, "Neon" set, level 7 from the producers up. Bar fill at 28% plus a 1.3px outline. */
+  --pheno-1: #5980a6; /* Punnett square phenotype 1: cell tint at 16% behind the genotype. */
+  --pheno-2: #cc9a3d; /* Punnett square phenotype 2: cell tint at 16% behind the genotype. */
+  --pheno-3: #6e9e52; /* Punnett square phenotype 3: cell tint at 16% behind the genotype. */
+  --pheno-4: #c1556f; /* Punnett square phenotype 4: cell tint at 16% behind the genotype. */
+  --pheno-5: #3b9e82; /* Punnett square phenotype 5: cell tint at 16% behind the genotype. */
+  --pheno-6: #8570d1; /* Punnett square phenotype 6: cell tint at 16% behind the genotype. */
+  --pheno-7: #8e6b3a; /* Punnett square phenotype 7: cell tint at 16% behind the genotype. */
+  --pheno-8: #4c7fd6; /* Punnett square phenotype 8: cell tint at 16% behind the genotype. */
+  --ice-a-1: #8cc6cd; /* Iceberg row fill, colour set A, row 1 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-2: #f8d88b; /* Iceberg row fill, colour set A, row 2 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-3: #f8ba84; /* Iceberg row fill, colour set A, row 3 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-4: #e2d498; /* Iceberg row fill, colour set A, row 4 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-a-5: #f3a184; /* Iceberg row fill, colour set A, row 5 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-1: #576378; /* Iceberg row fill, colour set B, row 1 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-2: #85707c; /* Iceberg row fill, colour set B, row 2 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-3: #b88f83; /* Iceberg row fill, colour set B, row 3 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-4: #d9ae96; /* Iceberg row fill, colour set B, row 4 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-b-5: #c2acac; /* Iceberg row fill, colour set B, row 5 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-1: #ededeb; /* Iceberg row fill, colour set C, row 1 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-2: #f4fdfe; /* Iceberg row fill, colour set C, row 2 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-3: #d0fefe; /* Iceberg row fill, colour set C, row 3 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-4: #75b344; /* Iceberg row fill, colour set C, row 4 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-c-5: #015686; /* Iceberg row fill, colour set C, row 5 from the waterline down. Default rows use neutral-200 above and neutral-300 below. */
+  --ice-tip: #fbfdff; /* The visible tip above the waterline: near-white ice. */
+  --ice-body-1: #e2ecf4; /* Ice just below the waterline (second section). */
+  --ice-body-2: #d0dfeb; /* Third section of the keel. */
+  --ice-body-3: #bfd2e1; /* Fourth section of the keel. */
+  --ice-body-4: #aec5d7; /* Fifth section and deeper. */
+  --ice-edge: #7f9bb3; /* Iceberg outline. */
+  --ice-facet: #c3d5e3; /* Light-catching facet lines on the tip. */
+  --ice-seam: #9fb7cb; /* Hairline seams in the submerged keel. */
+  --ice-sky: #f4f8fb; /* Sky above the waterline behind the iceberg tip; paler than ice-sea so the water line reads. */
+  --ice-sea: var(--accent-100); /* Open sea behind the iceberg, from the waterline down. */
+  --ice-waterline: var(--accent-700); /* Dashed waterline, leverage arrow, SEEN / UNSEEN and level labels. */
+  --pfd-ccp: #b03a2e; /* Product flow diagram: critical control point tag, CCP box outline and critical limits. */
+  --pfd-ccp-text: #ffffff; /* Text on the CCP tag. */
+  --pfd-input: #3d7a4f; /* Arrows bringing ingredients and packaging into a step. */
+  --pfd-waste: #6e6e74; /* Arrows and labels for waste and by-products leaving a step. */
+  --pfd-control: var(--accent-700); /* Dashed process-control signal lines in a product flow diagram (sensor to controller to valve). */
+  --flow-1: #ce5882; /* Flow diagram node or arrow colour 1 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-2: #d35958; /* Flow diagram node or arrow colour 2 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-3: #cf6228; /* Flow diagram node or arrow colour 3 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-4: #c17000; /* Flow diagram node or arrow colour 4 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-5: #aa7f00; /* Flow diagram node or arrow colour 5 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-6: #888e00; /* Flow diagram node or arrow colour 6 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-7: #5a9a2d; /* Flow diagram node or arrow colour 7 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-8: #00a161; /* Flow diagram node or arrow colour 8 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-9: #00a38a; /* Flow diagram node or arrow colour 9 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-10: #009faf; /* Flow diagram node or arrow colour 10 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-11: #0097cb; /* Flow diagram node or arrow colour 11 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-12: #1f8bde; /* Flow diagram node or arrow colour 12 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-13: #627ee3; /* Flow diagram node or arrow colour 13 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-14: #8b71da; /* Flow diagram node or arrow colour 14 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-15: #a965c5; /* Flow diagram node or arrow colour 15 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --flow-16: #bf5ca6; /* Flow diagram node or arrow colour 16 of 16 (hue wheel at matched lightness). A coloured node border is 1.6px. */
+  --wheel-sat-9: #5980a6; /* Saturated categories, swatch 9 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-10: #00a161; /* Saturated categories, swatch 10 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-11: #888e00; /* Saturated categories, swatch 11 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-12: #d9812c; /* Saturated categories, swatch 12 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-13: #8e6b3a; /* Saturated categories, swatch 13 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-14: #b3452f; /* Saturated categories, swatch 14 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-15: #ce5882; /* Saturated categories, swatch 15 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-sat-16: #1f3a56; /* Saturated categories, swatch 16 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-9: #7d8b9a; /* Muted editorial, swatch 9 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-10: #8a7a5e; /* Muted editorial, swatch 10 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-11: #5e7a6a; /* Muted editorial, swatch 11 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-12: #a0706a; /* Muted editorial, swatch 12 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-13: #6a6a8a; /* Muted editorial, swatch 13 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-14: #8f8470; /* Muted editorial, swatch 14 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-15: #5b6b7a; /* Muted editorial, swatch 15 of 16: extra clade colours for phylogenetic trees. */
+  --wheel-muted-16: #9a8a9a; /* Muted editorial, swatch 16 of 16: extra clade colours for phylogenetic trees. */
+  --geo-phanerozoic: #9ad9dd; /* Phanerozoic (eon, 538.8 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-proterozoic: #f73563; /* Proterozoic (eon, 2500 to 538.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-archean: #f0047f; /* Archean (eon, 4031 to 2500 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-hadean: #ae027e; /* Hadean (eon, 4567 to 4031 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cenozoic: #f2f91d; /* Cenozoic (era, 66 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mesozoic: #67c5ca; /* Mesozoic (era, 251.902 to 66 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleozoic: #99c08d; /* Paleozoic (era, 538.8 to 251.902 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-neoproterozoic: #feb342; /* Neoproterozoic (era, 1000 to 538.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-quaternary: #f9f97f; /* Quaternary (period, 2.58 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-neogene: #ffe619; /* Neogene (period, 23.03 to 2.58 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleogene: #fd9a52; /* Paleogene (period, 66 to 23.03 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cretaceous: #7fc64e; /* Cretaceous (period, 145 to 66 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-jurassic: #34b2c9; /* Jurassic (period, 201.4 to 145 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-triassic: #812b92; /* Triassic (period, 251.902 to 201.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-permian: #f04028; /* Permian (period, 298.9 to 251.902 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-carboniferous: #67a599; /* Carboniferous (period, 358.9 to 298.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-devonian: #cb8c37; /* Devonian (period, 419.2 to 358.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-silurian: #b3e1b6; /* Silurian (period, 443.8 to 419.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ordovician: #009270; /* Ordovician (period, 485.4 to 443.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cambrian: #7fa056; /* Cambrian (period, 538.8 to 485.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ediacaran: #fed96a; /* Ediacaran (period, 635 to 538.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cryogenian: #fecc5c; /* Cryogenian (period, 720 to 635 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-tonian: #febf4e; /* Tonian (period, 1000 to 720 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-holocene: #fef2e0; /* Holocene (epoch, 0.0117 to 0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pleistocene: #fff2ae; /* Pleistocene (epoch, 2.58 to 0.0117 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pliocene: #ffff99; /* Pliocene (epoch, 5.333 to 2.58 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-miocene: #ffff00; /* Miocene (epoch, 23.03 to 5.333 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-oligocene: #fec07a; /* Oligocene (epoch, 33.9 to 23.03 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-eocene: #fdb46c; /* Eocene (epoch, 56 to 33.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleocene: #fda75f; /* Paleocene (epoch, 66 to 56 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-cretaceous: #a6d84a; /* Late Cretaceous (epoch, 100.5 to 66 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-cretaceous: #8ccd57; /* Early Cretaceous (epoch, 145 to 100.5 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-jurassic: #b3e3ee; /* Late Jurassic (epoch, 161.5 to 145 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-jurassic: #80cfd8; /* Middle Jurassic (epoch, 174.7 to 161.5 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-jurassic: #42aed0; /* Early Jurassic (epoch, 201.4 to 174.7 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-triassic: #bd8cc3; /* Late Triassic (epoch, 237 to 201.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-triassic: #b168b1; /* Middle Triassic (epoch, 247.2 to 237 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-triassic: #983999; /* Early Triassic (epoch, 251.902 to 247.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mesoproterozoic: #fdb462; /* Mesoproterozoic (era, 1600 to 1000 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleoproterozoic: #f74370; /* Paleoproterozoic (era, 2500 to 1600 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-neoarchean: #f99bc1; /* Neoarchean (era, 2800 to 2500 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mesoarchean: #f768a9; /* Mesoarchean (era, 3200 to 2800 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-paleoarchean: #f4449f; /* Paleoarchean (era, 3600 to 3200 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-eoarchean: #da037f; /* Eoarchean (era, 4031 to 3600 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-stenian: #fed99a; /* Stenian (period, 1200 to 1000 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ectasian: #fdcc8a; /* Ectasian (period, 1400 to 1200 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-calymmian: #fdc07a; /* Calymmian (period, 1600 to 1400 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-statherian: #f875a7; /* Statherian (period, 1800 to 1600 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-orosirian: #f76898; /* Orosirian (period, 2050 to 1800 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-rhyacian: #f75b89; /* Rhyacian (period, 2300 to 2050 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-siderian: #f74f7c; /* Siderian (period, 2500 to 2300 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-lopingian: #fba794; /* Lopingian (epoch, 259.51 to 251.902 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-guadalupian: #fb745c; /* Guadalupian (epoch, 274.4 to 259.51 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-cisuralian: #ef5845; /* Cisuralian (epoch, 298.9 to 274.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pennsylvanian: #99c2b5; /* Pennsylvanian (epoch, 323.4 to 298.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-mississippian: #678f66; /* Mississippian (epoch, 358.9 to 323.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-devonian: #f1e19d; /* Late Devonian (epoch, 382.7 to 358.9 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-devonian: #f1c868; /* Middle Devonian (epoch, 393.3 to 382.7 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-devonian: #e5ac4d; /* Early Devonian (epoch, 419.2 to 393.3 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-pridoli: #e6f5e1; /* Pridoli (epoch, 423.0 to 419.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-ludlow: #bfe6cf; /* Ludlow (epoch, 427.4 to 423.0 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-wenlock: #b3e1c2; /* Wenlock (epoch, 433.4 to 427.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-llandovery: #99d7b3; /* Llandovery (epoch, 443.8 to 433.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-late-ordovician: #7fca93; /* Late Ordovician (epoch, 458.2 to 443.8 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-middle-ordovician: #4db47e; /* Middle Ordovician (epoch, 471.3 to 458.2 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-early-ordovician: #1a9d6f; /* Early Ordovician (epoch, 485.4 to 471.3 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-furongian: #b3e095; /* Furongian (epoch, 497 to 485.4 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-miaolingian: #a6cf86; /* Miaolingian (epoch, 506.5 to 497 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-series-2: #99c078; /* Series 2 (epoch, 521 to 506.5 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-terreneuvian: #8cb06c; /* Terreneuvian (epoch, 538.8 to 521 Ma). ICS chart colour (CGMW); kept in Night. */
+  --geo-text: #1d1f20; /* Unit names on geological timescale bands; stays dark in Night because the bands keep their chart colours. */
+  --geo-text-light: #ffffff; /* Unit names on the darkest chart bands (Archean, Hadean, Triassic, Early Triassic, Eoarchean), where white reads better than geo-text. */
+  --geo-line: #1d1f20; /* Hairline between timescale bands and around the strip. */
+  --shadow-sm: 0 1px 2px rgba(43, 43, 45, 0.14); /* A node or chip while it is being dragged on the canvas. */
+  --shadow-md: 0 3px 10px rgba(43, 43, 45, 0.16); /* Toasts, menus and the floating inspector band. */
+  --shadow-lg: 0 12px 32px rgba(43, 43, 45, 0.22); /* Dialogs over the backdrop (version manager, confirm clear). */
+  color-scheme: light;
+}
