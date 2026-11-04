@@ -6,6 +6,7 @@ import { SAMPLE } from './boneSample';
 import { AdjFilter, AdjPanel, adjOf, isNeutral } from './scaleadj';
 import { apply, fovFor, inv, layout, letterOf, mul, panelGeo, SHEET_W, sameM, type M } from './scalegeo';
 import { CropOverlay, CropPanel, GridPanel, GridSvg, PanelsPanel } from './scalepanels';
+import { useImageData } from './scalecurve';
 import { fmt, GfxList, GfxOverlay, GfxSelected, GfxTools, gfxClick, lastRuler, migrate, moveShape, Shapes } from './scalegfx';
 
 /* ===================== 10 Scale bar ===================== */
@@ -60,6 +61,7 @@ function PanelRender({ data, id }: { data: any; id: number }) {
   const ty = above ? b.y - 6 : b.y + b.th + b.fs + 2;
   const a = adjOf(data), adj = isNeutral(a) ? null : a, clip = 'sb-clip-' + id, fid = 'sb-adj-' + id;
   const size = num(data.letterSize, 26);
+  const pix = useImageData(img), prof = { inv: inv(g.g.m), img: pix, iw: g.g.iw, ih: g.g.ih };
   return (
     <g>
       <rect className="mk-panel-bg" x={0} y={0} width={pw} height={ph} style={{ fill: 'var(--paper)' }} />
@@ -73,7 +75,7 @@ function PanelRender({ data, id }: { data: any; id: number }) {
         </g>
         <GridSvg d={data} ppu={g.ppu} pw={pw} ph={ph} />
       </g>
-      <Shapes shapes={data.shapes || []} ppu={g.ppu} unit={data.unit} />
+      <Shapes shapes={data.shapes || []} ppu={g.ppu} unit={data.unit} prof={prof} />
       {data.barHidden ? null : <>
         {data.plate ? <rect x={b.x - 10} y={(above ? b.y - b.fs - 12 : b.y - 8)} width={b.len + 20} height={b.bh} className="mk-plate" style={{ fill: data.plateColor || undefined }} /> : null}
         <rect x={b.x} y={b.y} width={b.len} height={b.th} style={{ fill: color }} />

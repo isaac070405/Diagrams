@@ -76,3 +76,5 @@ export function niceStep(v: number) {
   const pow = Math.pow(10, Math.floor(Math.log10(Math.max(1e-12, v)))), m = v / pow;
   return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * pow;
 }
+
+export const fmt = (v: number) => v >= 100 ? Math.round(v).toString() : (+v.toPrecision(3)).toString();
