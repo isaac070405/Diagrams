@@ -9,7 +9,7 @@ import { CropOverlay, CropPanel, GridPanel, GridSvg, PanelsPanel } from './scale
 import { useImageData } from './scalecurve';
 import { fmt, GfxList, GfxOverlay, GfxSelected, GfxTools, gfxClick, lastRuler, migrate, moveShape, Shapes } from './scalegfx';
 
-/* ===================== 10 Scale bar ===================== */
+/* ===================== 10 Histological image ===================== */
 /* The sheet holds panels. Each panel is a micrograph with its own calibration, crop, scale bar and graphics.
    Panel components receive a "view": the panel's fields plus the shared tool state and the panel width (pw). */
 const D = SHEET_W;
@@ -259,8 +259,8 @@ const ARTERY = { img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: '
 const EXTRA = (shapes: any[] = []) => ({ shapes });
 
 export const scalebar: EditorDef = {
-  id: 'scale-bar', num: '10', name: 'Scale bar', field: 'Cells and measurement',
-  blurb: 'Calibrated scale bars on your own micrographs, with a ZEN-style graphics toolbar, multi-panel figures, crop and rotate, and a calibrated grid.',
+  id: 'scale-bar', num: '10', name: 'Histological image', field: 'Cells and measurement',
+  blurb: 'Annotate your own micrographs: calibrated scale bars, a ZEN-style graphics toolbar, contours and profiles, multi-panel figures, crop and rotate, stain adjustment and a calibrated grid.',
   hint: 'Pick a tool in Graphics, then click the image. Add panels for a multi-panel figure, then click a panel on the sheet to edit it.',
   normalize: toPanels,
   templates: [
