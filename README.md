@@ -26,3 +26,15 @@ Download the latest build from the Releases page.
 | 09 | Iceberg model | 20 | Curly-arrow mechanism |
 | 10 | Histological image | 21 | Population over time |
 | 11 | Gradient bar | | |
+
+## Histological image
+
+Annotate your own micrographs, or start from the artery example. Calibrate once with the image width, then every length, area and scale bar uses real units.
+
+- **Graphics:** text, line, arrow, rectangle, circle, caliper, leader label and scale bar, with a list to show, lock, name and reorder them.
+- **Contour:** a smooth curve around a structure, with area and perimeter in calibrated units.
+- **Profile line:** draw a line across the image and a plot shows brightness, red, green or blue along it, with smoothing and the mean. The plot can be dragged and resized.
+- **Grid:** lines, crosses or dots at a spacing you set in real units, with an optional printed spacing.
+- **Crop and rotate:** 90° turns, flips, straighten and crop. The calibration follows.
+- **Stain and colour:** brightness, contrast, gamma, saturation, hue and red, green, blue balance, with an H&E preset.
+- **Panels:** up to 6 micrographs on one sheet, each with its own calibration, lettered A, B, C.
