@@ -1,7 +1,8 @@
 import { S } from '../sheet';
-import { cells, EmptyHint, lines, num, Range, RowsText, RowX, Seg, Spec, startDrag, Swatches, Toggle } from '../ui';
+import { cells, EmptyHint, lines, num, Range, RowsText, Seg, Spec, startDrag, Swatches, Toggle } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
 import { SAMPLE } from './boneSample';
+import { fmt, GfxList, GfxOverlay, GfxSelected, GfxTools, gfxClick, lastRuler, migrate, moveShape, Shapes } from './scalegfx';
 
 /* ===================== 10 Scale bar ===================== */
 const D = 800;
@@ -11,7 +12,6 @@ function sb(d: any) {
   const ppu = D / Math.max(1e-9, num(d.fov, 200));
   return { H, ppu, len: num(d.bar, 50) * ppu };
 }
-const fmt = (v: number) => v >= 100 ? Math.round(v).toString() : (+v.toPrecision(3)).toString();
 const BAR_INKS = ['var(--ink)', 'var(--paper)', 'var(--accent-700)', 'var(--edge-feedback-neg)', 'var(--swatch-6)', 'var(--swatch-11)'];
 
 function ExampleImage(p: { H: number }) {
@@ -56,52 +56,41 @@ function ScaleRender({ data }: { data: any }) {
   return (
     <g>
       {img ? <image href={img} x={0} y={0} width={D} height={g.H} preserveAspectRatio="none" /> : <ExampleImage H={g.H} />}
-      {(data.measures || []).map((q: number[], i: number) => (
-        <g key={i} className="mk-measure" style={{ ['--mk-m' as any]: data.measureColor || 'var(--accent)' }}>
-          <line x1={q[0]} y1={q[1]} x2={q[2]} y2={q[3]} />
-          <circle cx={q[0]} cy={q[1]} r={3} /><circle cx={q[2]} cy={q[3]} r={3} />
-          <text x={(q[0] + q[2]) / 2 + 6} y={(q[1] + q[3]) / 2 - 6}>{fmt(Math.hypot(q[2] - q[0], q[3] - q[1]) / g.ppu)} {data.unit}</text>
-        </g>
-      ))}
-      {(data.pts || []).map((q: number[], i: number) => <circle key={'p' + i} cx={q[0]} cy={q[1]} r={4} className="mk-measure-pt" />)}
-      {data.plate ? <rect x={b.x - 10} y={(above ? b.y - b.fs - 12 : b.y - 8)} width={b.len + 20} height={b.bh} className="mk-plate" style={{ fill: data.plateColor || undefined }} /> : null}
-      <rect x={b.x} y={b.y} width={b.len} height={b.th} style={{ fill: color }} />
-      <text className="mk-bar-label" x={b.x + b.len / 2} y={ty} style={{ fill: color, fontSize: b.fs + 'px', fontWeight: data.barBold ? 700 : 400 }}>{fmt(num(data.bar, 50)) + ' ' + data.unit}</text>
+      <Shapes shapes={data.shapes || []} ppu={g.ppu} unit={data.unit} />
+      {data.barHidden ? null : <>
+        {data.plate ? <rect x={b.x - 10} y={(above ? b.y - b.fs - 12 : b.y - 8)} width={b.len + 20} height={b.bh} className="mk-plate" style={{ fill: data.plateColor || undefined }} /> : null}
+        <rect x={b.x} y={b.y} width={b.len} height={b.th} style={{ fill: color }} />
+        <text className="mk-bar-label" x={b.x + b.len / 2} y={ty} style={{ fill: color, fontSize: b.fs + 'px', fontWeight: data.barBold ? 700 : 400 }}>{fmt(num(data.bar, 50)) + ' ' + data.unit}</text>
+      </>}
     </g>
   );
 }
 
-function ScaleOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }) {
+function ScaleOverlay(p: EditProps & { toSvg: any }) {
+  const { data, set, sel, setSel, toSvg } = p;
   const b = barBox(data), above = data.labelPos === 'above';
   const on = sel && sel.kind === 'bar';
-  if (data.measuring) return null;
+  const live = !data.barHidden && !data.barLocked && (data.tool || 'select') === 'select';
   return (
     <>
-      {(data.measures || []).map((q: number[], i: number) => {
-        const mon = sel && sel.kind === 'measure' && sel.id === String(i);
-        const end = (k: number) => <rect key={k} className="mk-handle" x={q[k] - 5} y={q[k + 1] - 5} width={10} height={10}
-          onPointerDown={e => { const o = [...q]; startDrag(e, toSvg, (dx, dy) => { const n = [...o]; n[k] = Math.round(o[k] + dx); n[k + 1] = Math.round(o[k + 1] + dy); set({ measures: data.measures.map((x: any, j: number) => j === i ? n : x) }, 'm-end-' + i); }); }} />;
-        return <g key={i}>
-          <line className={'mk-hit-line' + (mon ? ' mk-on' : '')} x1={q[0]} y1={q[1]} x2={q[2]} y2={q[3]}
-            onPointerDown={e => { setSel({ kind: 'measure', id: String(i) }); const o = [...q]; startDrag(e, toSvg, (dx, dy) => set({ measures: data.measures.map((x: any, j: number) => j === i ? [o[0] + dx, o[1] + dy, o[2] + dx, o[3] + dy].map(Math.round) : x) }, 'm-move-' + i)); }} />
-          {mon ? [end(0), end(2)] : null}
-        </g>;
-      })}
-      <rect className={'mk-hit' + (on ? ' mk-on' : '')} x={b.x - 12} y={(above ? b.y - b.fs - 14 : b.y - 10)} width={b.len + 24} height={b.bh + 4}
-        onPointerDown={e => { setSel({ kind: 'bar', id: 'bar' }); const x0 = b.x, y0 = b.y; startDrag(e, toSvg, (dx, dy) => set({ bx: Math.round(x0 + dx), by: Math.round(y0 + dy) }, 'bar-drag')); }} />
+      <GfxOverlay {...p} />
+      {live ? <rect className={'mk-hit' + (on ? ' mk-on' : '')} x={b.x - 12} y={(above ? b.y - b.fs - 14 : b.y - 10)} width={b.len + 24} height={b.bh + 4}
+        onPointerDown={e => { setSel({ kind: 'bar', id: 'bar' }); const x0 = b.x, y0 = b.y; startDrag(e, toSvg, (dx, dy) => set({ bx: Math.round(x0 + dx), by: Math.round(y0 + dy) }, 'bar-drag')); }} /> : null}
     </>
   );
 }
 
-function ScaleControls({ data, set, sel, setSel }: EditProps) {
+function ScaleControls(p: EditProps) {
+  const { data, set, sel } = p;
   const g = sb(data);
-  const ms = data.measures || [];
-  const last = ms[ms.length - 1];
-  const mi = sel && sel.kind === 'measure' ? +sel.id : -1;
+  const shapes: any[] = data.shapes || [];
+  const picked = sel && sel.kind === 'shape' ? shapes.find(q => q.id === sel.id) : null;
+  const ruler = picked && (picked.type === 'caliper' || picked.type === 'line') ? picked : lastRuler(shapes);
   return (
     <>
+      <GfxTools {...p} />
       {sel && sel.kind === 'bar' ? (
-        <S.Panel kicker="Selected scale bar" help="Drag the bar anywhere on the image.">
+        <S.Panel kicker="Selected scale bar" help={data.barLocked ? 'Locked: unlock it in the Graphics list to move it.' : 'Drag the bar anywhere on the image.'}>
           <S.Field id="sb-bar2" label={'Length (' + data.unit + ')'} value={data.bar} onChange={(e: any) => set({ bar: e.target.value }, 'bar')} />
           <Swatches label="Bar and text colour" value={data.barColor} colors={BAR_INKS} none="Ink" onChange={v => set({ barColor: v })} />
           <Range id="sb-th" label="Bar thickness" value={num(data.thick, 4)} min={1} max={14} onChange={v => set({ thick: v }, 'th')} />
@@ -112,73 +101,77 @@ function ScaleControls({ data, set, sel, setSel }: EditProps) {
           {data.plate ? <Swatches label="Plate colour" value={data.plateColor} colors={['var(--paper)', 'var(--ink)', 'var(--neutral-200)', 'var(--accent-100)']} none="White" onChange={v => set({ plateColor: v })} /> : null}
         </S.Panel>
       ) : null}
-      {mi >= 0 && ms[mi] ? (
-        <S.Panel kicker={'Measurement ' + (mi + 1)} help="Drag the line to move it, or the end squares to adjust it.">
-          <p className="mk-note">{fmt(Math.hypot(ms[mi][2] - ms[mi][0], ms[mi][3] - ms[mi][1]) / g.ppu)} {data.unit}</p>
-          <S.ToolButton onClick={() => { set({ measures: ms.filter((_: any, j: number) => j !== mi) }); setSel(null); }}>Delete measurement</S.ToolButton>
-        </S.Panel>
-      ) : null}
+      <GfxSelected {...p} />
+      <GfxList {...p} />
       <S.Panel kicker="Image" help="Large photos are reduced to 1600 px on the longest side.">
         <label className="sd-tbtn mk-upload">Upload micrograph<input type="file" accept="image/png,image/jpeg,image/webp" hidden
-          onChange={(e: any) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) readImage(f, (img, w, h) => set({ img, imgW: w, imgH: h, measures: [], pts: [], bx: undefined, by: undefined }), () => set({})); }} /></label>
-        {data.img !== 'sample:artery' ? <S.ToolButton onClick={() => set({ img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', measures: [], pts: [], bx: undefined, by: undefined })}>Use the artery example</S.ToolButton> : null}
+          onChange={(e: any) => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) readImage(f, (img, w, h) => set({ img, imgW: w, imgH: h, shapes: [], draft: [], bx: undefined, by: undefined }), () => set({})); }} /></label>
+        {data.img !== 'sample:artery' ? <S.ToolButton onClick={() => set({ img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', shapes: [], draft: [], bx: undefined, by: undefined })}>Use the artery example</S.ToolButton> : null}
       </S.Panel>
       <S.Panel kicker="Calibration" help="The width of the whole image in real units, from your microscope's field of view or a stage micrometer.">
         <div className="mk-pair">
           <S.Field id="sb-fov" label="Image width" value={data.fov} onChange={(e: any) => set({ fov: e.target.value }, 'fov')} />
           <S.Field id="sb-unit" label="Unit" value={data.unit} placeholder="e.g. µm" onChange={(e: any) => set({ unit: e.target.value }, 'unit')} />
         </div>
-        {last ? <S.Field id="sb-known" label="Last measurement is really…" placeholder={'e.g. 7.5 (' + data.unit + ')'} value=""
-          onChange={(e: any) => { const v = parseFloat(e.target.value); if (v > 0) { const px = Math.hypot(last[2] - last[0], last[3] - last[1]); set({ fov: Math.round(D / (px / v) * 100) / 100 }, 'cal'); } }}
+        {ruler ? <S.Field id="sb-known" label={(picked && ruler === picked ? 'Selected ' + ruler.type : 'Last caliper or line') + ' is really…'} placeholder={'e.g. 7.5 (' + data.unit + ')'} value=""
+          onChange={(e: any) => { const v = parseFloat(e.target.value); if (v > 0) { const px = Math.hypot(ruler.p[2] - ruler.p[0], ruler.p[3] - ruler.p[1]); set({ fov: Math.round(D / (px / v) * 100) / 100 }, 'cal'); } }}
           help="Type the true length of a known object you measured to recalibrate." /> : null}
       </S.Panel>
-      <S.Panel kicker="Bar" help="Click the bar on the sheet for colour, thickness and text.">
+      <S.Panel kicker="Bar" help="Click the bar on the sheet for colour, thickness and text. The Scale bar tool places it with one click.">
         <S.Field id="sb-bar" label={'Bar length (' + data.unit + ')'} value={data.bar} onChange={(e: any) => set({ bar: e.target.value }, 'bar')} help={'Draws ' + Math.round(g.len) + ' px wide on the sheet.'} />
-        <Seg value={data.bx != null ? '' : data.corner} options={[['bl', 'Bottom left'], ['br', 'Bottom right']]} onChange={v => set({ corner: v, bx: undefined, by: undefined })} />
-        <Seg value={data.bx != null ? '' : data.corner} options={[['tl', 'Top left'], ['tr', 'Top right']]} onChange={v => set({ corner: v, bx: undefined, by: undefined })} />
-      </S.Panel>
-      <S.Panel kicker="Measure" help={data.measuring ? 'Click two points on the image.' : 'Turn on, then click two points on the image to measure between them.'}>
-        <Toggle on={data.measuring} label={data.measuring ? 'Measuring: click the image' : 'Measure on the image'} onChange={v => { set({ measuring: v, pts: [] }); setSel(null); }} />
-        {ms.map((q: number[], i: number) => (
-          <div key={i} className="mk-row" data-on={mi === i ? '1' : '0'}>
-            <button type="button" className="mk-row-main" onClick={() => setSel({ kind: 'measure', id: String(i) })}>{i + 1}. {fmt(Math.hypot(q[2] - q[0], q[3] - q[1]) / g.ppu)} {data.unit}</button>
-            <RowX label={'measurement ' + (i + 1)} onRemove={() => set({ measures: ms.filter((_: any, j: number) => j !== i) })} />
-          </div>
-        ))}
-        {ms.length ? <Swatches label="Measurement colour" value={data.measureColor} colors={BAR_INKS.concat(['var(--accent)'])} none="Steel" onChange={v => set({ measureColor: v })} /> : null}
+        <Seg value={data.bx != null ? '' : data.corner} options={[['bl', 'Bottom left'], ['br', 'Bottom right']]} onChange={v => set({ corner: v, bx: undefined, by: undefined, barHidden: false })} />
+        <Seg value={data.bx != null ? '' : data.corner} options={[['tl', 'Top left'], ['tr', 'Top right']]} onChange={v => set({ corner: v, bx: undefined, by: undefined, barHidden: false })} />
       </S.Panel>
     </>
   );
 }
 
+/* the artery example, annotated the way ZEN figures are: leader labels and calipers (points are sheet units on the 800 px wide image) */
+const L = (id: string, text: string, p: number[]) => ({ id, type: 'label', p, text, size: 15, width: 1.6, head: true, halo: true });
+const C = (id: string, p: number[]) => ({ id, type: 'caliper', p, width: 2, showValue: true, halo: true });
+const ARTERY_GFX = [
+  C('g1', [352, 240, 410, 240]), C('g2', [324, 200, 356, 200]),
+  L('g3', 'tunica adventitia', [286, 190, 226, 160]), L('g4', 'tunica media', [322, 262, 226, 300]), L('g5', 'lumen', [380, 290, 226, 372]),
+];
+const GFX0 = { shapes: [] as any[], tool: 'select', keep: false, draft: [] as any[] };
+
 export const scalebar: EditorDef = {
   id: 'scale-bar', num: '10', name: 'Scale bar', field: 'Cells and measurement',
-  blurb: 'Calibrated scale bars on your own micrographs: drag the bar, restyle it, and measure by clicking.',
-  hint: 'Click the scale bar to style it and drag it anywhere. Measurements can be dragged and deleted.',
-  normalize: d => d.img && typeof d.img === 'string' && d.img === SAMPLE ? { ...d, img: 'sample:artery' } : d,
+  blurb: 'Calibrated scale bars on your own micrographs, with a ZEN-style graphics toolbar: text, lines, arrows, shapes, calipers and leader labels.',
+  hint: 'Pick a tool in Graphics, then click the image. Use Select to move graphics; the Graphics list shows, locks, names and reorders them.',
+  normalize: d => migrate(d.img && typeof d.img === 'string' && d.img === SAMPLE ? { ...d, img: 'sample:artery' } : d),
   templates: [
-    { name: 'Muscular artery', desc: 'Cross-section with blood cells in the lumen', title: 'Muscular artery in cross-section',
+    { name: 'Muscular artery', desc: 'Cross-section with labelled wall layers and a lumen caliper', title: 'Muscular artery in cross-section',
       caption: 'Smooth muscle of the tunica media surrounds the lumen; collagen of the tunica adventitia lies outside it.',
-      data: { img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', bar: 200, corner: 'bl', plate: true, measuring: false, pts: [], measures: [] } },
-    { name: 'Light microscope', desc: 'Drawn example field, 100 µm bar', title: 'Onion epidermis, 40× objective', data: { img: null, imgW: 1200, imgH: 800, fov: 450, unit: 'µm', bar: 100, corner: 'br', plate: true, measuring: false, pts: [], measures: [] } },
-    { name: 'Electron micrograph', desc: '2 µm field, 500 nm bar', title: 'Mitochondrion, TEM', data: { img: null, imgW: 1200, imgH: 900, fov: 2000, unit: 'nm', bar: 500, corner: 'bl', plate: true, measuring: false, pts: [], measures: [] } }
+      data: { img: 'sample:artery', imgW: 1182, imgH: 665, fov: 1800, unit: 'µm', bar: 200, corner: 'bl', plate: true, ...GFX0, shapes: ARTERY_GFX } },
+    { name: 'Light microscope', desc: 'Drawn example field, 100 µm bar', title: 'Onion epidermis, 40× objective', data: { img: null, imgW: 1200, imgH: 800, fov: 450, unit: 'µm', bar: 100, corner: 'br', plate: true, ...GFX0 } },
+    { name: 'Electron micrograph', desc: '2 µm field, 500 nm bar', title: 'Mitochondrion, TEM', data: { img: null, imgW: 1200, imgH: 900, fov: 2000, unit: 'nm', bar: 500, corner: 'bl', plate: true, ...GFX0 } }
   ],
   Controls: ScaleControls,
   Overlay: ScaleOverlay,
   sheetClick: (d, pt) => {
-    if (!d.measuring) return null;
-    const pts = [...(d.pts || []), pt];
-    if (pts.length < 2) return { pts };
-    return { pts: [], measures: [...(d.measures || []), [pts[0][0], pts[0][1], pts[1][0], pts[1][1]].map(Math.round)] };
+    if ((d.tool || 'select') === 'bar') return { bx: Math.round(pt[0] - sb(d).len / 2), by: Math.round(pt[1]), barHidden: false, barLocked: false, tool: d.keep ? 'bar' : 'select', draft: [] };
+    return gfxClick(d, pt);
   },
-  blank: { img: null, imgW: 1200, imgH: 800, fov: 500, unit: 'µm', bar: 100, corner: 'br', plate: true, measuring: false, pts: [], measures: [] },
+  blank: { img: null, imgW: 1200, imgH: 800, fov: 500, unit: 'µm', bar: 100, corner: 'br', plate: true, ...GFX0 },
   nudge: (d, sel, dx, dy) => {
-    if (sel.kind === 'bar') { const b = barBox(d); return { bx: b.x + dx, by: b.y + dy }; }
-    if (sel.kind === 'measure') return { measures: (d.measures || []).map((q: number[], j: number) => j === +sel.id ? [q[0] + dx, q[1] + dy, q[2] + dx, q[3] + dy] : q) };
+    if (sel.kind === 'bar') { if (d.barLocked) return null; const b = barBox(d); return { bx: b.x + dx, by: b.y + dy }; }
+    if (sel.kind === 'shape') { const s = (d.shapes || []).find((q: any) => q.id === sel.id); return s && !s.locked ? { shapes: d.shapes.map((q: any) => q === s ? moveShape(s, dx, dy) : q) } : null; }
     return null;
   },
   findText: (d, text) => text.endsWith(' ' + d.unit) && text.startsWith(fmt(num(d.bar, 50))) ? { kind: 'bar', id: 'bar' } : null,
-  remove: (d, sel) => sel.kind === 'measure' ? { measures: (d.measures || []).filter((_: any, j: number) => j !== +sel.id) } : null,
+  remove: (d, sel) => {
+    if (sel.kind === 'bar') return d.barLocked ? null : { barHidden: true };
+    if (sel.kind === 'shape') { const s = (d.shapes || []).find((q: any) => q.id === sel.id); return s && !s.locked ? { shapes: d.shapes.filter((q: any) => q !== s) } : null; }
+    return null;
+  },
+  duplicate: (d, sel) => {
+    if (sel.kind !== 'shape') return null;
+    const shapes = d.shapes || [], s = shapes.find((q: any) => q.id === sel.id); if (!s) return null;
+    let n = shapes.length + 1; while (shapes.some((q: any) => q.id === 'g' + n)) n++;
+    const c = { ...moveShape(s, 16, 16), id: 'g' + n, name: undefined, locked: false };
+    return { patch: { shapes: [...shapes, c] }, sel: { kind: 'shape', id: c.id } };
+  },
   Render: ({ data }) => <ScaleRender data={data} />,
 };
 
