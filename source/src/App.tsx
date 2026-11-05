@@ -18,11 +18,12 @@ import { pkpd } from './editors/pkpd';
 import { sar } from './editors/sar';
 import { mechanism } from './editors/mech';
 import { popdyn } from './editors/popdyn';
+import { workflow } from './editors/workflow';
 import { ICON_LIBRARY, IconLibraryPage, IconLibraryThumb } from './iconLibrary';
 
 const EDITORS: EditorDef[] = [wheel, phylo, flow, pedigree, foodweb, punnett, pyramid, dkey, iceberg, scalebar, gradient];
 const PATHWAY = { id: 'biological-pathway', num: '12', name: 'Biological pathway', field: 'Cells and measurement', blurb: 'Signalling and metabolic pathways with compartments, 80 BioRender icons and a Claude first draft.' };
-const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn];
+const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow];
 const FIELDS = ['All', 'Methods', 'Evolution and genetics', 'Ecology', 'Cells and measurement', 'Pharmacology'];
 
 const WORDS: any = { 15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen', 20: 'Twenty', 21: 'Twenty-one', 22: 'Twenty-two' };
@@ -123,7 +124,7 @@ export default function App() {
   const go = (next: string) => { location.hash = next ? next : ''; setId(next); window.scrollTo(0, 0); };
   if (id === PATHWAY.id) return <PathwayFrame onHome={() => go('')} />;
   if (id === ICON_LIBRARY.id) return <IconLibraryPage onHome={() => go('')} />;
-  const def = EDITORS.concat(productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn).find(e => e.id === id);
+  const def = EDITORS.concat(productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow).find(e => e.id === id);
   if (def) return <EditorShell key={def.id} def={def} onHome={() => go('')} />;
   return <Home />;
 }

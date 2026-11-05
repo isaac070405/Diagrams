@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 21 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 22 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -25,7 +25,21 @@ Download the latest build from the Releases page.
 | 08 | Dichotomous key | 19 | SAR scheme |
 | 09 | Iceberg model | 20 | Curly-arrow mechanism |
 | 10 | Histological image | 21 | Population over time |
-| 11 | Gradient bar | | |
+| 11 | Gradient bar | 22 | Experimental workflow |
+
+## Experimental workflow
+
+Step-by-step method figures: numbered step cards with a pictogram, a short description and a time or condition, followed by the figures that explain the method. Ten starting points:
+
+- **ELISA:** direct, indirect, sandwich and competitive, each with a well cross-section that shows the antibody layers and a 96-well plate map (standards, blank, samples).
+- **Flow cytometry:** fluidics and optics, and a three-plot gating strategy with counted percentages.
+- **LDH assay:** the coupled reaction scheme (LDH, NAD⁺/NADH, diaphorase, INT to formazan) and a plate map with the assay controls.
+- **DNA isolation:** silica spin-column steps.
+- **PCR:** one-cycle schematic, thermal profile and doubling plot from the temperatures, times and cycle number you enter.
+- **Gel electrophoresis:** a gel image from band sizes in bp, with a ladder on a log scale.
+- **Titration:** the curve for a strong or weak acid against a strong base, with the equivalence point and an indicator range.
+
+Steps can be added, reordered and given any of 34 pictograms. Figures are switched on in the sidebar and printed under the steps.
 
 ## Icon library
 

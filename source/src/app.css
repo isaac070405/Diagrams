@@ -298,3 +298,37 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-lib-dl { font: 600 11px/1 var(--font-ui-condensed); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-700); opacity: 0; }
 .mk-lib-tile:hover .mk-lib-dl, .mk-lib-tile:focus-visible .mk-lib-dl { opacity: 1; }
 @media (hover: none) { .mk-lib-dl { opacity: 1; } }
+
+/* ---------- experimental workflow (22) ---------- */
+.wf { font-family: var(--font-arial, Arial, sans-serif); }
+.wf-line, .wf-outline, .wf-thin, .wf-strand, .wf-ab, .wf-flow, .wf-axisline, .wf-grid, .wf-guide, .wf-profile, .wf-primer, .wf-gate { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.wf-line { stroke: var(--ink); stroke-width: 1.6; }
+.wf-outline { stroke: var(--ink); stroke-width: 1.6; }
+.wf-thin { stroke: var(--ink); stroke-width: 1.1; }
+.wf-strand { stroke-width: 2.4; }
+.wf-ab { stroke-width: 3.6; stroke-linecap: round; }
+.wf-enz { font: 700 8px/1 var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-art-text { font: 600 9px/1 var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-box { fill: var(--paper); stroke: var(--neutral-400); stroke-width: 1.2; }
+.wf-badge { fill: var(--ink); }
+.wf-badge-text { font: 700 12px/1 var(--font-arial, Arial, sans-serif); fill: var(--paper); }
+.wf-title { font: 700 14px/17px var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-detail { font: 400 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--neutral-700); }
+.wf-time { font: italic 400 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--accent-700); }
+.wf-flow { stroke: var(--ink); stroke-width: 1.6; }
+.wf-fig-head { font: 700 14px/18px var(--font-arial, Arial, sans-serif); fill: var(--ink); letter-spacing: .01em; }
+.wf-fig-rule { stroke: var(--neutral-400); stroke-width: 1; }
+.wf-fig-text, .wf-leg { font: 400 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-fig-bold { font: 700 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-leg-sub { font: 400 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--neutral-700); }
+.wf-axis { font: 400 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--neutral-700); }
+.wf-axisline { stroke: var(--ink); stroke-width: 1.2; }
+.wf-grid { stroke: var(--neutral-200); stroke-width: 1; }
+.wf-guide { stroke: var(--neutral-600); stroke-width: 1; stroke-dasharray: 4 3; }
+.wf-profile { stroke: var(--accent-700); stroke-width: 2.4; }
+.wf-primer { stroke-width: 3.4; }
+.wf-well { font: 600 8.5px/1 var(--font-arial, Arial, sans-serif); }
+.wf-gate { stroke: var(--swatch-11); stroke-width: 1.6; }
+.wf-gate-text { font: 700 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--swatch-11); }
+.wf-oval { font: 700 12.5px/15px var(--font-arial, Arial, sans-serif); fill: #fff; }
+.wf-gate-text { paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
