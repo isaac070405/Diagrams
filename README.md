@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 22 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 24 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -26,10 +26,19 @@ Download the latest build from the Releases page.
 | 09 | Iceberg model | 20 | Curly-arrow mechanism |
 | 10 | Histological image | 21 | Population over time |
 | 11 | Gradient bar | 22 | Experimental workflow |
+| 23 | Well plate labelling | 24 | Gels and blots |
 
 ## Gradient bar
 
 The bar can be drawn as a thin line instead. In the Bar panel choose Line only: the line keeps the palette, ticks, items and end labels. The starting point "pH scale, line only" shows a red (acidic) to green (neutral, pH 7) to purple (basic) line from 0 to 14.
+
+## Well plate labelling
+
+6, 12, 24 and 96-well plates. Pick a group, then click wells on the sheet to paint them. Click a row letter or a column number to paint the whole row or column. Text inside wells comes from lines such as `A1:A8 | S1`. Four starting points: a 96-well ELISA layout and 6, 12 and 24-well plates.
+
+## Gels and blots
+
+SDS-PAGE gels and Western (protein), Eastern (modified protein), Southern (DNA) and Northern (RNA) blots. Lane 1 is the ladder, lane 2 the control, the rest are treatments, with at least two lanes. Cathode (−) is at the top and anode (+) at the bottom. Units are kDa, Da, kb or bp. Band height follows size on a log scale. Arrows point at named bands.
 
 ## Experimental workflow
 
