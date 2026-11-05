@@ -350,7 +350,7 @@ function GbSelected({ data, set, sel, setSel }: EditProps) {
 
 export const gradient: EditorDef = {
   hint: 'Click an item marker on the bar to edit it; drag it along the bar to change its value.',
-  blank: { palette: 'viridis', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 600, thickness: 24, fontSize: 12, startLabel: 'Low', endLabel: 'High', scaleName: '', from: 0, to: 100, step: 10, minor: 0, format: 'number', named: '', items: '', zones: '', arrows: '' },
+  blank: { palette: 'viridis', barStyle: 'bar', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 600, thickness: 24, fontSize: 12, startLabel: 'Low', endLabel: 'High', scaleName: '', from: 0, to: 100, step: 10, minor: 0, format: 'number', named: '', items: '', zones: '', arrows: '' },
   Overlay: GbOverlay,
   findText: (d, text) => { const it = gbItems(d).find(x => x.label === text.trim()); return it ? { kind: 'item', id: String(it.i) } : null; },
   remove: (d, sel) => sel.kind === 'item' ? { items: lines(d.items).filter((_, j) => j !== +sel.id).join('\n') } : null,
@@ -364,6 +364,10 @@ export const gradient: EditorDef = {
         scaleName: 'pH', from: 0, to: 14, step: 1, minor: 0, format: 'number', named: '',
         items: 'Gastric acid | 1.5\nLemon juice | 2.2\nVinegar | 2.9\nOrange juice | 3.5\nBlack coffee | 5\nMilk | 6.6\nPure water | 7\nBlood | 7.4\nSea water | 8.1\nBaking soda | 8.3\nSoap | 10\nAmmonia | 11.6\nBleach | 12.6\nLye | 13.5',
         zones: '', arrows: 'more acidic | 7 | 0 | bold\nmore basic | 7 | 14 | bold' } },
+    { name: 'pH scale, line only', desc: 'Thin red to green to purple line: acidic, neutral, basic', title: 'The pH scale',
+      data: { palette: 'ph', barStyle: 'line', orient: 'h', flip: false, bands: 0, dividers: false, outline: false, length: 700, thickness: 26, fontSize: 13, startLabel: 'Acidic', endLabel: 'Basic',
+        scaleName: '', from: 0, to: 14, step: 1, minor: 0, format: 'number', named: '',
+        items: 'Neutral | 7', zones: '', arrows: '' } },
     { name: 'Water temperature', desc: 'Ice, liquid water and steam in °C', title: 'States of water at sea level',
       data: { palette: 'temp', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 600, thickness: 22, fontSize: 12, startLabel: '', endLabel: '',
         scaleName: '°C', from: -20, to: 110, step: 20, minor: 1, format: 'number', named: '',
@@ -383,12 +387,13 @@ export const gradient: EditorDef = {
       <S.Panel kicker="Bar">
         <Seg wrap value={data.palette} options={[['viridis', 'Viridis'], ['steel', 'Steel'], ['grey', 'Grey'], ['diverge', 'Diverging'], ['temp', 'Temperature'], ['ph', 'pH'], ['rg', 'Red–green'], ['spectrum', 'Spectrum']]} onChange={v => set({ palette: v })} />
         <p className="sd-help">Prefer viridis or steel unless the colours are the science (pH indicator, visible spectrum).</p>
+        <Seg value={data.barStyle === 'line' ? 'line' : 'bar'} options={[['bar', 'Bar'], ['line', 'Line only']]} onChange={v => set({ barStyle: v, outline: v === 'line' ? false : data.outline })} />
         <Seg value={data.orient} options={[['h', 'Horizontal'], ['v', 'Vertical']]} onChange={v => set({ orient: v })} />
         <Toggle on={data.flip} label="Flip direction" onChange={v => set({ flip: v })} />
-        <Range id="gb-bands" label="Bands (0 = smooth)" value={num(data.bands, 0)} min={0} max={14} onChange={v => set({ bands: v }, 'bands')} />
-        <Toggle on={data.dividers} label="Lines between bands" onChange={v => set({ dividers: v })} />
+        {data.barStyle === 'line' ? null : <><Range id="gb-bands" label="Bands (0 = smooth)" value={num(data.bands, 0)} min={0} max={14} onChange={v => set({ bands: v }, 'bands')} />
+        <Toggle on={data.dividers} label="Lines between bands" onChange={v => set({ dividers: v })} /></>}
         <Range id="gb-len" label="Length" value={num(data.length, 600)} min={240} max={900} step={10} onChange={v => set({ length: v }, 'len')} />
-        <Range id="gb-th" label="Thickness" value={num(data.thickness, 24)} min={6} max={90} onChange={v => set({ thickness: v }, 'th')} />
+        {data.barStyle === 'line' ? null : <Range id="gb-th" label="Thickness" value={num(data.thickness, 24)} min={6} max={90} onChange={v => set({ thickness: v }, 'th')} />}
         <Range id="gb-fs" label="Text size" value={num(data.fontSize, 12)} min={9} max={28} onChange={v => set({ fontSize: v }, 'fs')} />
       </S.Panel>
       <S.Panel kicker="End labels">
@@ -435,7 +440,7 @@ export const gradient: EditorDef = {
     const zones = lines(data.zones).map(l => { const [label, a, b] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN) }; }).filter(z => isFinite(z.from) && isFinite(z.to));
     const arrows = lines(data.arrows).map(l => { const [label, a, b, st] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN), style: st === 'bold' ? 'bold' : 'thin' }; }).filter(z => isFinite(z.from) && isFinite(z.to));
     return <S.GradientBar x={0} y={0} length={num(data.length, 600)} thickness={num(data.thickness, 24)} orient={data.orient} flip={data.flip} palette={data.palette}
-      bands={num(data.bands, 0) || undefined} dividers={data.dividers} outline={data.outline} fontSize={num(data.fontSize, 12)}
+      lineOnly={data.barStyle === 'line'} bands={data.barStyle === 'line' ? undefined : (num(data.bands, 0) || undefined)} dividers={data.dividers} outline={data.outline} fontSize={num(data.fontSize, 12)}
       startLabel={data.startLabel || undefined} endLabel={data.endLabel || undefined} scales={[sc]} items={items} zones={zones} arrows={arrows} />;
   },
 };

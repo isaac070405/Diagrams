@@ -310,7 +310,7 @@
   function fmtV(v) { var r = Math.round(v * 1e6) / 1e6; if (Object.is(r, -0)) r = 0; return String(r).replace('-', '−'); }
 
   function GradientBar(p) {
-    var H = (p.orient || 'h') === 'h', L = p.length || 800, T = p.thickness || 28, fs = p.fontSize || 14, edge = T / 2;
+    var H = (p.orient || 'h') === 'h', L = p.length || 800, T = p.lineOnly ? (p.lineWidth || 5) : (p.thickness || 28), fs = p.fontSize || 14, edge = T / 2;
     var X = p.x || 0, Y = p.y || 0, flip = !!p.flip, out = [], key = 0;
     var stops = p.stops || PALETTES[p.palette || 'steel'] || PALETTES.steel;
     var scales = (p.scales || []).map(function (s) { return Object.assign({ side: 'b', format: 'number', from: 0, to: 100, step: 10, minor: 0, labels: '', titlePos: 'start', name: '' }, s); });
@@ -340,7 +340,7 @@
       var id = 'sd-grad-' + (++gid), g0 = pt(0, 0), g1 = pt(L, 0);
       out.push(h('defs', { key: K() }, h('linearGradient', { id: id, gradientUnits: 'userSpaceOnUse', x1: g0[0], y1: g0[1], x2: g1[0], y2: g1[1] },
         stops.map(function (s, k) { return h('stop', { key: k, offset: s[0], style: { stopColor: p.palette && !p.stops ? 'var(--grad-' + p.palette + '-' + (k + 1) + ', ' + s[1] + ')' : s[1] } }); }))));
-      out.push(h('rect', { key: K(), x: rx, y: ry, width: rw, height: rh, fill: 'url(#' + id + ')' }));
+      out.push(h('rect', { key: K(), x: rx, y: ry, width: rw, height: rh, rx: p.lineOnly ? T / 2 : undefined, fill: 'url(#' + id + ')' }));
     }
     if (p.outline) out.push(h('rect', { key: K(), className: 'sd-gb-outline', x: rx, y: ry, width: rw, height: rh }));
 
