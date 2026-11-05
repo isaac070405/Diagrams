@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { S } from '../sheet';
 import { cells, EmptyHint, lines, num, Range, RowsText, Seg, Spec, startDrag, Swatches, Toggle } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
@@ -368,6 +368,68 @@ function PalettePicker(p: { value: string; onChange: (v: string) => void }) {
   );
 }
 
+/* ---------- colour stops: a strip with draggable handles ---------- */
+type Stop = [number, string];
+const hex2 = (n: number) => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
+function toHex(c: string): string {
+  const m = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/.exec(c);
+  return m ? '#' + hex2(+m[1]) + hex2(+m[2]) + hex2(+m[3]) : (/^#[0-9a-f]{6}$/i.test(c) ? c.toLowerCase() : '#888888');
+}
+function stopsOf(d: any): Stop[] {
+  const own = Array.isArray(d.stops) && d.stops.length >= 2 ? d.stops : null;
+  const base = own || (S && S.PALETTES && S.PALETTES[d.palette]) || [[0, '#ffffff'], [1, '#1d1f20']];
+  return base.map((x: any) => [num(x[0], 0), toHex(String(x[1]))] as Stop);
+}
+const stopCss = (st: Stop[]) => 'linear-gradient(90deg,' + st.slice().sort((a, b) => a[0] - b[0]).map(x => x[1] + ' ' + x[0] * 100 + '%').join(',') + ')';
+const pct = (v: number) => Math.round(v * 1000) / 10;
+
+function ColourStops({ data, set }: EditProps) {
+  const stops = stopsOf(data);
+  const [sel, setSelIdx] = useState(0);
+  const strip = useRef<HTMLDivElement>(null);
+  const cur = Math.min(sel, stops.length - 1), st = stops[cur];
+  const write = (next: Stop[], key?: string) => set({ stops: next.map(x => [x[0], x[1]]) }, key);
+  const posAt = (clientX: number) => { const r = strip.current!.getBoundingClientRect(); return Math.max(0, Math.min(1, Math.round((clientX - r.left) / (r.width || 1) * 1000) / 1000)); };
+  const drag = (e: React.PointerEvent, i: number) => {
+    e.preventDefault(); e.stopPropagation(); setSelIdx(i);
+    const el = e.currentTarget as HTMLElement; el.setPointerCapture(e.pointerId);
+    const move = (ev: PointerEvent) => write(stops.map((x, j) => j === i ? [posAt(ev.clientX), x[1]] as Stop : x), 'stops-drag');
+    const up = () => { el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
+    el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  };
+  const addAt = (t: number) => {
+    const c = toHex(S && S.colorAt ? S.colorAt(stops, t) : '#888888');
+    write([...stops, [t, c]]); setSelIdx(stops.length);
+  };
+  const stepped = num(data.bands, 0) > 0;
+  return (
+    <S.Panel kicker="Colours" help="Click the strip to add a colour stop. Drag a stop to move it, or pick it and change its colour and position.">
+      <div className="mk-stops" ref={strip} onPointerDown={e => { if (e.target === e.currentTarget) addAt(posAt(e.clientX)); }} style={{ background: stopCss(stops) }}>
+        {stops.map((x, i) => (
+          <div key={i} className="mk-stop" role="slider" tabIndex={0} aria-label={'Colour stop ' + (i + 1)} aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct(x[0])}
+            data-on={i === cur ? '1' : '0'} style={{ left: x[0] * 100 + '%', background: x[1] }}
+            onPointerDown={e => drag(e, i)} onFocus={() => setSelIdx(i)}
+            onKeyDown={e => { const k = e.key === 'ArrowLeft' ? -0.01 : e.key === 'ArrowRight' ? 0.01 : 0; if (k) { e.preventDefault(); write(stops.map((y, j) => j === i ? [Math.max(0, Math.min(1, Math.round((y[0] + k) * 1000) / 1000)), y[1]] as Stop : y), 'stops-key'); } }} />
+        ))}
+      </div>
+      <div className="mk-stop-row">
+        <input type="color" className="mk-stop-color" aria-label="Colour of the selected stop" value={st[1]} onChange={e => write(stops.map((x, j) => j === cur ? [x[0], e.target.value] as Stop : x), 'stops-col')} />
+        <S.Field id="gb-stop-pos" label="Position" value={String(pct(st[0]))} onChange={(e: any) => { const v = parseFloat(e.target.value); write(stops.map((x, j) => j === cur ? [isFinite(v) ? Math.max(0, Math.min(1, v / 100)) : x[0], x[1]] as Stop : x), 'stops-pos'); }} />
+        <span className="mk-stop-unit">%</span>
+        <S.ToolButton compact onClick={() => { if (stops.length > 2) { write(stops.filter((_, j) => j !== cur)); setSelIdx(Math.max(0, cur - 1)); } }}>Remove</S.ToolButton>
+      </div>
+      <PalettePicker value={data.stops ? '' : data.palette} onChange={v => { set({ palette: v, stops: undefined }); setSelIdx(0); }} />
+      {data.barStyle === 'line' ? null : <>
+        <Seg value={stepped ? 'step' : 'smooth'} options={[['smooth', 'Smooth'], ['step', 'Stepped bands']]} onChange={v => set({ bands: v === 'smooth' ? 0 : (num(data.bands, 0) > 0 ? num(data.bands, 5) : 5) })} />
+        {stepped ? <>
+          <Range id="gb-bands" label="Bands" value={num(data.bands, 5)} min={2} max={14} onChange={v => set({ bands: v }, 'bands')} />
+          <Toggle on={data.dividers} label="Lines between bands" onChange={v => set({ dividers: v })} />
+        </> : null}
+      </>}
+    </S.Panel>
+  );
+}
+
 export const gradient: EditorDef = {
   hint: 'Click an item marker on the bar to edit it; drag it along the bar to change its value.',
   blank: { palette: 'viridis', barStyle: 'bar', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 600, thickness: 24, fontSize: 12, startLabel: 'Low', endLabel: 'High', scaleName: '', scaleSide: 'b', scaleTitle: 'start', start: '', scales2: '', scales2First: false, from: 0, to: 100, step: 10, minor: 0, format: 'number', named: '', items: '', zones: '', arrows: '' },
@@ -423,14 +485,11 @@ export const gradient: EditorDef = {
   Controls: (ep) => { const { data, set } = ep; return (
     <>
       <GbSelected {...ep} />
+      <ColourStops {...ep} />
       <S.Panel kicker="Bar">
-        <PalettePicker value={data.palette} onChange={v => set({ palette: v })} />
-        <p className="sd-help">Prefer Viridis or Steel unless the colours are the science (pH indicator, visible light).</p>
         <Seg value={data.barStyle === 'line' ? 'line' : 'bar'} options={[['bar', 'Bar'], ['line', 'Line only']]} onChange={v => set({ barStyle: v, outline: v === 'line' ? false : data.outline })} />
         <Seg value={data.orient} options={[['h', 'Horizontal'], ['v', 'Vertical']]} onChange={v => set({ orient: v })} />
         <Toggle on={data.flip} label="Flip direction" onChange={v => set({ flip: v })} />
-        {data.barStyle === 'line' ? null : <><Range id="gb-bands" label="Bands (0 = smooth)" value={num(data.bands, 0)} min={0} max={14} onChange={v => set({ bands: v }, 'bands')} />
-        <Toggle on={data.dividers} label="Lines between bands" onChange={v => set({ dividers: v })} /></>}
         <Range id="gb-len" label="Length" value={num(data.length, 600)} min={240} max={900} step={10} onChange={v => set({ length: v }, 'len')} />
         {data.barStyle === 'line' ? null : <Range id="gb-th" label="Thickness" value={num(data.thickness, 24)} min={6} max={90} onChange={v => set({ thickness: v }, 'th')} />}
         <Range id="gb-fs" label="Text size" value={num(data.fontSize, 12)} min={9} max={28} onChange={v => set({ fontSize: v }, 'fs')} />
@@ -491,7 +550,7 @@ export const gradient: EditorDef = {
     const items = lines(data.items).map(l => { const [label, v, mk, sd] = cells(l); return { label, value: num(v, NaN), marker: mk === 'arrow' ? 'arrow' : undefined, side: sd === 'b' ? 'b' : 'a' }; }).filter(i => isFinite(i.value));
     const zones = lines(data.zones).map(l => { const [label, a, b, sd] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN), side: sd === 'a' ? 'a' : 'b' }; }).filter(z => isFinite(z.from) && isFinite(z.to));
     const arrows = lines(data.arrows).map(l => { const [label, a, b, st, sd] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN), style: st === 'bold' ? 'bold' : 'thin', side: sd === 'a' ? 'a' : 'b' }; }).filter(z => isFinite(z.from) && isFinite(z.to));
-    return <S.GradientBar x={0} y={0} length={num(data.length, 600)} thickness={num(data.thickness, 24)} orient={data.orient} flip={data.flip} palette={data.palette}
+    return <S.GradientBar x={0} y={0} length={num(data.length, 600)} thickness={num(data.thickness, 24)} orient={data.orient} flip={data.flip} palette={data.palette} stops={Array.isArray(data.stops) && data.stops.length >= 2 ? stopsOf(data).sort((a, b) => a[0] - b[0]) : undefined}
       lineOnly={data.barStyle === 'line'} bands={data.barStyle === 'line' ? undefined : (num(data.bands, 0) || undefined)} dividers={data.dividers} outline={data.outline} fontSize={num(data.fontSize, 12)}
       startLabel={data.startLabel || undefined} endLabel={data.endLabel || undefined} domain={[from, to]} scales={scales} items={items} zones={zones} arrows={arrows} />;
   },
