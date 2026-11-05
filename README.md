@@ -27,6 +27,10 @@ Download the latest build from the Releases page.
 | 10 | Histological image | 21 | Population over time |
 | 11 | Gradient bar | 22 | Experimental workflow |
 
+## Gradient bar
+
+The bar can be drawn as a thin line instead. In the Bar panel choose Line only: the line keeps the palette, ticks, items and end labels. The starting point "pH scale, line only" shows a red (acidic) to green (neutral, pH 7) to purple (basic) line from 0 to 14.
+
 ## Experimental workflow
 
 Step-by-step method figures: numbered step cards with a pictogram, a short description and a time or condition, followed by the figures that explain the method. Ten starting points:
