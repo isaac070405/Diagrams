@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { S } from '../sheet';
 import { cells, EmptyHint, lines, num, Range, RowsText, Seg, Spec, startDrag, Swatches, Toggle } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
@@ -306,13 +306,16 @@ export const scalebar: EditorDef = {
 /* ===================== 11 Gradient bar ===================== */
 
 /* ---------- gradient bar: items as draggable markers ---------- */
+/* A row's last cell may name its side: a = top (left on a vertical bar), b = bottom (right). Trailing empty cells are dropped. */
+const rowText = (a: any[]) => { const r = a.map(x => x == null ? '' : String(x)); while (r.length && r[r.length - 1] === '') r.pop(); return r.join(' | '); };
+const sideOf = (x: string) => x === 'a' || x === 'b' ? x : '';
 function gbItems(d: any) {
   /* index = the item line's position among item lines, so edits write back to the right line */
-  return lines(d.items).map((l, i) => { const [label, v, mk] = cells(l); return { i, label, value: num(v, NaN), marker: mk === 'arrow' ? 'arrow' : 'pin' }; }).filter(x => isFinite(x.value));
+  return lines(d.items).map((l, i) => { const [label, v, mk, sd] = cells(l); return { i, label, value: num(v, NaN), marker: mk === 'arrow' ? 'arrow' : 'pin', side: sideOf(sd) || 'a' }; }).filter(x => isFinite(x.value));
 }
 function gbWrite(d: any, i: number, patch: any) {
   const ls = lines(d.items);
-  return { items: ls.map((l, j) => { if (j !== i) return l; const [label, v, mk] = cells(l); const r = { label, value: v, marker: mk === 'arrow' ? 'arrow' : '', ...patch }; return [r.label, r.value, r.marker === 'arrow' ? 'arrow' : ''].filter(x => x !== '' && x != null).join(' | '); }).join('\n') };
+  return { items: ls.map((l, j) => { if (j !== i) return l; const [label, v, mk, sd] = cells(l); const r = { label, value: v, marker: mk === 'arrow' ? 'arrow' : '', side: sideOf(sd), ...patch }; return rowText([r.label, r.value, r.marker === 'arrow' ? 'arrow' : (r.side ? 'pin' : ''), r.side]); }).join('\n') };
 }
 function gbGeom(d: any) {
   const L = num(d.length, 600), T = num(d.thickness, 24), H = (d.orient || 'h') === 'h', flip = !!d.flip, from = num(d.from, 0), to = num(d.to, 10);
@@ -325,7 +328,7 @@ const round3 = (v: number, span: number) => { const s = Math.pow(10, Math.floor(
 function GbOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }) {
   const g = gbGeom(data);
   return <>{gbItems(data).map(it => {
-    const q = g.pt(g.pu(it.value), -(g.T / 2 + 10)), on = sel && sel.kind === 'item' && sel.id === String(it.i);
+    const q = g.pt(g.pu(it.value), (it.side === 'b' ? 1 : -1) * (g.T / 2 + 10)), on = sel && sel.kind === 'item' && sel.id === String(it.i);
     const w = g.H ? 16 : 34, hh = g.H ? 34 : 16;
     return <rect key={it.i} className={'mk-hit' + (on ? ' mk-on' : '')} x={q[0] - w / 2} y={q[1] - hh / 2} width={w} height={hh} style={{ cursor: g.H ? 'ew-resize' : 'ns-resize' }}
       onPointerDown={e => {
@@ -348,9 +351,88 @@ function GbSelected({ data, set, sel, setSel }: EditProps) {
   );
 }
 
+const PALETTE_NAMES: [string, string][] = [['ph', 'pH indicator'], ['diverge', 'Red – blue'], ['rg', 'Red – green'], ['temp', 'Cold – hot'], ['spectrum', 'Visible light'], ['viridis', 'Viridis'], ['steel', 'Steel'], ['grey', 'White – black']];
+/* Each preset is a button with a preview strip of its colours above its name. */
+function PalettePicker(p: { value: string; onChange: (v: string) => void }) {
+  const all = (S && S.PALETTES) || {};
+  const css = (k: string) => 'linear-gradient(90deg,' + (all[k] || []).map((st: any) => st[1] + ' ' + st[0] * 100 + '%').join(',') + ')';
+  return (
+    <div className="mk-pal">
+      {PALETTE_NAMES.map(([k, l]) => (
+        <button key={k} type="button" className="mk-pal-btn" data-on={p.value === k ? '1' : '0'} aria-pressed={p.value === k} onClick={() => p.onChange(k)}>
+          <span className="mk-pal-strip" style={{ background: css(k) }} />
+          <span className="mk-pal-name">{l}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- colour stops: a strip with draggable handles ---------- */
+type Stop = [number, string];
+const hex2 = (n: number) => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0');
+function toHex(c: string): string {
+  const m = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/.exec(c);
+  return m ? '#' + hex2(+m[1]) + hex2(+m[2]) + hex2(+m[3]) : (/^#[0-9a-f]{6}$/i.test(c) ? c.toLowerCase() : '#888888');
+}
+function stopsOf(d: any): Stop[] {
+  const own = Array.isArray(d.stops) && d.stops.length >= 2 ? d.stops : null;
+  const base = own || (S && S.PALETTES && S.PALETTES[d.palette]) || [[0, '#ffffff'], [1, '#1d1f20']];
+  return base.map((x: any) => [num(x[0], 0), toHex(String(x[1]))] as Stop);
+}
+const stopCss = (st: Stop[]) => 'linear-gradient(90deg,' + st.slice().sort((a, b) => a[0] - b[0]).map(x => x[1] + ' ' + x[0] * 100 + '%').join(',') + ')';
+const pct = (v: number) => Math.round(v * 1000) / 10;
+
+function ColourStops({ data, set }: EditProps) {
+  const stops = stopsOf(data);
+  const [sel, setSelIdx] = useState(0);
+  const strip = useRef<HTMLDivElement>(null);
+  const cur = Math.min(sel, stops.length - 1), st = stops[cur];
+  const write = (next: Stop[], key?: string) => set({ stops: next.map(x => [x[0], x[1]]) }, key);
+  const posAt = (clientX: number) => { const r = strip.current!.getBoundingClientRect(); return Math.max(0, Math.min(1, Math.round((clientX - r.left) / (r.width || 1) * 1000) / 1000)); };
+  const drag = (e: React.PointerEvent, i: number) => {
+    e.preventDefault(); e.stopPropagation(); setSelIdx(i);
+    const el = e.currentTarget as HTMLElement; el.setPointerCapture(e.pointerId);
+    const move = (ev: PointerEvent) => write(stops.map((x, j) => j === i ? [posAt(ev.clientX), x[1]] as Stop : x), 'stops-drag');
+    const up = () => { el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
+    el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+  };
+  const addAt = (t: number) => {
+    const c = toHex(S && S.colorAt ? S.colorAt(stops, t) : '#888888');
+    write([...stops, [t, c]]); setSelIdx(stops.length);
+  };
+  const stepped = num(data.bands, 0) > 0;
+  return (
+    <S.Panel kicker="Colours" help="Click the strip to add a colour stop. Drag a stop to move it, or pick it and change its colour and position.">
+      <div className="mk-stops" ref={strip} onPointerDown={e => { if (e.target === e.currentTarget) addAt(posAt(e.clientX)); }} style={{ background: stopCss(stops) }}>
+        {stops.map((x, i) => (
+          <div key={i} className="mk-stop" role="slider" tabIndex={0} aria-label={'Colour stop ' + (i + 1)} aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct(x[0])}
+            data-on={i === cur ? '1' : '0'} style={{ left: x[0] * 100 + '%', background: x[1] }}
+            onPointerDown={e => drag(e, i)} onFocus={() => setSelIdx(i)}
+            onKeyDown={e => { const k = e.key === 'ArrowLeft' ? -0.01 : e.key === 'ArrowRight' ? 0.01 : 0; if (k) { e.preventDefault(); write(stops.map((y, j) => j === i ? [Math.max(0, Math.min(1, Math.round((y[0] + k) * 1000) / 1000)), y[1]] as Stop : y), 'stops-key'); } }} />
+        ))}
+      </div>
+      <div className="mk-stop-row">
+        <input type="color" className="mk-stop-color" aria-label="Colour of the selected stop" value={st[1]} onChange={e => write(stops.map((x, j) => j === cur ? [x[0], e.target.value] as Stop : x), 'stops-col')} />
+        <S.Field id="gb-stop-pos" label="Position" value={String(pct(st[0]))} onChange={(e: any) => { const v = parseFloat(e.target.value); write(stops.map((x, j) => j === cur ? [isFinite(v) ? Math.max(0, Math.min(1, v / 100)) : x[0], x[1]] as Stop : x), 'stops-pos'); }} />
+        <span className="mk-stop-unit">%</span>
+        <S.ToolButton compact onClick={() => { if (stops.length > 2) { write(stops.filter((_, j) => j !== cur)); setSelIdx(Math.max(0, cur - 1)); } }}>Remove</S.ToolButton>
+      </div>
+      <PalettePicker value={data.stops ? '' : data.palette} onChange={v => { set({ palette: v, stops: undefined }); setSelIdx(0); }} />
+      {data.barStyle === 'line' ? null : <>
+        <Seg value={stepped ? 'step' : 'smooth'} options={[['smooth', 'Smooth'], ['step', 'Stepped bands']]} onChange={v => set({ bands: v === 'smooth' ? 0 : (num(data.bands, 0) > 0 ? num(data.bands, 5) : 5) })} />
+        {stepped ? <>
+          <Range id="gb-bands" label="Bands" value={num(data.bands, 5)} min={2} max={14} onChange={v => set({ bands: v }, 'bands')} />
+          <Toggle on={data.dividers} label="Lines between bands" onChange={v => set({ dividers: v })} />
+        </> : null}
+      </>}
+    </S.Panel>
+  );
+}
+
 export const gradient: EditorDef = {
   hint: 'Click an item marker on the bar to edit it; drag it along the bar to change its value.',
-  blank: { palette: 'viridis', barStyle: 'bar', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 600, thickness: 24, fontSize: 12, startLabel: 'Low', endLabel: 'High', scaleName: '', from: 0, to: 100, step: 10, minor: 0, format: 'number', named: '', items: '', zones: '', arrows: '' },
+  blank: { palette: 'viridis', barStyle: 'bar', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 600, thickness: 24, fontSize: 12, startLabel: 'Low', endLabel: 'High', scaleName: '', scaleSide: 'b', scaleTitle: 'start', start: '', scales2: '', scales2First: false, from: 0, to: 100, step: 10, minor: 0, format: 'number', named: '', items: '', zones: '', arrows: '' },
   Overlay: GbOverlay,
   findText: (d, text) => { const it = gbItems(d).find(x => x.label === text.trim()); return it ? { kind: 'item', id: String(it.i) } : null; },
   remove: (d, sel) => sel.kind === 'item' ? { items: lines(d.items).filter((_, j) => j !== +sel.id).join('\n') } : null,
@@ -379,19 +461,35 @@ export const gradient: EditorDef = {
     { name: 'Ocean depth zones', desc: 'Vertical bar, sunlit to hadal', title: 'Ocean zones by depth',
       data: { palette: 'steel', orient: 'v', flip: true, bands: 0, dividers: false, outline: true, length: 520, thickness: 26, fontSize: 12, startLabel: 'Surface', endLabel: 'Trench floor',
         scaleName: 'Depth (m)', from: 0, to: 11000, step: 2000, minor: 0, format: 'number', named: '',
-        items: 'Sperm whale dive | 2250\nTitanic wreck | 3800', zones: 'Sunlight | 0 | 200\nTwilight | 200 | 1000\nMidnight | 1000 | 4000\nAbyssal | 4000 | 6000\nHadal | 6000 | 11000', arrows: '' } }
+        items: 'Sperm whale dive | 2250\nTitanic wreck | 3800', zones: 'Sunlight | 0 | 200\nTwilight | 200 | 1000\nMidnight | 1000 | 4000\nAbyssal | 4000 | 6000\nHadal | 6000 | 11000', arrows: '' } },
+    { name: 'Visible light spectrum', desc: 'Colour names above the bar, wavelength below, energy arrows', title: 'Visible light spectrum',
+      data: { palette: 'spectrum', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 780, thickness: 40, fontSize: 13, startLabel: '', endLabel: '',
+        scaleName: 'Wavelength (nm)', scaleTitle: 'center', start: 400, from: 380, to: 750, step: 50, minor: 4, format: 'number', named: '',
+        items: '', zones: 'Violet | 380 | 450 | a\nBlue | 450 | 495 | a\nGreen | 495 | 570 | a\nYellow | 570 | 590 | a\nOrange | 590 | 620 | a\nRed | 620 | 750 | a',
+        arrows: 'higher energy | 565 | 380 | thin\nlower energy | 565 | 750 | thin' } },
+    { name: 'Percentage', desc: 'Steel bar, 0 to 100 %, bracketed halves and a target arrow', title: 'Percentage',
+      data: { palette: 'steel', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 780, thickness: 36, fontSize: 13, startLabel: '', endLabel: '',
+        scaleName: '%', from: 0, to: 100, step: 10, minor: 1, format: 'number', named: '',
+        items: 'Target | 75 | arrow', zones: 'Minority | 0 | 50\nMajority | 50 | 100', arrows: '' } },
+    { name: 'Temperature, °C and K', desc: 'Cold to hot bar with kelvin above, celsius below and the states of water', title: 'Temperature',
+      data: { palette: 'temp', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 780, thickness: 40, fontSize: 13, startLabel: '', endLabel: '',
+        scaleName: '°C', from: -20, to: 110, step: 10, minor: 1, format: 'number', named: '',
+        scales2: 'K | 260 | 380 | 10 | 0 | number | a | start | 273.15',
+        items: 'Water freezes | 0\nBody temperature | 37\nWater boils | 100', zones: 'Ice | -20 | 0\nLiquid water | 0 | 100\nSteam | 100 | 110', arrows: '' } },
+    { name: 'pH and pOH scale', desc: 'pH and [H⁺] below the bar, pOH and [OH⁻] above, acid and base arrows', title: 'pH and pOH scale',
+      data: { palette: 'ph', orient: 'h', flip: false, bands: 0, dividers: false, outline: true, length: 780, thickness: 34, fontSize: 13, startLabel: '', endLabel: '',
+        scaleName: 'pH', scaleTitle: 'center', from: 0, to: 14, step: 1, minor: 0, format: 'number', named: '', scales2First: true,
+        scales2: '[H^{+}] mol/L | 0 | -14 | 1 | 0 | power | b | start\n[OH^{-}] mol/L | -14 | 0 | 1 | 0 | power | a | start\npOH | 14 | 0 | 1 | 0 | number | a | center',
+        items: '', zones: '', arrows: 'more acidic | 7 | 0 | thin | a\nmore basic | 7 | 14 | thin | a\nmore acidic | 7 | 0 | thin\nmore basic | 7 | 14 | thin' } }
   ],
   Controls: (ep) => { const { data, set } = ep; return (
     <>
       <GbSelected {...ep} />
+      <ColourStops {...ep} />
       <S.Panel kicker="Bar">
-        <Seg wrap value={data.palette} options={[['viridis', 'Viridis'], ['steel', 'Steel'], ['grey', 'Grey'], ['diverge', 'Diverging'], ['temp', 'Temperature'], ['ph', 'pH'], ['rg', 'Red–green'], ['spectrum', 'Spectrum']]} onChange={v => set({ palette: v })} />
-        <p className="sd-help">Prefer viridis or steel unless the colours are the science (pH indicator, visible spectrum).</p>
         <Seg value={data.barStyle === 'line' ? 'line' : 'bar'} options={[['bar', 'Bar'], ['line', 'Line only']]} onChange={v => set({ barStyle: v, outline: v === 'line' ? false : data.outline })} />
         <Seg value={data.orient} options={[['h', 'Horizontal'], ['v', 'Vertical']]} onChange={v => set({ orient: v })} />
         <Toggle on={data.flip} label="Flip direction" onChange={v => set({ flip: v })} />
-        {data.barStyle === 'line' ? null : <><Range id="gb-bands" label="Bands (0 = smooth)" value={num(data.bands, 0)} min={0} max={14} onChange={v => set({ bands: v }, 'bands')} />
-        <Toggle on={data.dividers} label="Lines between bands" onChange={v => set({ dividers: v })} /></>}
         <Range id="gb-len" label="Length" value={num(data.length, 600)} min={240} max={900} step={10} onChange={v => set({ length: v }, 'len')} />
         {data.barStyle === 'line' ? null : <Range id="gb-th" label="Thickness" value={num(data.thickness, 24)} min={6} max={90} onChange={v => set({ thickness: v }, 'th')} />}
         <Range id="gb-fs" label="Text size" value={num(data.fontSize, 12)} min={9} max={28} onChange={v => set({ fontSize: v }, 'fs')} />
@@ -413,35 +511,48 @@ export const gradient: EditorDef = {
           <S.Field id="gb-minor" label="Minor ticks" value={data.minor} onChange={(e: any) => set({ minor: e.target.value }, 'minor')} />
         </div>
         <Seg value={data.format} options={[['number', '1, 2, 3'], ['power', '10ⁿ'], ['named', 'Named']]} onChange={v => set({ format: v })} />
+        <S.Field id="gb-start" label="First tick" value={data.start == null ? '' : data.start} placeholder="same as From" onChange={(e: any) => set({ start: e.target.value }, 'start')} />
+        <Seg value={data.scaleSide === 'a' ? 'a' : 'b'} options={[['b', 'Below the bar'], ['a', 'Above the bar']]} onChange={v => set({ scaleSide: v })} />
+        <Seg value={data.scaleTitle === 'center' ? 'center' : 'start'} options={[['start', 'Name at start'], ['center', 'Name centred']]} onChange={v => set({ scaleTitle: v })} />
         {data.format === 'named' ? <Spec id="gb-named" label="Names, one per tick" value={data.named} rows={5} onChange={v => set({ named: v }, 'named')} /> : null}
       </S.Panel>
-      <RowsText id="gb-items" kicker="Items on the bar" help="Click a label on the sheet to find its row." text={data.items}
-        parse={l => { const [label, value, marker] = cells(l); return { label, value, marker: marker === 'arrow' ? 'arrow' : 'pin' }; }}
-        format={r => [r.label, r.value, r.marker === 'arrow' ? 'arrow' : ''].filter(x => x !== '').join(' | ')}
-        cols={[{ key: 'label', label: 'Label', w: '1.6fr' }, { key: 'value', label: 'Value', type: 'num', w: '0.7fr' }, { key: 'marker', label: 'Mark', type: 'select', options: [['pin', 'Pin'], ['arrow', 'Arrow']], w: '0.8fr' }]}
+      <S.Panel kicker="More scales" help="One scale per line: name | from | to | step | minor | number or power | a or b | start or center | shift. Side a is above the bar, b below. Shift is the amount added to the bar's own value, for example 273.15 for kelvin on a °C bar. Only the first four cells are needed.">
+        <Spec id="gb-scales2" label="Extra scales" value={data.scales2 || ''} rows={4} placeholder="K | 260 | 380 | 10 | 0 | number | a | start | 273.15" onChange={v => set({ scales2: v }, 'scales2')} />
+        <Toggle on={!!data.scales2First} label="Extra scales sit nearer the bar" onChange={v => set({ scales2First: v })} />
+      </S.Panel>
+      <RowsText id="gb-items" kicker="Items on the bar" help="Click a label on the sheet to find its row. Side: top means left on a vertical bar." text={data.items}
+        parse={l => { const [label, value, marker, side] = cells(l); return { label, value, marker: marker === 'arrow' ? 'arrow' : 'pin', side: side === 'b' ? 'b' : '' }; }}
+        format={r => rowText([r.label, r.value, r.marker === 'arrow' ? 'arrow' : (r.side ? 'pin' : ''), r.side])}
+        cols={[{ key: 'label', label: 'Label', w: '1.4fr' }, { key: 'value', label: 'Value', type: 'num', w: '0.6fr' }, { key: 'marker', label: 'Mark', type: 'select', options: [['pin', 'Pin'], ['arrow', 'Arrow']], w: '0.7fr' }, { key: 'side', label: 'Side', type: 'select', options: [['', 'Top'], ['b', 'Bottom']], w: '0.8fr' }]}
         blank={() => ({ label: 'New item', value: (num(data.from, 0) + num(data.to, 10)) / 2, marker: 'pin' })} addLabel="+ Add item" onText={(v, k) => set({ items: v }, k)} />
       <RowsText id="gb-zones" kicker="Zones" text={data.zones}
-        parse={l => { const [label, from, to] = cells(l); return { label, from, to }; }} format={r => [r.label, r.from, r.to].join(' | ')}
-        cols={[{ key: 'label', label: 'Zone', w: '1.4fr' }, { key: 'from', label: 'From', type: 'num', w: '0.7fr' }, { key: 'to', label: 'To', type: 'num', w: '0.7fr' }]}
+        parse={l => { const [label, from, to, side] = cells(l); return { label, from, to, side: side === 'a' ? 'a' : '' }; }} format={r => rowText([r.label, r.from, r.to, r.side])}
+        cols={[{ key: 'label', label: 'Zone', w: '1.2fr' }, { key: 'from', label: 'From', type: 'num', w: '0.6fr' }, { key: 'to', label: 'To', type: 'num', w: '0.6fr' }, { key: 'side', label: 'Side', type: 'select', options: [['', 'Bottom'], ['a', 'Top']], w: '0.8fr' }]}
         blank={() => ({ label: 'Zone', from: data.from, to: data.to })} addLabel="+ Add zone" onText={(v, k) => set({ zones: v }, k)} />
       <RowsText id="gb-arrows" kicker="Range arrows" text={data.arrows}
-        parse={l => { const [label, from, to, st] = cells(l); return { label, from, to, style: st === 'bold' ? 'bold' : 'thin' }; }}
-        format={r => [r.label, r.from, r.to, r.style === 'bold' ? 'bold' : ''].filter(x => x !== '').join(' | ')}
-        cols={[{ key: 'label', label: 'Label', w: '1.2fr' }, { key: 'from', label: 'From', type: 'num', w: '0.6fr' }, { key: 'to', label: 'To', type: 'num', w: '0.6fr' }, { key: 'style', label: 'Line', type: 'select', options: [['thin', 'Thin'], ['bold', 'Bold']], w: '0.8fr' }]}
+        parse={l => { const [label, from, to, st, side] = cells(l); return { label, from, to, style: st === 'bold' ? 'bold' : 'thin', side: side === 'a' ? 'a' : '' }; }}
+        format={r => rowText([r.label, r.from, r.to, r.style === 'bold' ? 'bold' : (r.side ? 'thin' : ''), r.side])}
+        cols={[{ key: 'label', label: 'Label', w: '1fr' }, { key: 'from', label: 'From', type: 'num', w: '0.5fr' }, { key: 'to', label: 'To', type: 'num', w: '0.5fr' }, { key: 'style', label: 'Line', type: 'select', options: [['thin', 'Thin'], ['bold', 'Bold']], w: '0.7fr' }, { key: 'side', label: 'Side', type: 'select', options: [['', 'Bottom'], ['a', 'Top']], w: '0.8fr' }]}
         blank={() => ({ label: 'more', from: data.from, to: data.to, style: 'thin' })} addLabel="+ Add arrow" onText={(v, k) => set({ arrows: v }, k)} />
     </>
   ); },
   Render: ({ data }) => {
     const from = num(data.from, 0), to = num(data.to, 10), step = Math.abs(num(data.step, 1)) || 1;
     if (from === to) return <EmptyHint text="The scale needs different From and To values." />;
-    const sc: any = { name: data.scaleName, from, to, step, minor: num(data.minor, 0) || undefined, format: data.format };
+    const sc: any = { name: data.scaleName, from, to, step, minor: num(data.minor, 0) || undefined, format: data.format, side: data.scaleSide === 'a' ? 'a' : 'b', titlePos: data.scaleTitle === 'center' ? 'center' : 'start' };
+    if (String(data.start == null ? '' : data.start).trim() !== '' && isFinite(num(data.start, NaN))) sc.start = num(data.start, 0);
     if (data.format === 'named') { sc.labels = String(data.named || ''); sc.titlePos = data.scaleName ? 'start' : 'none'; }
-    const items = lines(data.items).map(l => { const [label, v, mk] = cells(l); return { label, value: num(v, NaN), marker: mk === 'arrow' ? 'arrow' : undefined }; }).filter(i => isFinite(i.value));
-    const zones = lines(data.zones).map(l => { const [label, a, b] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN) }; }).filter(z => isFinite(z.from) && isFinite(z.to));
-    const arrows = lines(data.arrows).map(l => { const [label, a, b, st] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN), style: st === 'bold' ? 'bold' : 'thin' }; }).filter(z => isFinite(z.from) && isFinite(z.to));
-    return <S.GradientBar x={0} y={0} length={num(data.length, 600)} thickness={num(data.thickness, 24)} orient={data.orient} flip={data.flip} palette={data.palette}
+    const more = lines(data.scales2).map(l => {
+      const [name, a, b, st, mn, fm, sd, tp, sh] = cells(l);
+      return { name, from: num(a, NaN), to: num(b, NaN), step: Math.abs(num(st, 1)) || 1, minor: num(mn, 0) || undefined, format: fm === 'power' ? 'power' : 'number', side: sd === 'a' ? 'a' : 'b', titlePos: tp === 'center' ? 'center' : tp === 'none' ? 'none' : 'start', shift: sh && isFinite(num(sh, NaN)) ? num(sh, 0) : undefined };
+    }).filter(x => isFinite(x.from) && isFinite(x.to));
+    const scales = data.scales2First ? [...more, sc] : [sc, ...more];
+    const items = lines(data.items).map(l => { const [label, v, mk, sd] = cells(l); return { label, value: num(v, NaN), marker: mk === 'arrow' ? 'arrow' : undefined, side: sd === 'b' ? 'b' : 'a' }; }).filter(i => isFinite(i.value));
+    const zones = lines(data.zones).map(l => { const [label, a, b, sd] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN), side: sd === 'a' ? 'a' : 'b' }; }).filter(z => isFinite(z.from) && isFinite(z.to));
+    const arrows = lines(data.arrows).map(l => { const [label, a, b, st, sd] = cells(l); return { label, from: num(a, NaN), to: num(b, NaN), style: st === 'bold' ? 'bold' : 'thin', side: sd === 'a' ? 'a' : 'b' }; }).filter(z => isFinite(z.from) && isFinite(z.to));
+    return <S.GradientBar x={0} y={0} length={num(data.length, 600)} thickness={num(data.thickness, 24)} orient={data.orient} flip={data.flip} palette={data.palette} stops={Array.isArray(data.stops) && data.stops.length >= 2 ? stopsOf(data).sort((a, b) => a[0] - b[0]) : undefined}
       lineOnly={data.barStyle === 'line'} bands={data.barStyle === 'line' ? undefined : (num(data.bands, 0) || undefined)} dividers={data.dividers} outline={data.outline} fontSize={num(data.fontSize, 12)}
-      startLabel={data.startLabel || undefined} endLabel={data.endLabel || undefined} scales={[sc]} items={items} zones={zones} arrows={arrows} />;
+      startLabel={data.startLabel || undefined} endLabel={data.endLabel || undefined} domain={[from, to]} scales={scales} items={items} zones={zones} arrows={arrows} />;
   },
 };
 

@@ -350,10 +350,10 @@
       /* scales */
       scales.filter(function (s) { return s.side === sk; }).forEach(function (s) {
         var span = s.to - s.from; if (!span || !s.step) return;
-        var dir = span > 0 ? 1 : -1, n = Math.floor(Math.abs(span) / s.step + 1e-9), uOf = function (v) { return (v - s.from) / span * L; };
+        var dir = span > 0 ? 1 : -1, v0 = s.start != null && s.format !== 'named' ? s.start : s.from, n = Math.floor(Math.abs(s.to - v0) / s.step + 1e-9), uOf = function (v) { return s.shift != null ? pu(v - s.shift) : (v - s.from) / span * L; };
         var names = s.format === 'named' ? String(s.labels).split('\n') : null;
         for (var m = 0; m <= n; m++) {
-          var v = s.from + dir * s.step * m, u = uOf(v);
+          var v = v0 + dir * s.step * m, u = uOf(v);
           line(u, side * (edge + o), u, side * (edge + o + tl), 'sd-tick sd-tick-maj');
           if (s.minor && m < n) for (var q = 1; q <= s.minor; q++) { var um = uOf(v + dir * s.step * q / (s.minor + 1)); line(um, side * (edge + o), um, side * (edge + o + tl * 0.55), 'sd-tick'); }
           if (names) { if (m < n && names[m]) text(uOf(v + dir * s.step / 2), o + tl + gap, side, names[m], '', fs); }

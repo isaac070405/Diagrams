@@ -7,7 +7,16 @@ async function cap(name: string): Promise<any> {
 
 export async function saveFile(blob: Blob, filename: string): Promise<string> {
   const dl = await cap('downloads');
-  if (!dl) return 'Saving files is not available in this view';
+  if (!dl) {
+    try {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.style.display = 'none';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      return 'Saved ' + filename;
+    } catch (e) { return 'Could not save ' + filename; }
+  }
   try { await dl.save({ filename, data: blob }); return 'Saved ' + filename; }
   catch (e: any) {
     if (e && e.code === 'declined') return 'Save cancelled';
