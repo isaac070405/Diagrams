@@ -18,15 +18,17 @@ import { pkpd } from './editors/pkpd';
 import { sar } from './editors/sar';
 import { mechanism } from './editors/mech';
 import { popdyn } from './editors/popdyn';
+import { workflow } from './editors/workflow';
+import { ICON_LIBRARY, IconLibraryPage, IconLibraryThumb } from './iconLibrary';
 
 const EDITORS: EditorDef[] = [wheel, phylo, flow, pedigree, foodweb, punnett, pyramid, dkey, iceberg, scalebar, gradient];
 const PATHWAY = { id: 'biological-pathway', num: '12', name: 'Biological pathway', field: 'Cells and measurement', blurb: 'Signalling and metabolic pathways with compartments, 80 BioRender icons and a Claude first draft.' };
-const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn];
+const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow];
 const FIELDS = ['All', 'Methods', 'Evolution and genetics', 'Ecology', 'Cells and measurement', 'Pharmacology'];
 
 const WORDS: any = { 15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen', 20: 'Twenty', 21: 'Twenty-one', 22: 'Twenty-two' };
 
-function routeId() { const h = (location.hash || '').replace(/^#/, ''); return ALL.some(e => e.id === h) ? h : ''; }
+function routeId() { const h = (location.hash || '').replace(/^#/, ''); return h === ICON_LIBRARY.id || ALL.some(e => e.id === h) ? h : ''; }
 
 function PathwayThumb() {
   const ins = { role: 'ligand', label: 'Insulin', x: 250, y: 30 }, insr = { role: 'receptor', label: 'INSR', x: 250, y: 84 }, akt = { role: 'kinase', label: 'AKT', x: 250, y: 150, badge: true };
@@ -52,7 +54,7 @@ function Card(p: { e: any }) {
     <S.Blueprint as="article" className="mk-card">
       <a className="mk-card-btn" href={'#' + e.id}>
         <div className="mk-thumb" aria-hidden="true">
-          <Sheet font="arial" label={e.name}>{e.templates ? <e.Render data={norm(e, doc.data)} doc={doc} /> : <PathwayThumb />}</Sheet>
+          {e.id === ICON_LIBRARY.id ? <IconLibraryThumb /> : <Sheet font="arial" label={e.name}>{e.templates ? <e.Render data={norm(e, doc.data)} doc={doc} /> : <PathwayThumb />}</Sheet>}
         </div>
         <div className="mk-card-text">
           <span className="sd-kicker">{e.num} · {e.field}</span>
@@ -67,7 +69,7 @@ function Card(p: { e: any }) {
 
 function Home() {
   const [field, setField] = useState(() => store.get('sd-maker:field', 'All'));
-  const list = ALL.filter(e => field === 'All' || e.field === field).sort((a, b) => a.num.localeCompare(b.num));
+  const list = [...ALL, ICON_LIBRARY].filter(e => field === 'All' || e.field === field).sort((a, b) => a.num.localeCompare(b.num));
   return (
     <div className="mk-home">
       <header className="mk-home-head">
@@ -75,7 +77,7 @@ function Home() {
         <h1>Diagram Workspace</h1>
         <p>{WORDS[ALL.length] || ALL.length} editors for figures in lab reports, essays and slides. Pick one, start from an example, and export on white paper as PNG, SVG or JPEG.</p>
         <div className="mk-chips" role="tablist" aria-label="Filter by field">
-          {FIELDS.map(f => <S.ToolButton key={f} compact on={field === f} onClick={() => { setField(f); store.set('sd-maker:field', f); }}>{f}{f === 'All' ? ' (' + ALL.length + ')' : ''}</S.ToolButton>)}
+          {FIELDS.map(f => <S.ToolButton key={f} compact on={field === f} onClick={() => { setField(f); store.set('sd-maker:field', f); }}>{f}{f === 'All' ? ' (' + (ALL.length + 1) + ')' : ''}</S.ToolButton>)}
         </div>
       </header>
       <section className="mk-grid">
@@ -121,7 +123,8 @@ export default function App() {
   useEffect(() => { const f = () => { setId(routeId()); window.scrollTo(0, 0); }; window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
   const go = (next: string) => { location.hash = next ? next : ''; setId(next); window.scrollTo(0, 0); };
   if (id === PATHWAY.id) return <PathwayFrame onHome={() => go('')} />;
-  const def = EDITORS.concat(productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn).find(e => e.id === id);
+  if (id === ICON_LIBRARY.id) return <IconLibraryPage onHome={() => go('')} />;
+  const def = EDITORS.concat(productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow).find(e => e.id === id);
   if (def) return <EditorShell key={def.id} def={def} onHome={() => go('')} />;
   return <Home />;
 }

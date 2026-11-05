@@ -274,3 +274,61 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-overlay .mk-panel-pick { fill: transparent; stroke: transparent; cursor: pointer; }
 .mk-overlay .mk-panel-pick:hover { stroke: var(--accent-400); stroke-width: 1.2; stroke-dasharray: 6 4; }
 .mk-panel-letter { user-select: none; }
+
+/* ---------- icon library ---------- */
+.mk-libthumb { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 8px; width: 100%; height: 100%; }
+.mk-libthumb span { background: center / contain no-repeat; background-origin: content-box; padding: 4px; border: 1px solid var(--divider); background-color: var(--paper); }
+.mk-lib { min-height: 100vh; min-height: 100dvh; display: grid; grid-template-rows: auto 1fr; }
+.mk-lib-body { padding-block: 24px 56px; padding-left: var(--mk-gutter-l); padding-right: var(--mk-gutter-r); max-width: 1320px; width: 100%; box-sizing: border-box; margin: 0 auto; display: grid; gap: 24px; align-content: start; }
+.mk-lib-head { display: grid; gap: 8px; }
+.mk-lib-head h1 { margin: 0; font: 400 40px/1.05 var(--font-ui-condensed); letter-spacing: -0.015em; }
+.mk-lib-head p { margin: 0; font: 400 14px/22px var(--font-ui); color: var(--neutral-700); max-width: 70ch; }
+.mk-lib-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 6px; }
+.mk-lib-search { flex: 1 1 280px; max-width: 420px; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--divider); background: var(--paper); border-radius: 0; font-size: 14px; }
+.mk-lib-open { font: 600 13px/1 var(--font-ui-condensed); letter-spacing: .04em; color: var(--accent-700); text-underline-offset: 3px; }
+.mk-lib-count { font-variant-numeric: tabular-nums; font-style: italic; }
+.mk-lib-empty { font-style: italic; color: var(--neutral-700); }
+.mk-lib-sec { display: grid; gap: 10px; }
+.mk-lib-sec h2 { margin: 0; }
+.mk-lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.mk-lib-tile { display: grid; grid-template-rows: 110px auto auto; gap: 6px; padding: 10px 8px 9px; border: 1px solid var(--divider); background: var(--paper); border-radius: 0; cursor: pointer; text-align: center; }
+.mk-lib-tile:hover { border-color: var(--accent); background: var(--accent-100); }
+.mk-lib-img { background: center / contain no-repeat; background-origin: content-box; padding: 4px; }
+.mk-lib-name { font-size: 12.5px; line-height: 16px; }
+.mk-lib-dl { font: 600 11px/1 var(--font-ui-condensed); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-700); opacity: 0; }
+.mk-lib-tile:hover .mk-lib-dl, .mk-lib-tile:focus-visible .mk-lib-dl { opacity: 1; }
+@media (hover: none) { .mk-lib-dl { opacity: 1; } }
+
+/* ---------- experimental workflow (22) ---------- */
+.wf { font-family: var(--font-arial, Arial, sans-serif); }
+.wf-line, .wf-outline, .wf-thin, .wf-strand, .wf-ab, .wf-flow, .wf-axisline, .wf-grid, .wf-guide, .wf-profile, .wf-primer, .wf-gate { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.wf-line { stroke: var(--ink); stroke-width: 1.6; }
+.wf-outline { stroke: var(--ink); stroke-width: 1.6; }
+.wf-thin { stroke: var(--ink); stroke-width: 1.1; }
+.wf-strand { stroke-width: 2.4; }
+.wf-ab { stroke-width: 3.6; stroke-linecap: round; }
+.wf-enz { font: 700 8px/1 var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-art-text { font: 600 9px/1 var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-box { fill: var(--paper); stroke: var(--neutral-400); stroke-width: 1.2; }
+.wf-badge { fill: var(--ink); }
+.wf-badge-text { font: 700 12px/1 var(--font-arial, Arial, sans-serif); fill: var(--paper); }
+.wf-title { font: 700 14px/17px var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-detail { font: 400 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--neutral-700); }
+.wf-time { font: italic 400 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--accent-700); }
+.wf-flow { stroke: var(--ink); stroke-width: 1.6; }
+.wf-fig-head { font: 700 14px/18px var(--font-arial, Arial, sans-serif); fill: var(--ink); letter-spacing: .01em; }
+.wf-fig-rule { stroke: var(--neutral-400); stroke-width: 1; }
+.wf-fig-text, .wf-leg { font: 400 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-fig-bold { font: 700 11.5px/14px var(--font-arial, Arial, sans-serif); fill: var(--ink); }
+.wf-leg-sub { font: 400 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--neutral-700); }
+.wf-axis { font: 400 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--neutral-700); }
+.wf-axisline { stroke: var(--ink); stroke-width: 1.2; }
+.wf-grid { stroke: var(--neutral-200); stroke-width: 1; }
+.wf-guide { stroke: var(--neutral-600); stroke-width: 1; stroke-dasharray: 4 3; }
+.wf-profile { stroke: var(--accent-700); stroke-width: 2.4; }
+.wf-primer { stroke-width: 3.4; }
+.wf-well { font: 600 8.5px/1 var(--font-arial, Arial, sans-serif); }
+.wf-gate { stroke: var(--swatch-11); stroke-width: 1.6; }
+.wf-gate-text { font: 700 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--swatch-11); }
+.wf-oval { font: 700 12.5px/15px var(--font-arial, Arial, sans-serif); fill: #fff; }
+.wf-gate-text { paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
