@@ -1,5 +1,5 @@
 import { S } from '../sheet';
-import { num, Rows, Seg, Spec, Toggle, uid } from '../ui';
+import { num, Range, Rows, Seg, Spec, Toggle, uid } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
 
 /* ===================== 24 Gels and blots ===================== */
@@ -7,7 +7,7 @@ import type { EditorDef, EditProps } from '../shell';
    Lane 1 is the ladder, lane 2 the control, the rest are treatments. Samples run from the wells at the top (cathode, −) towards the bottom (anode, +).
    A band's height on the gel comes from its size on a log scale: big molecules stay near the wells. */
 
-const LANE_W = 76, GAP = 10, GEL_H = 440, PAD_T = 44, PAD_B = 34, BAND_W = 62;
+const LANE_W = 76, GAP = 10, GEL_H = 440, PAD_T = 56, PAD_B = 34, BAND_W = 62;
 const UNITS: [string, string][] = [['kDa', 'kDa'], ['Da', 'Da'], ['kb', 'kb'], ['bp', 'bp']];
 
 /* gel and band colours: a pale gel with a dark band, or a dark gel with a bright one */
@@ -69,6 +69,11 @@ function Blot({ data }: { data: any }) {
   const out: any[] = [];
   out.push(<defs key="d"><filter id="bl-blur" x="-8%" y="-60%" width="116%" height="220%"><feGaussianBlur stdDeviation="1" /></filter></defs>);
   out.push(<rect key="gel" x={0} y={0} width={g.W} height={GEL_H} rx={5} fill={st.bg} stroke={st.edge} strokeWidth={1.4} />);
+  const layers = !!data.layers, stackH = Math.max(26, Math.min(PAD_T - 6, num(data.stackH, 40)));
+  if (layers) {
+    out.push(<rect key="stack" x={0.7} y={0.7} width={g.W - 1.4} height={stackH} rx={4} fill={st.well} />);
+    out.push(<line key="divide" x1={0} y1={stackH} x2={g.W} y2={stackH} stroke={st.edge} strokeWidth={1.3} />);
+  }
   const backAt = out.length;
   g.lanes.forEach((l: any, i: number) => {
     const x = g.laneX(i), mid = x + LANE_W / 2;
@@ -96,15 +101,26 @@ function Blot({ data }: { data: any }) {
   const notes = String(data.notes || '').split('\n').map(l => l.split('|').map(s => s.trim())).filter(c => c[0] && g.lanes[num(c[1], 0) - 1] && isFinite(parseFloat(c[2])))
     .map(c => ({ text: c[0], lane: num(c[1], 1) - 1, y: g.y(parseFloat(c[2])) })).sort((a, b) => a.y - b.y);
   const back: any[] = [];
+  const ro = layers ? 124 : 0;
   let prev = -99;
   notes.forEach((n: any, k: number) => {
     const ty = Math.max(n.y, prev + 20); prev = ty;
-    const bx = g.laneX(n.lane) + LANE_W / 2 + BAND_W / 2 + 5, lx = g.W + 52, pts = [[lx - 6, ty], [g.W + 24, ty], [g.W + 24, n.y], [bx + 10, n.y]];
+    const bx = g.laneX(n.lane) + LANE_W / 2 + BAND_W / 2 + 5, lx = g.W + 52 + ro, pts = [[lx - 6, ty], [g.W + 24 + ro, ty], [g.W + 24 + ro, n.y], [bx + 10, n.y]];
     back.push(<polyline key={'a' + k} className="bl-lead" points={pts.map(p => p.join(',')).join(' ')} />);
     back.push(<polygon key={'h' + k} className="bl-head" points={`${bx},${n.y} ${bx + 9},${n.y - 4} ${bx + 9},${n.y + 4}`} />);
     out.push(<text key={'at' + k} className="bl-note" x={lx} y={ty + 4.5}>{n.text}</text>);
   });
   out.splice(backAt, 0, ...back);
+  if (layers) {
+    /* the stacking gel label sits level with the stacking gel, the resolving gel bracket spans the rest of the gel */
+    const free = (y0: number) => { let y = y0; for (let k = 0; k < 12 && notes.some((n: any) => Math.abs(n.y - y) < 13); k++) y += k % 2 ? -(k + 1) * 11 : (k + 1) * 11; return y; };
+    const ys = stackH / 2, ym = free((stackH + GEL_H) / 2), x0 = g.W;
+    out.push(<line key="sl" className="bl-tick" x1={x0 + 4} y1={ys} x2={x0 + 30} y2={ys} />);
+    out.push(<text key="st" className="bl-note" x={x0 + 38} y={ys + 4.5}>Stacking gel</text>);
+    out.push(<path key="rb" className="bl-lead" d={`M${x0 + 8},${stackH + 3} H${x0 + 20} V${GEL_H - 4} H${x0 + 8}`} />);
+    out.push(<line key="rl" className="bl-tick" x1={x0 + 20} y1={ym} x2={x0 + 30} y2={ym} />);
+    out.push(<text key="rt" className="bl-note" x={x0 + 38} y={ym + 4.5}>Resolving gel</text>);
+  }
   if (data.poles !== false) {
     const cxm = g.W / 2, top = -(data.laneNo !== false ? 58 : 44);
     out.push(<Pole key="cat" x={cxm - 44} y={top} sign="−" label="Cathode" />);
@@ -115,7 +131,7 @@ function Blot({ data }: { data: any }) {
 
 function Controls({ data, set }: EditProps) {
   const lanes: any[] = data.lanes || [];
-  const applyType = (k: string) => { const t = TYPES[k]; set({ type: k, style: t.style, unit: t.unit, ladder: t.ladder, ladderText: '', wells: t.wells }); };
+  const applyType = (k: string) => { const t = TYPES[k]; set({ type: k, style: t.style, unit: t.unit, ladder: t.ladder, ladderText: '', wells: t.wells, layers: k === 'gel' }); };
   return (
     <>
       <S.Panel kicker="Type" help="Choosing a type also sets the colours, unit, ladder and whether wells show. Change any of them afterwards.">
@@ -135,6 +151,8 @@ function Controls({ data, set }: EditProps) {
       </S.Panel>
       <S.Panel kicker="Gel">
         <Toggle on={data.wells} label="Show wells" onChange={v => set({ wells: v })} />
+        <Toggle on={!!data.layers} label="Stacking gel and resolving gel" onChange={v => set({ layers: v })} />
+        {data.layers ? <Range id="bl-stack" label="Stacking gel height" value={num(data.stackH, 40)} min={26} max={PAD_T - 6} onChange={v => set({ stackH: v }, 'bl-stack')} /> : null}
         <Toggle on={data.poles !== false} label="Cathode (−) at the top, anode (+) at the bottom" onChange={v => set({ poles: v })} />
         <Toggle on={data.laneNo !== false} label="Lane numbers (L1, L2…)" onChange={v => set({ laneNo: v })} />
       </S.Panel>
@@ -149,7 +167,7 @@ const L = (id: string, label: string, kind: string, bands: string) => ({ id, lab
 const T = (n: number, a: string[]) => a.map((b, i) => L('l' + (i + 3), '', 'sample', b)).slice(0, n);
 const mk = (type: string, lanesBands: string[], notes: string, over: any = {}) => {
   const t = TYPES[type];
-  return { type, style: t.style, unit: t.unit, ladder: t.ladder, ladderText: '', wells: t.wells, poles: true, laneNo: true, scale: true, unitStyle: 'header',
+  return { type, style: t.style, unit: t.unit, ladder: t.ladder, ladderText: '', wells: t.wells, layers: type === 'gel', stackH: 40, poles: true, laneNo: true, scale: true, unitStyle: 'header',
     lanes: [L('l1', '', 'ladder', ''), L('l2', '', 'control', lanesBands[0]), ...T(lanesBands.length - 1, lanesBands.slice(1))], notes, ...over };
 };
 
