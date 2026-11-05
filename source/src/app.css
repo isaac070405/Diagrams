@@ -332,3 +332,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .wf-gate-text { font: 700 10.5px/13px var(--font-arial, Arial, sans-serif); fill: var(--swatch-11); }
 .wf-oval { font: 700 12.5px/15px var(--font-arial, Arial, sans-serif); fill: #fff; }
 .wf-gate-text { paint-order: stroke; stroke: #fff; stroke-width: 3px; stroke-linejoin: round; }
+
+/* Gradient bar: colour presets, a preview strip above each name */
+.mk-pal { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mk-pal-btn { display: flex; flex-direction: column; align-items: stretch; gap: 7px; min-width: 0; padding: 8px; text-align: left; font: 600 13.5px/1.25 var(--font-ui-condensed); color: var(--text); background: transparent; border: var(--line-hairline) solid var(--divider); border-radius: var(--radius-ui); cursor: pointer; }
+.mk-pal-btn:hover { border-color: var(--accent); background: var(--accent-100); }
+.mk-pal-btn[data-on="1"] { border-color: var(--accent); background: var(--accent-200); }
+.mk-pal-strip { display: block; height: 10px; border-radius: 1px; box-shadow: 0 0 0 1px var(--divider); }
+.mk-pal-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
