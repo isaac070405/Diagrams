@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 24 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 26 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -27,6 +27,15 @@ Download the latest build from the Releases page.
 | 10 | Histological image | 21 | Population over time |
 | 11 | Gradient bar | 22 | Experimental workflow |
 | 23 | Well plate labelling | 24 | Gels and blots |
+| 25 | Contour plot | 26 | Belt transect and kite diagram |
+
+## Contour plot
+
+Lines and filled bands of equal value. Type or paste (x, y, value) points, or pick a built-in surface. The grid between points is filled by inverse distance weighting, with a smoothing slider. Level count or a fixed step, bold index lines, level labels along the lines, five colour ramps with a colour bar, and a switch to put y = 0 at the top for depth or time. Three starting points: sea-floor depth, temperature by depth and month (a thermocline), and a two-nutrient response.
+
+## Belt transect and kite diagram
+
+Quadrat counts along a belt transect, drawn as the belt with its quadrats and one kite per species. A kite is as wide as the count at each distance and pinches to its baseline where the count is 0. Species and quadrats are tables. The Results panel gives total and mean density per m² for each species, Shannon H′, Simpson 1 − D and Pielou J. Two starting points: three species along a transect and rocky shore zonation.
 
 ## Gradient bar
 

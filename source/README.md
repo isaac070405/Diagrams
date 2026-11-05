@@ -24,3 +24,5 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `src/lib/molecule.tsx`: molecules from SMILES (19, 20)
 - `src/ds/`: Scientific Diagram design system
 - `tests/xyaxis.test.cjs`: run with `node tests/xyaxis.test.cjs`
+- `src/lib/contour.js`: contour lines and bands (25), run `node tests/contour.test.cjs`
+- `src/lib/kite.js`: kite outlines and diversity indices (26), run `node tests/kite.test.cjs`
