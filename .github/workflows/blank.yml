@@ -1,36 +1,48 @@
-# This is a basic workflow to help you get started with Actions
+# Builds the Diagram Workspace from source/ and runs its tests.
+# The job is named "build" because the main-protection ruleset requires a check with that name.
 
 name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: source
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: source/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: node tests/xyaxis.test.cjs
+
+      - name: Build with Parcel
+        run: pnpm exec parcel build index.html --dist-dir dist --no-source-maps
+
+      - name: Inline into one HTML file
+        run: pnpm exec html-inline dist/index.html > bundle.html
+
+      - name: Check the bundle
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          test -s bundle.html
+          echo "bundle.html: $(wc -c < bundle.html) bytes"
