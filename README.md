@@ -70,6 +70,8 @@ Steps can be added, reordered and given any of 34 pictograms. Figures are switch
 - **Home page:** the Icon library card sits beside Biological pathway. It has search, group filters and a PNG download for each icon.
 - **Inside Biological pathway:** the Icon library button at the top of the sidebar opens the same catalogue over the sheet. Click an icon to add it, or to replace the icon on the selected node.
 
+**Add icon** and **Add group** appear on both pages. Add icon takes a PNG, JPEG, SVG, WebP or GIF, scales it to 256 px and files it under a group. Add group creates a new group. Your icons and groups are stored in this browser, shared by both pages, and can be deleted with the × on a tile or the Delete group button.
+
 ## Histological image
 
 Annotate your own micrographs, or start from the artery example. Calibrate once with the image width, then every length, area and scale bar uses real units.
