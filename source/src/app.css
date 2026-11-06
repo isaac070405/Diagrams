@@ -373,3 +373,30 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .bl-pole circle { fill: var(--paper); stroke: var(--ink); stroke-width: 1.3; }
 .bl-sign { font-size: 14px; font-weight: 700; fill: var(--ink); }
 .bl-polename { font-size: 13px; font-weight: 600; fill: var(--ink); }
+
+/* 25 contour plot */
+.ct-frame { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.ct-band { stroke-width: .6; stroke-linejoin: round; }
+.ct-tick line { stroke: var(--ink); stroke-width: 1; }
+.ct-axis { font-size: 13px; font-weight: 600; }
+.ct-line { fill: none; stroke: var(--ink); stroke-width: .7; stroke-linejoin: round; opacity: .85; }
+.ct-major { stroke-width: 1.4; opacity: 1; }
+.ct-label { font-size: 11px; font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+.ct-pt { fill: var(--ink); stroke: var(--paper); stroke-width: 1; }
+
+/* 26 belt transect and kite diagram */
+.tr-belt { fill: var(--accent-100); stroke: var(--ink-muted); stroke-width: .8; opacity: .55; }
+.tr-quad { fill: var(--paper); stroke: var(--ink); stroke-width: 1.1; }
+.tr-dot { stroke: var(--paper); stroke-width: .6; }
+.tr-guide { stroke: var(--neutral-400); stroke-width: .6; stroke-dasharray: 2 4; }
+.tr-base { stroke: var(--ink); stroke-width: 1; }
+.tr-kite { stroke: var(--ink); stroke-width: 1.1; stroke-linejoin: round; }
+.tr-key { stroke: var(--ink); stroke-width: .6; }
+.tr-name { font-size: 12.5px; font-weight: 600; }
+.tr-note { font-size: 11.5px; font-style: italic; fill: var(--ink-muted); }
+.tr-unit { font-size: 9px; fill: var(--ink); font-variant-numeric: tabular-nums; }
+.tr-scale line { stroke: var(--ink); stroke-width: 1; }
+.tr-scale text, .tr-tick text { font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.tr-axis, .tr-tick line { stroke: var(--ink); stroke-width: 1; }
+.tr-title { font-size: 13px; font-weight: 600; }
+.tr-results { margin: 0; padding-left: 16px; font-size: 12.5px; line-height: 1.6; }

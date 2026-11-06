@@ -1,6 +1,8 @@
 import './globals';
 import './ds/bundle.js';
 import './lib/xyaxis.js';
+import './lib/contour.js';
+import './lib/kite.js';
 import './ds/tokens.css';
 import './ds/bundle.css';
 import './app.css';
