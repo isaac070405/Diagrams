@@ -298,6 +298,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-lib-dl { font: 600 11px/1 var(--font-ui-condensed); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-700); opacity: 0; }
 .mk-lib-tile:hover .mk-lib-dl, .mk-lib-tile:focus-visible .mk-lib-dl { opacity: 1; }
 @media (hover: none) { .mk-lib-dl { opacity: 1; } }
+.mk-lib-form { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--divider); background: var(--paper); max-width: 860px; }
+.mk-lib-form .mk-lib-search { flex: 1 1 180px; max-width: 260px; }
+.mk-lib-select { flex: 0 1 200px; }
+.mk-lib-file { flex: 1 1 100%; font-size: 13px; }
+.mk-lib-hint { flex: 1 1 100%; font-size: 12px; font-style: italic; color: var(--neutral-700); }
+.mk-lib-cell { position: relative; display: grid; }
+.mk-lib-del { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; padding: 0; line-height: 1; font-size: 16px; border: 1px solid var(--divider); background: var(--paper); border-radius: 0; cursor: pointer; color: var(--neutral-700); }
+.mk-lib-del:hover, .mk-lib-del:focus-visible { border-color: var(--accent); color: var(--accent-700); }
+.mk-lib-del-group { margin-left: 14px; padding: 2px 8px; font: 600 11px/1.4 var(--font-ui-condensed); letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--divider); background: var(--paper); border-radius: 0; cursor: pointer; color: var(--accent-700); }
 
 /* ---------- experimental workflow (22) ---------- */
 .wf { font-family: var(--font-arial, Arial, sans-serif); }
