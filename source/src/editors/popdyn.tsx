@@ -176,10 +176,13 @@ function Overlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }) 
   const d = norm(data), s = solve(d), f = frame(d, s), out: any[] = [];
   seriesOf(d, s, f.yDom[1] * 1.02).forEach((se: any) => {
     const pts = se.points || S.xy.sample(se.fn, [0, f.T], 'linear', 300), on = sel && sel.kind === 'series' && sel.id === se.id;
-    out.push(<path key={se.id} className={'mk-hit-line' + (on ? ' mk-on' : '')} d={S.xy.pathFrom(pts.filter((_: any, i: number) => i % 5 === 0), f.sx, f.sy)} onPointerDown={ev => { ev.stopPropagation(); setSel({ kind: 'series', id: se.id }); }} />);
+    out.push(<path key={se.id} className={'mk-hit-line' + (on ? ' mk-on' : '')} d={S.xy.pathFrom(pts.filter((_: any, i: number) => i % 5 === 0), f.sx, f.sy)} onPointerDown={ev => { ev.stopPropagation(); setSel({ kind: 'series', id: se.id }); }}
+      tabIndex={0} role="button" aria-label={'Select series ' + (se.label || se.id)} aria-pressed={!!on} onKeyDown={(ev: any) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); setSel({ kind: 'series', id: se.id }); } }} />);
   });
   /* drag the carrying capacity line up or down */
   const dragK = (key: string, Y: number, apply: (v: number) => any) => out.push(<rect key={key} className="mk-hit" x={M.left} y={Y - 5} width={W - M.left - M.right} height={10}
+    tabIndex={0} role="slider" aria-label="Carrying capacity K (up and down arrows change it)" aria-orientation="vertical" aria-valuenow={Math.round(f.sy.invert(Y))}
+    onKeyDown={(ev: any) => { if (ev.key !== 'ArrowUp' && ev.key !== 'ArrowDown') return; ev.preventDefault(); const cur = Math.round(f.sy.invert(Y)), step = Math.max(1, Math.round(cur * 0.02)) * (ev.shiftKey ? 5 : 1); set(apply(Math.max(1, cur + (ev.key === 'ArrowUp' ? step : -step))), 'key-' + key); }}
     onPointerDown={ev => startDrag(ev, toSvg, (_dx, _dy, at) => { const v = Math.max(1, Math.round(f.sy.invert(at[1]))); set(apply(v), 'drag-' + key); })} />);
   if (d.mode === 'single' && d.single.showK) dragK('K', f.sy(s.K), v => ({ single: { ...d.single, K: String(v) } }));
   if (d.mode === 'isolated' && d.showK !== false) d.groups.forEach((g: any) => dragK('K' + g.id, f.sy(num(g.K, 500)), v => ({ groups: d.groups.map((x: any) => x === g ? { ...x, K: String(v) } : x) })));

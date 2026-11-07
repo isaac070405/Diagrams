@@ -91,7 +91,7 @@ export function IconLibraryPage(p: { onHome: () => void }) {
   };
 
   return (
-    <div className="mk-lib">
+    <main className="mk-lib">
       <div className="mk-pathway-bar">
         <button type="button" className="mk-back" onClick={p.onHome}>← All diagrams</button>
         <span className="sd-kicker">12a · Icon library</span>
@@ -156,6 +156,6 @@ export function IconLibraryPage(p: { onHome: () => void }) {
         ))}
       </div>
       <Toast msg={toast} />
-    </div>
+    </main>
   );
 }

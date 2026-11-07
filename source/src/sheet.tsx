@@ -4,6 +4,7 @@ export const S: any = (window as any).SciDiagram;
 export const dragState = { on: false, listeners: new Set<() => void>() };
 
 const M = 24;
+let descSeq = 0;
 
 function wrap(text: string, width: number, px: number): string[] {
   const max = Math.max(20, Math.floor(width / (px * 0.52)));
@@ -86,6 +87,8 @@ export function Sheet(p: {
     if (spins.current++ < 6) setBox(nb);
   });
 
+  const descRef = useRef<HTMLDivElement>(null);
+  const descId = useRef('mk-desc-' + (++descSeq)).current;
   const titlePx = 22, capPx = 13;
   const tH = p.title ? titlePx + 18 : 0;
   const capW = Math.max(box.w, 360);
@@ -105,6 +108,14 @@ export function Sheet(p: {
     if (p.zoom) { (svg as any).style.width = Math.round(vw * p.zoom) + 'px'; (svg as any).style.height = Math.round(vh * p.zoom) + 'px'; }
     else { (svg as any).style.width = ''; (svg as any).style.height = ''; }
     p.svgRef && p.svgRef(svg as SVGSVGElement);
+    svg.setAttribute('role', svg.querySelector('.mk-overlay [tabindex]') ? 'group' : 'img');
+    const dsc = descRef.current;
+    if (dsc) {
+      const seen = new Set<string>();
+      Array.from(svg.querySelectorAll('text')).forEach(n => { if (n.closest('.mk-overlay')) return; const t = (n.textContent || '').replace(/\s+/g, ' ').trim(); if (t) seen.add(t); });
+      dsc.textContent = Array.from(seen).join('; ').slice(0, 1500);
+      if (dsc.textContent) svg.setAttribute('aria-describedby', dsc.id); else svg.removeAttribute('aria-describedby');
+    }
   });
 
   function toSvg(cx: number, cy: number): XY {
@@ -161,6 +172,7 @@ export function Sheet(p: {
         ))}
         {p.overlay ? <g className="mk-overlay" data-export="skip">{p.overlay(toSvg, box)}</g> : null}
       </S.Canvas>
+      <div id={descId} ref={descRef} hidden />
     </div>
   );
 }
