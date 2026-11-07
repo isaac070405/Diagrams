@@ -318,3 +318,16 @@ textarea.sd-input.sd-code { font-family: ui-monospace, "SF Mono", Menlo, monospa
 .sd-foodweb.fw-focus .sd-fw-node.fw-pred .sd-fw-box, .sd-foodweb.fw-focus .fw-out { stroke: #c98a00 !important; }
 .sd-foodweb.fw-focus .sd-fw-head.fw-in path { fill: #0e9db5 !important; stroke: #0e9db5 !important; }
 .sd-foodweb.fw-focus .sd-fw-head.fw-out path { fill: #c98a00 !important; stroke: #c98a00 !important; }
+
+/* Food web themes */
+.fw-theme-academic .sd-fw-band, .fw-theme-academic .sd-fw-name { fill: #111; }
+.fw-theme-academic .sd-fw-bandrule { stroke: #111; opacity: 1; }
+.fw-theme-academic .sd-fw-box { stroke: #222; stroke-width: 1; }
+.fw-theme-academic .sd-reg { stroke: #222 !important; }
+.fw-theme-academic .sd-fw-edge { stroke: #222 !important; }
+.fw-theme-academic .sd-fw-head path { fill: #222 !important; }
+.fw-theme-academic .sd-fw-minor { stroke-dasharray: 5 3; opacity: 1; }
+.fw-theme-dark .sd-fw-bg { fill: #0b0f14; }
+.fw-theme-dark .sd-fw-box { fill: #141b24; stroke: #3a4756; }
+.fw-theme-dark .sd-fw-name { fill: #e6edf3; }
+.fw-theme-dark .sd-fw-elabel { stroke: #0b0f14; fill: #e6edf3; }

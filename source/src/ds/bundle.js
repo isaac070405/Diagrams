@@ -1028,7 +1028,10 @@
   var WEB_BANDS = [['Producers', 'var(--band-producer)'], ['Primary consumers', 'var(--band-primary)'], ['Secondary consumers', 'var(--band-secondary)'], ['Tertiary consumers', 'var(--band-tertiary)'], ['Apex predators', 'var(--band-apex)']];
   function FoodWeb(p) {
     var X = p.x || 0, Y = p.y || 0, W = p.w || 760, bandH = p.bandH || 96, colW = p.colW || 150, bh = 34, n = (p.bands || WEB_BANDS).length, bands = p.bands || WEB_BANDS;
-    var color = p.colorBands !== false, nodes = {}, out = [], k = 0, K = function () { return 'f' + (k++); };
+    var theme = p.theme || 'default';
+    if (theme === 'gradient') bands = bands.map(function (b, i) { return [b[0], ['#0f9d58', '#b8a000', '#e8860c', '#e0431f', '#a3112f'][i % 5]]; });
+    if (theme === 'dark') bands = bands.map(function (b, i) { return [b[0], ['#2dd4bf', '#22b8cf', '#f5b83d', '#f08a3c', '#ff6b5e'][i % 5]]; });
+    var color = theme === 'academic' ? false : (theme === 'default' ? p.colorBands !== false : true), nodes = {}, out = [], k = 0, K = function () { return 'f' + (k++); };
     var bandY = function (b) { return Y + (n - 1 - b) * bandH; };
     bands.forEach(function (b, i) {
       var by = bandY(i);
@@ -1039,6 +1042,11 @@
       var w = Math.max(84, String(q.name).length * 7.2 + 26), cx = X + 170 + (q.x || 0) * colW;
       nodes[q.id] = Object.assign({}, q, { w: w, h: bh, cx: cx, cy: bandY(q.band) + bandH * 0.5 + 18 + (q.dy || 0) });
     });
+    if (theme === 'dark') {
+      var ids = Object.keys(nodes), minX = Infinity, maxX = -Infinity;
+      ids.forEach(function (i) { minX = Math.min(minX, nodes[i].cx - nodes[i].w / 2); maxX = Math.max(maxX, nodes[i].cx + nodes[i].w / 2); });
+      out.unshift(h('rect', { key: 'bg', className: 'sd-fw-bg', x: X - 12, y: Y - 10, width: Math.max(maxX, X + 140) - X + 40, height: n * bandH + 14, rx: 6 }));
+    }
     /* Ports: each node side shares its arrows evenly, ordered by the other end's x, so arrows never pile into one point. */
     var list = (p.edges || []).filter(function (e) { return nodes[e.from] && nodes[e.to] && e.from !== e.to; }), ports = {};
     var sideOf = function (a, b) { var dy = b.cy - a.cy; return Math.abs(dy) < a.h ? (b.cx >= a.cx ? 'r' : 'l') : (dy < 0 ? 't' : 'b'); };
@@ -1077,7 +1085,7 @@
         h('text', { key: 't', className: 'sd-fw-name', x: q.cx, y: q.cy }, q.name)]));
     });
 
-    return h('g', { className: 'sd-foodweb' }, out);
+    return h('g', { className: 'sd-foodweb' + (theme !== 'default' ? ' fw-theme-' + theme : '') }, out);
   }
 
   /* ================= Punnett square (06) ================= */
