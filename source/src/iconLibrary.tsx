@@ -125,7 +125,7 @@ export function IconLibraryPage(p: { onHome: () => void }) {
               <span className="mk-lib-hint">PNG, JPEG, SVG, WebP or GIF. Scaled to 256 px and stored in this browser only.</span>
             </div>
           ) : null}
-          <div className="mk-chips" role="tablist" aria-label="Filter by group">
+          <div className="mk-chips" role="group" aria-label="Filter by group">
             {['All', ...groups].map(g => (
               <S.ToolButton key={g} compact on={activeCat === g} onClick={() => setCat(g)}>{g} ({g === 'All' ? list.length : list.filter(i => i.group === g).length})</S.ToolButton>
             ))}
