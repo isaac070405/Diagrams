@@ -286,13 +286,14 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
       <header className="mk-head">
         <div className="mk-head-main">
           <button type="button" className="mk-back" onClick={p.onHome}>← All diagrams</button>
+          <h1 className="mk-sr">{def.name}</h1>
           <span className="sd-kicker">{def.num} · {def.name}</span>
           <input id={'title-' + def.id} className="mk-titlein" value={doc.title} placeholder="Name this figure…" maxLength={90}
             onChange={e => setDoc({ title: e.target.value }, 'title')} aria-label="Figure title" />
         </div>
         <div className="mk-head-side">
           {stats.map(([n, l]) => <span key={l}><strong>{n}</strong> {l}</span>)}
-          <em>{note}</em>
+          <em role="status">{note}</em>
           <ThemeSwitch />
         </div>
       </header>
@@ -346,7 +347,7 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
         </S.Panel>
         <S.Panel kicker={place === 'workspace' ? 'Saved in this workspace' : 'Saved in this browser'}
           help={place === 'workspace' ? 'Kept in this artifact, visible only to you, on any device.' : (sheets.length ? 'Kept in this browser only.' : 'Name a sheet and save it to come back later.')}>
-          <S.Field id={'vname-' + def.id} value={vname} placeholder="e.g. Draft for tutorial" onChange={(e: any) => setVname(e.target.value)} />
+          <S.Field id={'vname-' + def.id} ariaLabel="Sheet name" value={vname} placeholder="e.g. Draft for tutorial" onChange={(e: any) => setVname(e.target.value)} />
           <S.ToolButton onClick={saveHere}>{place === 'workspace' ? 'Save in workspace' : 'Save in browser'}</S.ToolButton>
           {sheets.map(v => (
             <div key={v.id} className="mk-version">

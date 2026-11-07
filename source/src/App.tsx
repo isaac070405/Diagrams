@@ -112,7 +112,7 @@ function PathwayFrame(p: { onHome: () => void }) {
     <div className="mk-pathway">
       <div className="mk-pathway-bar">
         <button type="button" className="mk-back" onClick={p.onHome}>← All diagrams</button>
-        <span className="sd-kicker">12 · Biological pathway</span>
+        <span className="sd-kicker" role="heading" aria-level={1}>12 · Biological pathway</span>
         <span className="mk-spacer" />
         <ThemeSwitch />
       </div>

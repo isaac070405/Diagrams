@@ -60,17 +60,17 @@
   }
   function Field(p) {
     var ctl = p.multiline
-      ? h('textarea', { id: p.id, className: 'sd-input' + (p.code ? ' sd-code' : ''), rows: p.rows || 4, value: p.value, placeholder: p.placeholder, onChange: p.onChange, spellCheck: p.code ? false : undefined })
-      : h('input', { id: p.id, className: p.type === 'range' ? 'sd-range' : 'sd-input', type: p.type || 'text', value: p.value, placeholder: p.placeholder, min: p.min, max: p.max, step: p.step, onChange: p.onChange });
+      ? h('textarea', { id: p.id, className: 'sd-input' + (p.code ? ' sd-code' : ''), rows: p.rows || 4, value: p.value, placeholder: p.placeholder, 'aria-label': p.ariaLabel || (p.label ? undefined : p.placeholder), onChange: p.onChange, spellCheck: p.code ? false : undefined })
+      : h('input', { id: p.id, className: p.type === 'range' ? 'sd-range' : 'sd-input', type: p.type || 'text', value: p.value, placeholder: p.placeholder, min: p.min, max: p.max, step: p.step, 'aria-label': p.ariaLabel || (p.label ? undefined : p.placeholder), onChange: p.onChange });
     return h('label', { className: 'sd-field' }, p.label ? h('span', null, p.label) : null, ctl, p.help ? h('p', { className: 'sd-help' }, p.help) : null);
   }
   function Panel(p) {
-    return h('section', { className: 'sd-panel' }, p.kicker ? h('span', { className: 'sd-kicker' }, p.kicker) : null, p.children, p.help ? h('p', { className: 'sd-help' }, p.help) : null);
+    return h('section', { className: 'sd-panel' }, p.kicker ? h('span', { className: 'sd-kicker', role: 'heading', 'aria-level': 2 }, p.kicker) : null, p.children, p.help ? h('p', { className: 'sd-help' }, p.help) : null);
   }
   function FontPicker(p) {
     var value = p.value || 'arial';
     return h('div', { className: 'sd-panel' },
-      p.kicker === false ? null : h('span', { className: 'sd-kicker' }, p.kicker || 'Type'),
+      p.kicker === false ? null : h('span', { className: 'sd-kicker', role: 'heading', 'aria-level': 2 }, p.kicker || 'Type'),
       h('div', { className: 'sd-fontlist', role: 'radiogroup', 'aria-label': 'Diagram font', 'data-layout': p.layout || 'column' },
         FONTS.map(function (f) {
           return h('button', { key: f.id, type: 'button', role: 'radio', 'aria-checked': value === f.id, className: 'sd-tbtn', 'data-on': value === f.id ? '1' : '0',
