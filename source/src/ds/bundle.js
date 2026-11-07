@@ -1039,22 +1039,44 @@
       var w = Math.max(84, String(q.name).length * 7.2 + 26), cx = X + 170 + (q.x || 0) * colW;
       nodes[q.id] = Object.assign({}, q, { w: w, h: bh, cx: cx, cy: bandY(q.band) + bandH * 0.5 + 18 + (q.dy || 0) });
     });
-    function clip(a, dx, dy) { var tx = dx ? (a.w / 2) / Math.abs(dx) : Infinity, ty = dy ? (a.h / 2) / Math.abs(dy) : Infinity, t = Math.min(tx, ty); return [a.cx + dx * t, a.cy + dy * t]; }
-    (p.edges || []).forEach(function (e) {
-      var a = nodes[e.from], b = nodes[e.to]; if (!a || !b) return;
-      var dx = b.cx - a.cx, dy = b.cy - a.cy, p1 = clip(a, dx, dy), p2 = clip(b, -dx, -dy);
-      var w = e.weight === 'major' ? 2.4 : e.weight === 'minor' ? 0.9 : 1.5, col = color ? bands[a.band][1] : 'var(--neutral-500)';
-      var ang = Math.atan2(p2[1] - p1[1], p2[0] - p1[0]), hs = 6 + w, end = [p2[0] - Math.cos(ang) * hs * 0.68, p2[1] - Math.sin(ang) * hs * 0.68];
-      out.push(h('path', { key: K(), className: 'sd-fw-edge' + (e.weight === 'minor' ? ' sd-fw-minor' : ''), d: 'M' + p1 + 'L' + end, style: { stroke: col, strokeWidth: w } }));
-      out.push(notch(p2[0], p2[1], ang, hs, '', { fill: col }, K()));
+    /* Ports: each node side shares its arrows evenly, ordered by the other end's x, so arrows never pile into one point. */
+    var list = (p.edges || []).filter(function (e) { return nodes[e.from] && nodes[e.to] && e.from !== e.to; }), ports = {};
+    var sideOf = function (a, b) { var dy = b.cy - a.cy; return Math.abs(dy) < a.h ? (b.cx >= a.cx ? 'r' : 'l') : (dy < 0 ? 't' : 'b'); };
+    list.forEach(function (e, i) {
+      var a = nodes[e.from], b = nodes[e.to];
+      e._s = sideOf(a, b); e._t = sideOf(b, a);
+      (ports[e.from + '|' + e._s] = ports[e.from + '|' + e._s] || []).push({ e: e, end: 's', o: b.cx });
+      (ports[e.to + '|' + e._t] = ports[e.to + '|' + e._t] || []).push({ e: e, end: 't', o: a.cx });
+    });
+    Object.keys(ports).forEach(function (key) {
+      var parts = key.split('|'), q = nodes[parts[0]], side = parts[1], arr = ports[key];
+      arr.sort(function (u, v) { return u.o - v.o; });
+      arr.forEach(function (it, i) {
+        var f = (i + 1) / (arr.length + 1), pt;
+        if (side === 't' || side === 'b') pt = [q.cx - q.w / 2 + q.w * f, q.cy + (side === 't' ? -q.h / 2 : q.h / 2)];
+        else pt = [q.cx + (side === 'r' ? q.w / 2 : -q.w / 2), q.cy - q.h / 2 + q.h * f];
+        it.e[it.end === 's' ? '_p1' : '_p2'] = pt;
+      });
+    });
+    list.forEach(function (e) {
+      var a = nodes[e.from], b = nodes[e.to], p1 = e._p1, p2 = e._p2;
+      var w = e.weight === 'major' ? 2.5 : e.weight === 'minor' ? 1.2 : 1.5, col = color ? bands[a.band][1] : 'var(--neutral-500)';
+      var vert = e._s === 't' || e._s === 'b', c1, c2, tx, ty, hs = 6 + w;
+      if (vert) { var m = Math.max(24, Math.abs(p2[1] - p1[1]) * 0.5), sg = e._s === 't' ? -1 : 1; c1 = [p1[0], p1[1] + sg * m]; c2 = [p2[0], p2[1] - sg * m]; }
+      else { var lift = 38 + Math.abs(p2[0] - p1[0]) * 0.12, sx = e._s === 'r' ? 1 : -1; c1 = [p1[0] + sx * 24, p1[1] - lift]; c2 = [p2[0] - sx * 24, p2[1] - lift]; }
+      var ang = Math.atan2(p2[1] - c2[1], p2[0] - c2[0]), end = [p2[0] - Math.cos(ang) * hs * 0.68, p2[1] - Math.sin(ang) * hs * 0.68];
+      out.push(h('path', { key: K(), className: 'sd-fw-edge' + (e.weight === 'minor' ? ' sd-fw-minor' : ''), 'data-from': e.from, 'data-to': e.to, d: 'M' + p1 + 'C' + c1 + ' ' + c2 + ' ' + end, style: { stroke: col, strokeWidth: w } }));
+      out.push(h('g', { key: K(), className: 'sd-fw-head', 'data-from': e.from, 'data-to': e.to }, notch(p2[0], p2[1], ang, hs, '', { fill: col }, K())));
       if (e.label) out.push(h('text', { key: K(), className: 'sd-fw-elabel', x: (p1[0] + p2[0]) / 2, y: (p1[1] + p2[1]) / 2 }, e.label));
     });
     Object.keys(nodes).forEach(function (id) {
       var q = nodes[id], col = q.color || (color ? bands[q.band][1] : 'var(--neutral-400)'), x0 = q.cx - q.w / 2, y0 = q.cy - q.h / 2;
-      out.push(h('rect', { key: K(), className: 'sd-fw-box', x: x0, y: y0, width: q.w, height: q.h }));
-      out.push(h('path', { key: K(), className: 'sd-reg', d: regMarks(x0, y0, q.w, q.h, 4.5).props.d, style: { stroke: col } }));
-      out.push(h('text', { key: K(), className: 'sd-fw-name', x: q.cx, y: q.cy }, q.name));
+      out.push(h('g', { key: K(), className: 'sd-fw-node', 'data-id': id }, [
+        h('rect', { key: 'r', className: 'sd-fw-box', x: x0, y: y0, width: q.w, height: q.h }),
+        h('path', { key: 'g', className: 'sd-reg', d: regMarks(x0, y0, q.w, q.h, 4.5).props.d, style: { stroke: col } }),
+        h('text', { key: 't', className: 'sd-fw-name', x: q.cx, y: q.cy }, q.name)]));
     });
+
     return h('g', { className: 'sd-foodweb' }, out);
   }
 

@@ -35,7 +35,9 @@ export const foodweb: EditorDef = {
     { name: 'Grassland', desc: 'Grasses to hawks over five bands', title: 'Grassland food web',
       data: { color: true, spec: 'Grasses : producer\nSeed plants : producer\nGrasshopper : primary\nField mouse : primary\nRabbit : primary\nShrew : secondary\nSnake : secondary\nBarn owl : tertiary\nHawk : apex\nGrasses > Grasshopper\nGrasses > Rabbit\nSeed plants > Field mouse\nSeed plants > Grasshopper (minor)\nGrasshopper > Shrew\nField mouse > Snake\nField mouse > Barn owl\nRabbit > Hawk (major)\nShrew > Barn owl\nSnake > Hawk\nBarn owl > Hawk (minor)' } },
     { name: 'Rocky reef', desc: 'Temperate reef off New South Wales', title: 'Temperate rocky reef food web',
-      data: { color: true, spec: 'Kelp : producer\nPhytoplankton : producer\nPurple sea urchin : primary\nAbalone : primary\nZooplankton : primary\nBlue groper : secondary\nEastern rock lobster : secondary\nYellowtail kingfish : tertiary\nGrey nurse shark : apex\nKelp > Purple sea urchin (major)\nKelp > Abalone\nPhytoplankton > Zooplankton (major)\nPurple sea urchin > Blue groper\nPurple sea urchin > Eastern rock lobster (major)\nAbalone > Eastern rock lobster (minor)\nZooplankton > Yellowtail kingfish (minor)\nBlue groper > Grey nurse shark (minor)\nYellowtail kingfish > Grey nurse shark' } }
+      data: { color: true, spec: 'Kelp : producer\nPhytoplankton : producer\nPurple sea urchin : primary\nAbalone : primary\nZooplankton : primary\nBlue groper : secondary\nEastern rock lobster : secondary\nYellowtail kingfish : tertiary\nGrey nurse shark : apex\nKelp > Purple sea urchin (major)\nKelp > Abalone\nPhytoplankton > Zooplankton (major)\nPurple sea urchin > Blue groper\nPurple sea urchin > Eastern rock lobster (major)\nAbalone > Eastern rock lobster (minor)\nZooplankton > Yellowtail kingfish (minor)\nBlue groper > Grey nurse shark (minor)\nYellowtail kingfish > Grey nurse shark' } },
+    { name: 'Hydrothermal vent', desc: 'Chemosynthetic deep-sea vent community', title: 'Chemosynthetic food web of a deep-sea hydrothermal vent',
+      data: { color: true, spec: 'Chemosynthetic bacteria : producer\nScaly-foot gastropod : primary\nVent shrimp : primary\nGiant tubeworm : primary\nHydrothermal mussel : primary\nVent clam : primary\nVent zooplankton : primary\nVent crab : secondary\nZoarcid fish : secondary\nDandelion siphonophore : secondary\nDeep-sea octopus : tertiary\nChemosynthetic bacteria > Scaly-foot gastropod (major)\nChemosynthetic bacteria > Vent shrimp (major)\nChemosynthetic bacteria > Giant tubeworm (major)\nChemosynthetic bacteria > Hydrothermal mussel (major)\nChemosynthetic bacteria > Vent clam (major)\nChemosynthetic bacteria > Vent zooplankton\nVent shrimp > Vent crab\nVent shrimp > Zoarcid fish\nGiant tubeworm > Vent crab (minor)\nHydrothermal mussel > Vent crab\nVent clam > Zoarcid fish (minor)\nVent zooplankton > Dandelion siphonophore (major)\nVent zooplankton > Vent shrimp (minor)\nVent crab > Deep-sea octopus\nZoarcid fish > Deep-sea octopus\nDandelion siphonophore > Deep-sea octopus (minor)' } }
   ],
   stats: d => { const p = web(d); return [[p.nodes.length, 'organisms'], [p.edges.length, 'links']]; },
   hint: 'Drag an organism sideways in its band, or up or down to change its level. Connect draws who eats whom.',
@@ -71,6 +73,21 @@ export const foodweb: EditorDef = {
   },
 };
 
+/* Hover: dim unrelated organisms, mark prey (incoming) and predators (outgoing) of the hovered one. */
+function fwFocus(el: Element, id: string | null) {
+  const svg = el.ownerSVGElement; const g = svg && svg.querySelector('.sd-foodweb'); if (!g) return;
+  g.classList.toggle('fw-focus', !!id);
+  g.querySelectorAll('.fw-self,.fw-prey,.fw-pred,.fw-in,.fw-out').forEach(x => x.classList.remove('fw-self', 'fw-prey', 'fw-pred', 'fw-in', 'fw-out'));
+  if (!id) return;
+  const node = (i: string) => g.querySelector('.sd-fw-node[data-id="' + i + '"]');
+  node(id)?.classList.add('fw-self');
+  g.querySelectorAll('[data-from]').forEach(x => {
+    const f = x.getAttribute('data-from') as string, t = x.getAttribute('data-to') as string;
+    if (t === id) { x.classList.add('fw-in'); node(f)?.classList.add('fw-prey'); }
+    if (f === id) { x.classList.add('fw-out'); node(t)?.classList.add('fw-pred'); }
+  });
+}
+
 const FW_COL = 150, FW_BAND = 96, FW_X = 170;
 function FwOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }) {
   const p = web(data);
@@ -78,6 +95,7 @@ function FwOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }
     const w = Math.max(84, String(n.name).length * 7.2 + 26), cx = FW_X + (n.x || 0) * FW_COL, cy = (4 - n.band) * FW_BAND + FW_BAND * 0.5 + 18 + (n.dy || 0);
     const on = sel && sel.kind === 'org' && sel.id === n.id;
     return <rect key={n.id} className={'mk-hit' + (on ? ' mk-on' : '')} x={cx - w / 2 - 3} y={cy - 20} width={w + 6} height={40}
+      onPointerEnter={e => fwFocus(e.currentTarget, n.id)} onPointerLeave={e => fwFocus(e.currentTarget, null)}
       onPointerDown={e => {
         setSel({ kind: 'org', id: n.id });
         const x0 = n.x || 0, dy0 = n.dy || 0, band0 = n.band;
