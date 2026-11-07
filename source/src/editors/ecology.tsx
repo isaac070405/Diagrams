@@ -1,5 +1,5 @@
 import { S } from '../sheet';
-import { cells, EmptyHint, lines, num, RowsText, Seg, Spec, startDrag, TextView, Toggle, idOf } from '../ui';
+import { Fold, cells, EmptyHint, lines, num, RowsText, Seg, Spec, startDrag, TextView, Toggle, idOf } from '../ui';
 
 const sw = (n: any) => /^\d+$/.test(String(n || '').trim()) ? 'var(--swatch-' + String(n).trim() + ')' : undefined;
 const swn = (c: any) => { const m = String(c || '').match(/swatch-(\d+)/); return m ? m[1] : ''; };
@@ -35,7 +35,9 @@ export const foodweb: EditorDef = {
     { name: 'Grassland', desc: 'Grasses to hawks over five bands', title: 'Grassland food web',
       data: { color: true, spec: 'Grasses : producer\nSeed plants : producer\nGrasshopper : primary\nField mouse : primary\nRabbit : primary\nShrew : secondary\nSnake : secondary\nBarn owl : tertiary\nHawk : apex\nGrasses > Grasshopper\nGrasses > Rabbit\nSeed plants > Field mouse\nSeed plants > Grasshopper (minor)\nGrasshopper > Shrew\nField mouse > Snake\nField mouse > Barn owl\nRabbit > Hawk (major)\nShrew > Barn owl\nSnake > Hawk\nBarn owl > Hawk (minor)' } },
     { name: 'Rocky reef', desc: 'Temperate reef off New South Wales', title: 'Temperate rocky reef food web',
-      data: { color: true, spec: 'Kelp : producer\nPhytoplankton : producer\nPurple sea urchin : primary\nAbalone : primary\nZooplankton : primary\nBlue groper : secondary\nEastern rock lobster : secondary\nYellowtail kingfish : tertiary\nGrey nurse shark : apex\nKelp > Purple sea urchin (major)\nKelp > Abalone\nPhytoplankton > Zooplankton (major)\nPurple sea urchin > Blue groper\nPurple sea urchin > Eastern rock lobster (major)\nAbalone > Eastern rock lobster (minor)\nZooplankton > Yellowtail kingfish (minor)\nBlue groper > Grey nurse shark (minor)\nYellowtail kingfish > Grey nurse shark' } }
+      data: { color: true, spec: 'Kelp : producer\nPhytoplankton : producer\nPurple sea urchin : primary\nAbalone : primary\nZooplankton : primary\nBlue groper : secondary\nEastern rock lobster : secondary\nYellowtail kingfish : tertiary\nGrey nurse shark : apex\nKelp > Purple sea urchin (major)\nKelp > Abalone\nPhytoplankton > Zooplankton (major)\nPurple sea urchin > Blue groper\nPurple sea urchin > Eastern rock lobster (major)\nAbalone > Eastern rock lobster (minor)\nZooplankton > Yellowtail kingfish (minor)\nBlue groper > Grey nurse shark (minor)\nYellowtail kingfish > Grey nurse shark' } },
+    { name: 'Hydrothermal vent', desc: 'Chemosynthetic deep-sea vent community', title: 'Chemosynthetic food web of a deep-sea hydrothermal vent',
+      data: { color: true, spec: 'Chemosynthetic bacteria : producer\nScaly-foot gastropod : primary\nVent shrimp : primary\nGiant tubeworm : primary\nHydrothermal mussel : primary\nVent clam : primary\nVent zooplankton : primary\nVent crab : secondary\nZoarcid fish : secondary\nDandelion siphonophore : secondary\nDeep-sea octopus : tertiary\nChemosynthetic bacteria > Scaly-foot gastropod (major)\nChemosynthetic bacteria > Vent shrimp (major)\nChemosynthetic bacteria > Giant tubeworm (major)\nChemosynthetic bacteria > Hydrothermal mussel (major)\nChemosynthetic bacteria > Vent clam (major)\nChemosynthetic bacteria > Vent zooplankton\nVent shrimp > Vent crab\nVent shrimp > Zoarcid fish\nGiant tubeworm > Vent crab (minor)\nHydrothermal mussel > Vent crab\nVent clam > Zoarcid fish (minor)\nVent zooplankton > Dandelion siphonophore (major)\nVent zooplankton > Vent shrimp (minor)\nVent crab > Deep-sea octopus\nZoarcid fish > Deep-sea octopus\nDandelion siphonophore > Deep-sea octopus (minor)' } }
   ],
   stats: d => { const p = web(d); return [[p.nodes.length, 'organisms'], [p.edges.length, 'links']]; },
   hint: 'Drag an organism sideways in its band, or up or down to change its level. Connect draws who eats whom.',
@@ -50,27 +52,68 @@ export const foodweb: EditorDef = {
   },
   Controls: ({ data, set }) => (
     <>
-      <RowsText id="fw-org" kicker="Organisms" help="Click an organism on the sheet to find its row." text={data.spec} match={l => !/>/.test(l) || l.includes(':')}
+      <RowsText fold badge id="fw-org" kicker="Organisms" help="Click an organism on the sheet to find its row." text={data.spec} match={l => !/>/.test(l) || l.includes(':')}
         parse={l => { const [name, band, col] = cells(l, ':'); return { name, band: (band || 'producer').toLowerCase(), color: sw(col) }; }}
         format={r => [r.name, BAND_NAMES.includes(r.band) ? r.band : 'producer', swn(r.color)].filter(Boolean).join(' : ')}
         cols={[{ key: 'name', label: 'Organism', w: '1.5fr' }, { key: 'band', label: 'Level', type: 'select', options: BAND_OPTS }, { key: 'color', label: 'Box colour', type: 'color' }]}
         blank={() => ({ name: 'New organism', band: 'primary' })} addLabel="+ Add organism" onText={(v, k) => set({ spec: v }, k)} />
-      <RowsText id="fw-links" kicker="Who eats whom" help="Arrows run from the eaten to the eater." text={data.spec} match={l => />/.test(l) && !l.includes(':')}
+      <RowsText fold badge id="fw-links" kicker="Who eats whom" help="Arrows run from the eaten to the eater." text={data.spec} match={l => />/.test(l) && !l.includes(':')}
         parse={l => { const m = l.match(/^(.+?)\s*>\s*(.+?)\s*(?:\((minor|major)\))?\s*$/) || []; return { prey: m[1] || '', pred: m[2] || '', weight: m[3] || 'normal' }; }}
         format={r => r.prey + ' > ' + r.pred + (r.weight && r.weight !== 'normal' ? ' (' + r.weight + ')' : '')}
         cols={[{ key: 'prey', label: 'Eaten', type: 'select', options: web(data).nodes.map((n: any) => [n.name, n.name]) }, { key: 'pred', label: 'Eater', type: 'select', options: web(data).nodes.map((n: any) => [n.name, n.name]) }, { key: 'weight', label: 'Weight', type: 'select', options: [['minor', 'Minor'], ['normal', 'Normal'], ['major', 'Major']], w: '0.8fr' }]}
         blank={() => { const n = web(data).nodes; return { prey: n[0] ? n[0].name : '', pred: n[1] ? n[1].name : '', weight: 'normal' }; }} addLabel="+ Add link" onText={(v, k) => set({ spec: v }, k)} />
       <TextView id="fw-spec" title="Edit as text" text={data.spec} rows={12} help="Organism: Name : level : colour 1–16. Link: Prey > Predator (major) or (minor)." onChange={v => set({ spec: v }, 'spec')} />
-      <S.Panel kicker="Bands"><Toggle on={data.color} label="Colour the trophic bands" onChange={v => set({ color: v })} />{data.pos && Object.keys(data.pos).length ? <S.ToolButton onClick={() => set({ pos: {} })}>Tidy: automatic positions</S.ToolButton> : null}</S.Panel>
+      {unknown(data).length ? <p className="mk-warn">Unknown organism in a link: {unknown(data).join(', ')}. That link is not drawn.</p> : null}
+      <Fold kicker="Appearance" badge={THEMES.find(t => t[0] === (data.theme || 'default'))![1]}>
+        <Seg value={data.theme || 'default'} options={THEMES as any} wrap onChange={(v: any) => set({ theme: v })} />
+        <Toggle on={data.color} label="Colour the trophic bands" onChange={v => set({ color: v })} />
+        <Toggle on={!!data.snap} label="Snap dragging to a 16 px grid" onChange={v => set({ snap: v })} />
+        <S.ToolButton onClick={() => set({ pos: reduceCrossings(data) })}>Tidy: reduce arrow crossings</S.ToolButton>
+        {data.pos && Object.keys(data.pos).length ? <S.ToolButton onClick={() => set({ pos: {} })}>Tidy: automatic positions</S.ToolButton> : null}
+      </Fold>
     </>
   ),
   Render: ({ data }) => {
     const p = web(data);
     if (!p.nodes.length) return <EmptyHint text="Add an organism, e.g. “Kelp : producer”." />;
-    return <S.FoodWeb x={0} y={0} nodes={p.nodes} edges={p.edges} colorBands={data.color} />;
+    return <S.FoodWeb x={0} y={0} nodes={p.nodes} edges={p.edges} colorBands={data.color} theme={data.theme} />;
   },
 };
 
+/* Hover: dim unrelated organisms, mark prey (incoming) and predators (outgoing) of the hovered one. */
+function fwFocus(el: Element, id: string | null) {
+  const svg = el.ownerSVGElement; const g = svg && svg.querySelector('.sd-foodweb'); if (!g) return;
+  g.classList.toggle('fw-focus', !!id);
+  g.querySelectorAll('.fw-self,.fw-prey,.fw-pred,.fw-in,.fw-out').forEach(x => x.classList.remove('fw-self', 'fw-prey', 'fw-pred', 'fw-in', 'fw-out'));
+  if (!id) return;
+  const node = (i: string) => g.querySelector('.sd-fw-node[data-id="' + i + '"]');
+  node(id)?.classList.add('fw-self');
+  g.querySelectorAll('[data-from]').forEach(x => {
+    const f = x.getAttribute('data-from') as string, t = x.getAttribute('data-to') as string;
+    if (t === id) { x.classList.add('fw-in'); node(f)?.classList.add('fw-prey'); }
+    if (f === id) { x.classList.add('fw-out'); node(t)?.classList.add('fw-pred'); }
+  });
+}
+
+const THEMES: [string, string][] = [['default', 'Default'], ['dark', 'Abyssal dark'], ['academic', 'Academic'], ['gradient', 'Trophic gradient']];
+function unknown(d: any) {
+  const names = new Set(web(d).nodes.map((n: any) => n.id)), bad: string[] = [];
+  for (const l of lines(d.spec)) { const m = l.match(/^(.+?)\s*>\s*(.+?)\s*(?:\((minor|major)\))?\s*$/); if (m && !l.includes(':')) [m[1], m[2]].forEach(x => { if (!names.has(idOf(x)) && !bad.includes(x.trim())) bad.push(x.trim()); }); }
+  return bad;
+}
+/* Barycentre sweeps (Sugiyama style) order each band to cut arrow crossings. */
+function reduceCrossings(d: any) {
+  const p = web(d), by: any[][] = [[], [], [], [], []]; p.nodes.forEach((n: any) => by[n.band].push(n));
+  const xs: any = {}; by.forEach(a => a.forEach((n, i) => { xs[n.id] = i; }));
+  const nb = (id: string) => p.edges.filter((e: any) => e.from === id || e.to === id).map((e: any) => e.from === id ? e.to : e.from);
+  for (let it = 0; it < 6; it++) (it % 2 ? [...by.keys()].reverse() : [...by.keys()]).forEach(b => {
+    const bc = (n: any) => { const o = nb(n.id).map(i => xs[i]).filter(v => v != null); return o.length ? o.reduce((s: number, v: number) => s + v, 0) / o.length : xs[n.id]; };
+    by[b].sort((u, v) => bc(u) - bc(v)); by[b].forEach((n, i) => { xs[n.id] = i; });
+  });
+  const widest = Math.max(1, ...by.map(a => a.length)), pos: any = {};
+  by.forEach(a => a.forEach((n, i) => { pos[n.id] = [(widest - a.length) * 0.7 + i * 1.4, 0]; }));
+  return pos;
+}
 const FW_COL = 150, FW_BAND = 96, FW_X = 170;
 function FwOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }) {
   const p = web(data);
@@ -78,17 +121,18 @@ function FwOverlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }
     const w = Math.max(84, String(n.name).length * 7.2 + 26), cx = FW_X + (n.x || 0) * FW_COL, cy = (4 - n.band) * FW_BAND + FW_BAND * 0.5 + 18 + (n.dy || 0);
     const on = sel && sel.kind === 'org' && sel.id === n.id;
     return <rect key={n.id} className={'mk-hit' + (on ? ' mk-on' : '')} x={cx - w / 2 - 3} y={cy - 20} width={w + 6} height={40}
+      onPointerEnter={e => fwFocus(e.currentTarget, n.id)} onPointerLeave={e => fwFocus(e.currentTarget, null)}
       onPointerDown={e => {
         setSel({ kind: 'org', id: n.id });
         const x0 = n.x || 0, dy0 = n.dy || 0, band0 = n.band;
         startDrag(e, toSvg, (dx, dy) => {
           const ny = cy + dy, band = Math.max(0, Math.min(4, 4 - Math.floor(ny / FW_BAND)));
           const center = (4 - band) * FW_BAND + FW_BAND * 0.5 + 18, ndy = Math.max(-34, Math.min(30, Math.round(ny - center)));
-          const patch: any = { pos: { ...(data.pos || {}), [n.id]: [Math.round((x0 + dx / FW_COL) * 100) / 100, band === band0 ? Math.round(dy0 + dy) : ndy] } };
+          const patch: any = { pos: { ...(data.pos || {}), [n.id]: [data.snap ? Math.round((x0 + dx / FW_COL) * FW_COL / 16) * 16 / FW_COL : Math.round((x0 + dx / FW_COL) * 100) / 100, band === band0 ? (data.snap ? Math.round((dy0 + dy) / 8) * 8 : Math.round(dy0 + dy)) : ndy] } };
           if (band !== band0) patch.spec = String(data.spec || '').split('\n').map(l => { const c = cells(l, ':'); return !(/>/.test(l) && !l.includes(':')) && idOf(c[0]) === n.id ? [c[0], BAND_NAMES[band], ...(c.slice(2).filter(Boolean))].join(' : ') : l; }).join('\n');
           set(patch, 'fw-drag-' + n.id);
         });
-      }} />;
+      }}><title>{n.name + ' | ' + BAND_OPTS[n.band][1] + ' level | prey: ' + p.edges.filter((x: any) => x.to === n.id).length + ' | predators: ' + p.edges.filter((x: any) => x.from === n.id).length}</title></rect>;
   })}</>;
 }
 

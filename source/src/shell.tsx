@@ -171,6 +171,18 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
       say(await saveFile(blob, name));
     } catch (e) { say('Export failed: the sheet could not be drawn'); }
   }
+  async function copy(kind: string) {
+    const svg = svgRef.current; if (!svg) return;
+    try {
+      const CI: any = (window as any).ClipboardItem;
+      if (!navigator.clipboard || !CI) { say('Copy is not available in this browser'); return; }
+      if (kind === 'svg') {
+        const text = await svgBlob(svg).text();
+        await navigator.clipboard.write([new CI({ 'text/plain': new Blob([text], { type: 'text/plain' }) })]);
+      } else await navigator.clipboard.write([new CI({ 'image/png': rasterBlob(svg, 'image/png', '#ffffff') })]);
+      say(kind === 'svg' ? 'SVG code copied' : 'PNG copied');
+    } catch (e) { say('Copy failed: the browser blocked clipboard access'); }
+  }
   async function saveProject() {
     say(await saveFile(new Blob([JSON.stringify(doc, null, 1)], { type: 'application/json' }), base + '.json'));
   }
@@ -321,6 +333,10 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
           <div className="sd-row-btns">
             <S.ToolButton compact onClick={() => exp('svg')}>SVG</S.ToolButton>
             <S.ToolButton compact onClick={() => exp('jpg')}>JPEG</S.ToolButton>
+          </div>
+          <div className="sd-row-btns">
+            <S.ToolButton compact onClick={() => copy('png')}>Copy PNG</S.ToolButton>
+            <S.ToolButton compact onClick={() => copy('svg')}>Copy SVG</S.ToolButton>
           </div>
           <div className="sd-row-btns">
             <S.ToolButton compact onClick={saveProject}>Save JSON</S.ToolButton>

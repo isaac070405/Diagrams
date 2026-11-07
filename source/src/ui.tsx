@@ -106,7 +106,7 @@ export const normT = (s: any) => String(s == null ? '' : s).replace(/\s*\/\/\s*/
 
 export interface Col { key: string; label: string; type?: 'text' | 'num' | 'select' | 'color' | 'check'; options?: [any, string][]; w?: string; placeholder?: string; colors?: string[] }
 
-export function Rows(p: { id: string; kicker: string; help?: string; rows: any[]; cols: Col[]; onChange: (rows: any[], key?: string) => void; blank: () => any; addLabel: string }) {
+export function Rows(p: { badge?: string; fold?: boolean; id: string; kicker: string; help?: string; rows: any[]; cols: Col[]; onChange: (rows: any[], key?: string) => void; blank: () => any; addLabel: string }) {
   const [hi, setHi] = useState(-1);
   const [open, setOpen] = useState('');
   const ref = useRef<any>({ rows: p.rows });
@@ -129,8 +129,9 @@ export function Rows(p: { id: string; kicker: string; help?: string; rows: any[]
   }, []);
   const up = (i: number, patch: any, key?: string) => p.onChange(p.rows.map((r, j) => j === i ? { ...r, ...patch } : r), key);
   const grid = p.cols.map(c => c.type === 'color' ? '26px' : c.type === 'check' ? '28px' : (c.w || '1fr')).join(' ') + ' 14px 18px';
+  const Wrap: any = p.fold ? Fold : S.Panel;
   return (
-    <S.Panel kicker={p.kicker} help={p.help}>
+    <Wrap kicker={p.kicker} help={p.help} badge={p.badge}>
       <div className="mk-rows" ref={box}>
         <div className="mk-rows-head" style={{ gridTemplateColumns: grid }}>{p.cols.map(c => <span key={c.key} title={c.label}>{c.type === 'color' ? '' : c.type === 'check' ? (c.placeholder || c.label) : c.label}</span>)}<span /><span /></div>
         {p.rows.map((r, i) => (
@@ -156,16 +157,26 @@ export function Rows(p: { id: string; kicker: string; help?: string; rows: any[]
         ))}
       </div>
       <S.ToolButton onClick={() => p.onChange([...p.rows, p.blank()])}>{p.addLabel}</S.ToolButton>
-    </S.Panel>
+    </Wrap>
+  );
+}
+
+/* Collapsible section with a count badge that stays visible when closed. */
+export function Fold(p: { kicker: string; badge?: string; help?: string; open?: boolean; children?: any }) {
+  return (
+    <details className="mk-fold" open={p.open !== false}>
+      <summary><span className="sd-kicker">{p.kicker}</span>{p.badge ? <span className="mk-badge">{p.badge}</span> : null}</summary>
+      <div className="mk-fold-body">{p.children}{p.help ? <p className="sd-help">{p.help}</p> : null}</div>
+    </details>
   );
 }
 
 /* A form over the lines of a text spec that match `match`; other lines are kept as they are. */
-export function RowsText(p: { id: string; kicker: string; help?: string; text: string; match?: (line: string) => boolean; parse: (line: string) => any; format: (row: any) => string; cols: Col[]; blank: () => any; addLabel: string; onText: (t: string, key?: string) => void; filterOut?: (row: any) => boolean }) {
+export function RowsText(p: { badge?: boolean; fold?: boolean; id: string; kicker: string; help?: string; text: string; match?: (line: string) => boolean; parse: (line: string) => any; format: (row: any) => string; cols: Col[]; blank: () => any; addLabel: string; onText: (t: string, key?: string) => void; filterOut?: (row: any) => boolean }) {
   const all = String(p.text || '').split('\n');
   const isRow = (l: string) => !!l.trim() && !l.trim().startsWith('//') && (!p.match || p.match(l));
   const rows = all.filter(isRow).map(p.parse);
   const keep = all.filter(l => !isRow(l));
-  return <Rows id={p.id} kicker={p.kicker} help={p.help} rows={rows} cols={p.cols} blank={p.blank} addLabel={p.addLabel}
+  return <Rows fold={p.fold} badge={p.badge ? String(rows.length) : undefined} id={p.id} kicker={p.kicker} help={p.help} rows={rows} cols={p.cols} blank={p.blank} addLabel={p.addLabel}
     onChange={(rs, key) => p.onText([...keep.filter(l => l.trim()), ...rs.map(p.format)].join('\n'), key ? p.id + key : undefined)} />;
 }
