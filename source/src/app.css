@@ -18,7 +18,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-home-head h1 { margin: 0; font: 400 44px/1.02 var(--font-ui-condensed); letter-spacing: -0.015em; text-wrap: balance; }
 .mk-home-head p { margin: 0; font: 400 15px/23px var(--font-ui); color: var(--neutral-700); max-width: 62ch; }
 .mk-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.mk-chips .sd-tbtn { flex: none; padding: 6px 12px; }
+.mk-chips .sd-tbtn { flex: none; padding: 6px 12px; min-height: 44px; }
 .mk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 26px; }
 .mk-card { background: var(--paper); }
 .mk-card-btn { display: grid; grid-template-rows: auto 1fr; height: 100%; color: inherit; text-decoration: none; }
@@ -142,7 +142,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-home-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .mk-spacer { flex: 1; }
 .mk-theme { display: inline-flex; border: 1px solid var(--divider); background: var(--ground); }
-.mk-theme button { display: grid; place-items: center; width: 30px; height: 26px; padding: 0; border: 0; background: none; color: var(--neutral-700); cursor: pointer; }
+.mk-theme button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: none; color: var(--neutral-700); cursor: pointer; }
 .mk-theme button + button { border-left: 1px solid var(--divider); }
 .mk-theme button:hover { background: var(--accent-100); color: var(--text); }
 .mk-theme button[data-on="1"] { background: var(--accent-200); color: var(--accent-800); }

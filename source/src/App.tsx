@@ -80,13 +80,13 @@ function Home() {
         <div className="mk-home-top"><span className="sd-kicker">Scientific Diagram</span><ThemeSwitch /></div>
         <h1>Diagram Workspace</h1>
         <p>{WORDS[ALL.length] || ALL.length} editors for figures in lab reports, essays and slides. Pick one, start from an example, and export on white paper as PNG, SVG or JPEG.</p>
-        <div className="mk-chips" role="tablist" aria-label="Filter by field">
+        <div className="mk-chips" role="group" aria-label="Filter by field">
           {FIELDS.map(f => <S.ToolButton key={f} compact on={field === f} onClick={() => { setField(f); store.set('sd-maker:field', f); }}>{f}{f === 'All' ? ' (' + (ALL.length + 1) + ')' : ''}</S.ToolButton>)}
         </div>
       </header>
-      <section className="mk-grid">
+      <main className="mk-grid">
         {list.map(e => <Card key={e.id} e={e} />)}
-      </section>
+      </main>
     </div>
   );
 }
