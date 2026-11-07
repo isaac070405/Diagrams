@@ -13,6 +13,8 @@ Open it online: https://isaac070405.github.io/Diagrams/
 
 Download the latest build from the Releases page.
 
+Icon credits and licences are in `site/icons/CREDITS.md`.
+
 | No. | Diagram | No. | Diagram |
 |---|---|---|---|
 | 01 | System Thinking Circle | 12 | Biological pathway |
