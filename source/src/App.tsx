@@ -109,7 +109,7 @@ function PathwayFrame(p: { onHome: () => void }) {
     return () => { window.removeEventListener('message', onMsg); clearTimeout(t); };
   }, []);
   return (
-    <div className="mk-pathway">
+    <main className="mk-pathway">
       <div className="mk-pathway-bar">
         <button type="button" className="mk-back" onClick={p.onHome}>← All diagrams</button>
         <span className="sd-kicker" role="heading" aria-level={1}>12 · Biological pathway</span>
@@ -118,7 +118,7 @@ function PathwayFrame(p: { onHome: () => void }) {
       </div>
       <iframe ref={ref} src="pathway.html" title="Biological pathway diagram editor" />
       <Toast msg={toast} />
-    </div>
+    </main>
   );
 }
 

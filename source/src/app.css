@@ -431,3 +431,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-zoom button { min-height: 24px; }
 .mk-lib-open { display: inline-block; padding-block: 6px; }
 .sd-range { min-height: 24px; }
+
+/* WCAG 2.5.5: standalone controls reach 44 by 44 CSS px; small row icons keep their look and gain a 44 px hit area */
+.sd-tbtn, .sd-input, .mk-select, .mk-back, .mk-zoom button, .mk-lib-open, .mk-row-main, .sd-range { min-height: 44px; }
+.mk-back, .mk-lib-open { min-width: 44px; }
+.mk-zoom button { min-width: 44px; }
+.mk-rows-row .sd-input { min-height: 44px; }
+.mk-x, .mk-move button, .mk-sw { position: relative; }
+.mk-x::after, .mk-move button::after { content: ""; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); }
+.mk-sw { width: 24px; height: 24px; }
+.mk-overlay [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mk-titlein, .mk-lib-search { min-height: 44px; }
+.sd-tbtn { min-width: 44px; }

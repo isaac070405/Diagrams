@@ -108,6 +108,7 @@ export function Sheet(p: {
     if (p.zoom) { (svg as any).style.width = Math.round(vw * p.zoom) + 'px'; (svg as any).style.height = Math.round(vh * p.zoom) + 'px'; }
     else { (svg as any).style.width = ''; (svg as any).style.height = ''; }
     p.svgRef && p.svgRef(svg as SVGSVGElement);
+    svg.setAttribute('role', svg.querySelector('.mk-overlay [tabindex]') ? 'group' : 'img');
     const dsc = descRef.current;
     if (dsc) {
       const seen = new Set<string>();

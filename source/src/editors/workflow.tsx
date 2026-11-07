@@ -107,7 +107,8 @@ function Overlay({ data, sel, setSel }: any) {
   const d = norm(data), L = layoutSteps(d);
   return <>{L.cards.map(c => {
     const on = sel && sel.kind === 'step' && sel.id === c.s.id;
-    return <rect key={c.s.id} className={'mk-hit' + (on ? ' mk-on' : '')} style={{ cursor: 'pointer' }} x={c.x - 3} y={c.y - 3} width={CARD_W + 6} height={c.h + 6} rx={9} onPointerDown={(e: any) => { e.stopPropagation(); setSel({ kind: 'step', id: c.s.id }); }} />;
+    return <rect key={c.s.id} className={'mk-hit' + (on ? ' mk-on' : '')} style={{ cursor: 'pointer' }} x={c.x - 3} y={c.y - 3} width={CARD_W + 6} height={c.h + 6} rx={9} onPointerDown={(e: any) => { e.stopPropagation(); setSel({ kind: 'step', id: c.s.id }); }}
+      tabIndex={0} role="button" aria-label={'Select step: ' + (c.s.title || c.s.id)} aria-pressed={!!on} onKeyDown={(e: any) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSel({ kind: 'step', id: c.s.id }); } }} />;
   })}</>;
 }
 
