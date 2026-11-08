@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head>
+<meta charset="utf-8">
+<title>Biological pathway diagram</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="7b88ae4e-8cf3-445d-89f1-050d8ab4a9a0"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>/* Industry — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("294b74ff-9430-4c2a-b4bf-c54048831a49") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fcffddd8-cab8-4a46-a73c-d4779d6e92fb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("d7bc6620-82ac-413c-a874-1fd22199bae8") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b2d492c3-ebf6-41d0-846d-0faf48cb9d7e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b102870c-a872-475f-ac67-8b7227b1d9c8") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("c2368538-f163-48a7-a55b-66e17869b7d3") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("7198899c-106a-4412-90ac-1fd88fdee776") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("3a786af1-5e51-4994-9877-e5eaf6d845bb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("ad075e4d-2115-4711-a20d-2d7053f8bf30") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("997ad875-9fce-4324-9ceb-c10ca256aa36") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6000078c-36d4-4252-b86f-a07cde175a35") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a0e9345c-0491-4983-8c24-48644c263188") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("aec04db4-cbba-452c-8708-8e62bf74c378") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("2bf52fff-a4ee-4806-a873-488a94aaeb73") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("e4c11e27-57d0-4c42-8813-37dbccccfb7c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+:root {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-accent: #5980a6;
+  --color-accent-2: #728fab;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-600: #7a7a7d;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
+
+  --color-accent-2-100: #eef6ff;
+  --color-accent-2-200: #d6ebff;
+  --color-accent-2-300: #bdd8f2;
+  --color-accent-2-400: #9ebbd8;
+  --color-accent-2-500: #7e9cb8;
+  --color-accent-2-600: #627d98;
+  --color-accent-2-700: #486077;
+  --color-accent-2-800: #314457;
+  --color-accent-2-900: #1f2d3a;
+
+  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: "Barlow", system-ui, sans-serif;
+
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+  --space-6: 20.4px;
+  --space-8: 27.2px;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+
+  /* Elevation — derived from the ground: soft ink-tinted shadows on a
+     light theme, a hairline edge + ambient darkness on a dark one. */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.blueprint {
+  position: relative;
+  border: 1px solid var(--color-divider);
+  border-radius: 0;
+}
+/* The overlay image treatments (halftone, duotone) clip their overlay
+   (overflow:hidden); a blueprint wrapper draws its registration marks
+   outside the box, so when both classes share a wrapper the frame must
+   win. */
+.blueprint.halftone, .blueprint.plate, .blueprint.duotone { overflow: visible; }
+.blueprint > .corner {
+  position: absolute; width: 11px; height: 11px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.blueprint > .corner::before, .blueprint > .corner::after {
+  content: ""; position: absolute; background: currentColor;
+}
+.blueprint > .corner::before { left: 5px; top: 0; width: 1px; height: 100%; }
+.blueprint > .corner::after  { top: 5px; left: 0; width: 100%; height: 1px; }
+.blueprint > .corner.tl { top: -6px; left: -6px; }
+.blueprint > .corner.tr { top: -6px; right: -6px; }
+.blueprint > .corner.bl { bottom: -6px; left: -6px; }
+.blueprint > .corner.br { bottom: -6px; right: -6px; }
+
+.duotone{position:relative;overflow:hidden}
+.duotone::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:var(--color-accent);mix-blend-mode:color}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — built with the tokens above. Plain CSS
+   on plain HTML: no JavaScript, no build step. Each class is documented in
+   readme.md and demonstrated in foundations/ and components/.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; }
+h6 { letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* — rules — */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
+     the pair sits side by side in sign-up rows */
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+/* — blueprint frame: components are wireframe objects (see .blueprint
+     and .corner above) — square, transparent, hairline-bordered — */
+.card, .btn, .input, .tag, .seg, .dialog { border-radius: 0; }
+.card, .dialog { background: transparent; border: 1px solid var(--color-divider); }
+.btn { border: 1px solid var(--color-divider); }
+.btn-primary { border-color: var(--color-accent); }
+.btn-ghost { border-color: transparent; }
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("1ccecee8-12c7-41f9-98dd-7788c66d6ec9") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("81316751-c15a-460d-b4f2-be0dc48a3725") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("804f96f3-bc03-4897-862b-987f4a4872d3") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("294b74ff-9430-4c2a-b4bf-c54048831a49") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fcffddd8-cab8-4a46-a73c-d4779d6e92fb") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("d7bc6620-82ac-413c-a874-1fd22199bae8") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b2d492c3-ebf6-41d0-846d-0faf48cb9d7e") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b102870c-a872-475f-ac67-8b7227b1d9c8") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("c2368538-f163-48a7-a55b-66e17869b7d3") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("0a507146-2a12-47a9-8179-e607e2567c79") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("989d69c5-c621-4938-987f-06dca4d58cbc") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("dc94a0d9-f72a-455a-aa62-42496ebb41c9") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("997ad875-9fce-4324-9ceb-c10ca256aa36") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("6000078c-36d4-4252-b86f-a07cde175a35") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("a0e9345c-0491-4983-8c24-48644c263188") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("14873454-f2ad-4d40-8359-72ae503666a0") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("420a0fad-0acc-4ab3-b725-3edff7bdbdcf") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("2114b6d5-5fc2-4a3c-8b04-472b8ade65b2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("aec04db4-cbba-452c-8708-8e62bf74c378") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("2bf52fff-a4ee-4806-a873-488a94aaeb73") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("e4c11e27-57d0-4c42-8813-37dbccccfb7c") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("9eeff59b-fdcb-4c27-85cc-aca7fa3a0c62") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("da6b7dc7-2226-43d8-8186-937690802671") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("de6a2606-3f9a-4028-b396-0852d9f772a0") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  html, body { height: 100%; margin: 0; background: #fff; }
+  a { color: var(--color-accent-700); text-underline-offset: 2px; }
+  a:hover { color: var(--color-accent-900); }
+  .pb-input { min-height: 44px; width: 100%; box-sizing: border-box; border: 1px solid var(--color-divider); background: #fff; color: var(--color-text); font-family: var(--font-body); font-size: 13px; padding: 7px 9px; border-radius: 0; }
+  .pb-input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+  .pb-input::placeholder { color: var(--color-neutral-500); font-style: italic; }
+  textarea.pb-input { resize: vertical; line-height: 1.45; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11.5px; white-space: pre; overflow-x: auto; }
+  .pb-kicker { font-family: var(--font-heading); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase; color: var(--color-accent-700); }
+  .pb-btn { min-height: 44px; min-width: 44px; display: flex; align-items: center; gap: 8px; width: 100%; box-sizing: border-box; text-align: left; font-family: var(--font-heading); font-weight: 600; font-size: 13.5px; color: var(--color-text); background: transparent; border: 1px solid var(--color-divider); border-radius: 0; padding: 7px 11px; cursor: pointer; line-height: 1.25; }
+  .pb-btn:hover { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
+  .pb-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .pb-btn[data-on="1"] { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+  .pb-btn[data-primary="1"] { background: var(--color-accent-700); border-color: var(--color-accent-700); color: #fff; justify-content: center; }
+  .pb-btn[data-primary="1"]:hover { background: var(--color-accent-800); }
+  .pb-help { margin: 0; font-size: 11px; font-style: italic; color: var(--color-neutral-700); line-height: 1.5; }
+  .pb-num { display: inline-flex; align-items: center; justify-content: center; width: 19px; height: 19px; flex: none; background: var(--color-text); color: #fff; font-family: var(--font-heading); font-weight: 600; font-size: 12px; border-radius: 50%; }
+  input[type="range"] { width: 100%; accent-color: var(--color-accent); }
+  .lib-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 6px 7px; background: #fff; border: 1px solid var(--color-divider); border-radius: 0; cursor: pointer; font-family: var(--font-body); color: var(--color-text); text-align: center; }
+  .lib-tile:hover { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 7%, #fff); }
+  .lib-tile:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .lib-tile[data-on="1"] { border: 2px solid var(--color-accent); padding: 7px 5px 6px; }
+  .lib-thumb { width: 100%; height: 76px; background-repeat: no-repeat; background-position: center; background-size: contain; background-origin: content-box; padding: 4px; box-sizing: border-box; }
+  .lib-del { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; padding: 0; line-height: 1; font-size: 16px; border: 1px solid var(--color-divider); background: #fff; border-radius: 0; cursor: pointer; color: var(--color-neutral-700); }
+  .lib-del:hover, .lib-del:focus-visible { border-color: var(--color-accent); color: var(--color-accent-700); }
+  .pb-tpl { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pb-tpl b { font-weight: 600; font-size: 13px; }
+  .pb-tpl i { font-weight: 400; font-style: italic; font-size: 11.5px; line-height: 1.35; color: var(--color-neutral-700); }
+  .pb-sw { width: 44px; height: 44px; min-width: 44px; padding: 0; border: 1px solid var(--color-divider); border-radius: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: var(--color-text); background-clip: content-box; }
+  .pb-sw:hover { border-color: var(--color-accent); }
+  .pb-sw:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .pb-sw[data-on="1"] { border: 3px solid var(--color-accent-700); }
+  .pb-swatches { display: flex; flex-wrap: wrap; gap: 4px; }
+  .lib-name { font-size: 11.5px; line-height: 1.25; min-height: 29px; display: flex; align-items: center; justify-content: center; }
+</style>
+</helmet>
+<div style="display:grid; grid-template-columns:304px minmax(0, 1fr); grid-template-rows:auto 1fr auto; height:100vh; background:#fff; font-family:var(--font-body); color:var(--color-text)">
+
+  <header style="grid-column:1 / -1; border-bottom:1px solid var(--color-divider); display:flex; align-items:flex-end; justify-content:space-between; gap:var(--space-6); padding:var(--space-4) var(--space-6) var(--space-3)">
+    <div style="display:flex; flex-direction:column; gap:2px; min-width:0; flex:1">
+      <span class="pb-kicker" role="heading" aria-level="1" style="text-transform:none; font-size:13px; letter-spacing:.02em">Biological pathway diagram</span>
+      <input class="pb-input" style="border:none; background:transparent; padding:0; font-family:var(--font-heading); font-weight:400; font-size:29px; line-height:1.1; letter-spacing:-0.015em" placeholder="Name this pathway…" aria-label="Pathway title" maxlength="80" value="{{ title }}" sc-camel-on-change="{{ onTitle }}">
+    </div>
+    <div style="display:flex; align-items:flex-end; gap:var(--space-6); flex:none">
+      <div style="display:flex; gap:var(--space-4); font-size:12.5px; color:var(--color-neutral-700); white-space:nowrap">
+        <span><strong style="color:var(--color-text); font-weight:600">{{ nodeCount }}</strong> nodes</span>
+        <span><strong style="color:var(--color-text); font-weight:600">{{ edgeCount }}</strong> arrows</span>
+      </div>
+      <span style="font-size:11.5px; font-style:italic; color:var(--color-neutral-600); white-space:nowrap">{{ saveNote }}</span>
+    </div>
+  </header>
+
+  <aside style="grid-column:1; grid-row:2 / 4; border-right:1px solid var(--color-divider); padding:var(--space-4) var(--space-3); display:flex; flex-direction:column; gap:var(--space-6); overflow-y:auto">
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <span class="pb-kicker">Template</span>
+      <sc-for list="{{ kinds }}" as="kd" hint-placeholder-count="8">
+        <button class="pb-btn" data-on="{{ kd.on }}" data-k="{{ kd.key }}" sc-camel-on-click="{{ onKind }}"><span class="pb-tpl"><b>{{ kd.label }}</b><i>{{ kd.desc }}</i></span></button>
+      </sc-for>
+      <p class="pb-help">Loading one replaces the sheet. Undo brings yours back. Your typeface and text colour carry over.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <div style="display:flex; align-items:center; gap:8px"><span class="pb-num">1</span><span class="pb-kicker">Describe the pathway</span></div>
+      <input class="pb-input" placeholder="e.g. Insulin signalling and glycolysis" maxlength="90" value="{{ specName }}" sc-camel-on-change="{{ onSpecName }}" aria-label="Pathway name">
+      <span style="font-size:12px; color:var(--color-neutral-700)">Key nodes and outputs</span>
+      <textarea class="pb-input" rows="9" spellcheck="false" value="{{ specNodes }}" sc-camel-on-change="{{ onSpecNodes }}" aria-label="Key nodes"></textarea>
+      <p class="pb-help">One per line — Name : role @compartment "subtitle". Roles: ligand, receptor, gpcr, transporter, kinase, protein, adaptor, enzyme, tf, gene, ribosome, metabolite, messenger, process, cycle, atp, cytokine, immune, plasmid. Compartments: extracellular, membrane, cytoplasm, nucleus, mitochondrion. Unlisted names are guessed from the flow.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <div style="display:flex; align-items:center; gap:8px"><span class="pb-num">2</span><span class="pb-kicker">Add flow and labels</span></div>
+      <textarea class="pb-input" rows="12" spellcheck="false" value="{{ specFlow }}" sc-camel-on-change="{{ onSpecFlow }}" aria-label="Flow"></textarea>
+      <p class="pb-help">A -&gt; B activates · A -| B inhibits · A =&gt; B converts · A ..&gt; B induces · A --&gt; B translocates · A ~&gt; B positive feedback · A ~| B negative feedback. Add ": HK2" for an enzyme or label; write (A =&gt; B) to point at an arrow; "# text" adds a numbered caption.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <div style="display:flex; align-items:center; gap:8px"><span class="pb-num">3</span><span class="pb-kicker">Generate the diagram</span></div>
+      <button class="pb-btn" data-primary="1" sc-camel-on-click="{{ generate }}">Generate diagram</button>
+      <div style="display:flex; gap:6px">
+        <button class="pb-btn" style="justify-content:center" data-on="{{ iconsOn }}" data-k="0" sc-camel-on-click="{{ setTextOnly }}">Icons</button>
+        <button class="pb-btn" style="justify-content:center" data-on="{{ textOnlyOn }}" data-k="1" sc-camel-on-click="{{ setTextOnly }}">Text only</button>
+      </div>
+      <p class="pb-help">Generating replaces the sheet. Undo brings it back.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <div style="display:flex; align-items:center; gap:8px"><span class="pb-num">4</span><span class="pb-kicker">Edit on the sheet</span></div>
+      <button class="pb-btn" data-primary="1" data-on="{{ libOn }}" aria-expanded="{{ libOn }}" sc-camel-on-click="{{ toggleLib }}">{{ libButton }}</button>
+      <p class="pb-help">{{ libCount }} icons in {{ libGroupCount }} groups. Search them, then add one to the sheet or swap the icon on the selected node.</p>
+      <div style="display:flex; gap:6px">
+        <button class="pb-btn" style="justify-content:center; opacity:{{ undoOpacity }}; pointer-events:{{ undoPE }}" title="Undo" sc-camel-on-click="{{ undo }}">Undo</button>
+        <button class="pb-btn" style="justify-content:center; opacity:{{ redoOpacity }}; pointer-events:{{ redoPE }}" title="Redo" sc-camel-on-click="{{ redo }}">Redo</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px">
+        <button class="pb-btn" data-k="icon" sc-camel-on-click="{{ addNode }}">Icon node</button>
+        <button class="pb-btn" data-k="pill" sc-camel-on-click="{{ addNode }}">Metabolite</button>
+        <button class="pb-btn" data-k="box" sc-camel-on-click="{{ addNode }}">Process box</button>
+        <button class="pb-btn" data-k="text" sc-camel-on-click="{{ addNode }}">Text</button>
+        <button class="pb-btn" sc-camel-on-click="{{ addStep }}">Step marker</button>
+        <button class="pb-btn" sc-camel-on-click="{{ addRegion }}">Compartment</button>
+      </div>
+      <button class="pb-btn" data-on="{{ connectOn }}" sc-camel-on-click="{{ toggleConnect }}">{{ connectLabel }}</button>
+      <div style="display:flex; flex-direction:column; gap:4px">
+        <sc-for list="{{ connectTypes }}" as="t" hint-placeholder-count="7">
+          <button class="pb-btn" style="padding:5px 10px; font-size:12.5px; font-weight:500" data-on="{{ t.on }}" data-k="{{ t.key }}" sc-camel-on-click="{{ onConnectType }}">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      <p class="pb-help">Connect: click the source, then a node or an arrow. Drag to move; Delete removes the selection; Esc cancels.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <div style="display:flex; align-items:center; gap:8px"><span class="pb-num">5</span><span class="pb-kicker">Style the figure</span></div>
+      <button class="pb-btn" data-on="{{ legendOn }}" sc-camel-on-click="{{ toggleLegend }}">Legend</button>
+      <button class="pb-btn" data-on="{{ captionsOn }}" sc-camel-on-click="{{ toggleCaptions }}">Captions</button>
+      <button class="pb-btn" data-on="{{ stepsOn }}" sc-camel-on-click="{{ toggleSteps }}">Step markers</button>
+      <button class="pb-btn" data-on="{{ snapOn }}" sc-camel-on-click="{{ toggleSnap }}">Snap to grid</button>
+      <span style="font-size:12px; color:var(--color-neutral-700); padding-top:4px">Preset</span>
+      <div style="display:flex; gap:6px">
+        <button class="pb-btn" style="justify-content:center" data-on="{{ reportOn }}" data-k="report" sc-camel-on-click="{{ setPreset }}">Report</button>
+        <button class="pb-btn" style="justify-content:center" data-on="{{ slideOn }}" data-k="slide" sc-camel-on-click="{{ setPreset }}">Slide</button>
+      </div>
+      <span style="font-size:12px; color:var(--color-neutral-700); padding-top:4px">Typeface</span>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px">
+        <sc-for list="{{ fonts }}" as="f" hint-placeholder-count="14">
+          <button class="pb-btn" style="font-family:{{ f.stack }}; font-weight:400; font-size:13px; padding:7px 9px" data-on="{{ f.on }}" data-k="{{ f.key }}" sc-camel-on-click="{{ onFont }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <span style="font-size:12px; color:var(--color-neutral-700); padding-top:4px">Text colour</span>
+      <div class="pb-swatches" role="group" aria-label="Text colour">
+        <sc-for list="{{ textColors }}" as="tc" hint-placeholder-count="12">
+          <button class="pb-sw" style="background:{{ tc.hex }}" data-on="{{ tc.on }}" data-k="{{ tc.key }}" title="{{ tc.label }}" aria-label="{{ tc.label }}" aria-pressed="{{ tc.on }}" sc-camel-on-click="{{ onTextColor }}">{{ tc.mark }}</button>
+        </sc-for>
+      </div>
+      <label style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--color-neutral-700)">Custom colour
+        <input type="color" style="width:44px; height:44px; padding:2px; border:1px solid var(--color-divider); background:#fff; cursor:pointer" value="{{ customText }}" aria-label="Custom text colour" sc-camel-on-change="{{ onCustomText }}">
+      </label>
+      <div style="display:flex; align-items:center; gap:6px">
+        <span style="font-size:12px; color:var(--color-neutral-700); flex:1">Text size</span>
+        <button class="pb-btn" style="width:auto; padding:4px 11px" data-d="-1" sc-camel-on-click="{{ stepFs }}">−</button>
+        <span style="font-size:12px; min-width:38px; text-align:center; font-feature-settings:'tnum'">{{ fsLabel }}</span>
+        <button class="pb-btn" style="width:auto; padding:4px 11px" data-d="1" sc-camel-on-click="{{ stepFs }}">+</button>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <div style="display:flex; align-items:center; gap:8px"><span class="pb-num">6</span><span class="pb-kicker">Export</span></div>
+      <button class="pb-btn" data-primary="1" sc-camel-on-click="{{ exportPng }}">Download PNG</button>
+      <div style="display:flex; gap:6px">
+        <button class="pb-btn" style="justify-content:center; font-size:12.5px" sc-camel-on-click="{{ exportPngClear }}">Transparent PNG</button>
+        <button class="pb-btn" style="justify-content:center; font-size:12.5px" sc-camel-on-click="{{ exportSvg }}">SVG</button>
+      </div>
+      <p class="pb-help">PNG is 4800 × 2700 px (3×), white background.</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <span class="pb-kicker">Project file</span>
+      <button class="pb-btn" sc-camel-on-click="{{ saveProject }}">Save project file</button>
+      <button class="pb-btn" sc-camel-on-click="{{ openProject }}">Open project file</button>
+      <input type="file" accept=".json,application/json" style="display:none" ref="{{ fileRef }}" sc-camel-on-change="{{ onFile }}">
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:var(--space-2)">
+      <span class="pb-kicker">Versions</span>
+      <div style="display:flex; gap:6px">
+        <input class="pb-input" style="flex:1; min-width:0" placeholder="Version name" aria-label="Version name" maxlength="48" value="{{ versionName }}" sc-camel-on-change="{{ onVersionName }}">
+        <button class="pb-btn" style="width:auto; flex:none" title="Save a snapshot in this browser — nothing is downloaded" sc-camel-on-click="{{ saveVersion }}">Save</button>
+      </div>
+      <sc-for list="{{ versions }}" as="v" hint-placeholder-count="0">
+        <div style="display:flex; align-items:center; gap:6px; border:1px solid var(--color-divider); padding:6px 8px">
+          <div style="display:flex; flex-direction:column; gap:1px; flex:1; min-width:0">
+            <span style="font-size:12.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap" title="{{ v.name }}">{{ v.name }}</span>
+            <span style="font-size:11px; color:var(--color-neutral-600)">{{ v.meta }}</span>
+          </div>
+          <button class="pb-btn" style="width:auto; flex:none; padding:3px 8px; font-size:11.5px" data-k="{{ v.key }}" sc-camel-on-click="{{ openVersion }}">Open</button>
+          <button class="pb-btn" style="width:auto; flex:none; padding:3px 6px; border:none; color:var(--color-neutral-600)" title="Delete version" aria-label="Delete version" data-k="{{ v.key }}" sc-camel-on-click="{{ deleteVersion }}">×</button>
+        </div>
+      </sc-for>
+      <sc-if value="{{ noVersions }}" hint-placeholder-val="{{ true }}">
+        <p class="pb-help">No saved versions yet. Name one and Save — versions stay in this browser; opening one can be undone.</p>
+      </sc-if>
+    </div>
+  </aside>
+
+  <div style="grid-column:2; grid-row:2; background:#fff; position:relative; padding:var(--space-4); min-height:0; display:flex">
+    <sc-if value="{{ libOn }}" hint-placeholder-val="{{ false }}">
+      <div role="dialog" aria-label="Icon library" style="position:absolute; inset:0; z-index:5; background:#fff; display:flex; flex-direction:column; min-height:0">
+        <div style="display:flex; align-items:center; gap:var(--space-3); padding:var(--space-4) var(--space-4) var(--space-2); flex-wrap:wrap">
+          <div style="display:flex; flex-direction:column; gap:2px; flex:1 1 220px; min-width:0">
+            <span class="pb-kicker">Icon library</span>
+            <span style="font-family:var(--font-heading); font-size:24px; line-height:1.1; letter-spacing:-0.01em">{{ libShown }} of {{ libCount }} icons</span>
+          </div>
+          <input class="pb-input" style="flex:1 1 220px; max-width:340px" type="search" placeholder="Search icons, e.g. kinase, tube, ATP" value="{{ libQ }}" ref="{{ libSearchRef }}" aria-label="Search icons">
+          <button class="pb-btn" style="width:auto; padding:7px 14px" data-on="{{ libAddIconOn }}" data-k="icon" sc-camel-on-click="{{ toggleLibForm }}">Add icon</button>
+          <button class="pb-btn" style="width:auto; padding:7px 14px" data-on="{{ libAddGroupOn }}" data-k="group" sc-camel-on-click="{{ toggleLibForm }}">Add group</button>
+          <button class="pb-btn" style="width:auto; padding:7px 14px" sc-camel-on-click="{{ closeLib }}">Back to diagram</button>
+        </div>
+        <sc-if value="{{ libFormGroup }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:center; gap:var(--space-3); flex-wrap:wrap; margin:0 var(--space-4) var(--space-2); padding:var(--space-3); border:1px solid var(--color-divider)">
+            <input class="pb-input" style="flex:1 1 200px; max-width:300px" placeholder="Group name, e.g. Organelles" maxlength="40" value="{{ libGroupName }}" sc-camel-on-change="{{ onLibGroupName }}" aria-label="Group name">
+            <button class="pb-btn" data-primary="1" style="width:auto; padding:6px 14px" sc-camel-on-click="{{ submitLibGroup }}">Create group</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ libFormIcon }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:center; gap:var(--space-3); flex-wrap:wrap; margin:0 var(--space-4) var(--space-2); padding:var(--space-3); border:1px solid var(--color-divider)">
+            <input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp,image/gif" ref="{{ libFileRef }}" sc-camel-on-change="{{ onLibIconFile }}" aria-label="Icon image file" style="font-size:12.5px; flex:1 1 100%">
+            <input class="pb-input" style="flex:1 1 180px; max-width:260px" placeholder="Icon name" maxlength="60" value="{{ libIconName }}" sc-camel-on-change="{{ onLibIconName }}" aria-label="Icon name">
+            <select class="pb-input" style="flex:0 1 200px" sc-camel-on-change="{{ onLibIconGroup }}" aria-label="Group for the new icon">
+              <sc-for list="{{ libGroupOptions }}" as="go" hint-placeholder-count="7">
+                <option value="{{ go.name }}" selected="{{ go.sel }}">{{ go.name }}</option>
+              </sc-for>
+            </select>
+            <button class="pb-btn" data-primary="1" style="width:auto; padding:6px 14px" sc-camel-on-click="{{ submitLibIcon }}">Add to library</button>
+            <span class="pb-help" style="flex:1 1 100%">PNG, JPEG, SVG, WebP or GIF. Scaled to 256 px and stored in this browser only.</span>
+          </div>
+        </sc-if>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; padding:0 var(--space-4) var(--space-2)">
+          <sc-for list="{{ libCats }}" as="c" hint-placeholder-count="8">
+            <button class="pb-btn" style="width:auto; padding:5px 11px; font-size:12.5px" data-on="{{ c.on }}" data-k="{{ c.key }}" sc-camel-on-click="{{ onLibCat }}">{{ c.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex; align-items:center; gap:var(--space-3); padding:0 var(--space-4) var(--space-3); flex-wrap:wrap; border-bottom:1px solid var(--color-divider)">
+          <span style="font-size:12.5px; color:var(--color-neutral-700); font-style:italic; flex:1 1 240px">{{ libHelp }}</span>
+          <sc-if value="{{ libCanReplace }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex; gap:6px; flex:none">
+              <button class="pb-btn" style="width:auto; padding:5px 11px; font-size:12.5px" data-on="{{ libReplaceOn }}" data-k="replace" sc-camel-on-click="{{ onLibMode }}">Replace selected icon</button>
+              <button class="pb-btn" style="width:auto; padding:5px 11px; font-size:12.5px" data-on="{{ libAddOn }}" data-k="add" sc-camel-on-click="{{ onLibMode }}">Add as new node</button>
+            </div>
+          </sc-if>
+        </div>
+        <div style="flex:1; min-height:0; overflow-y:auto; padding:var(--space-4)">
+          <sc-if value="{{ libEmpty }}" hint-placeholder-val="{{ false }}">
+            <p class="pb-help" style="font-size:13px">No icon matches “{{ libQ }}”. Try a shorter word or choose All.</p>
+          </sc-if>
+          <sc-for list="{{ libSections }}" as="sec" hint-placeholder-count="0">
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:var(--space-5)">
+              <span class="pb-kicker">{{ sec.name }} · {{ sec.items.length }}<sc-if value="{{ sec.custom }}" hint-placeholder-val="{{ false }}"><button class="pb-btn" style="display:inline-flex; width:auto; margin-left:12px; padding:2px 8px; font-size:11px" data-k="{{ sec.name }}" sc-camel-on-click="{{ onLibDeleteGroup }}">Delete group</button></sc-if></span>
+              <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(116px, 1fr)); gap:8px">
+                <sc-for list="{{ sec.items }}" as="ic" hint-placeholder-count="0">
+                  <div style="position:relative; display:flex; flex-direction:column">
+                    <button class="lib-tile" style="flex:1" data-on="{{ ic.on }}" data-k="{{ ic.key }}" title="{{ ic.name }}" aria-label="{{ ic.name }}" sc-camel-on-click="{{ onLibPick }}">
+                      <span class="lib-thumb" style="background-image:{{ ic.bg }}"></span>
+                      <span class="lib-name">{{ ic.name }}</span>
+                    </button>
+                    <sc-if value="{{ ic.custom }}" hint-placeholder-val="{{ false }}">
+                      <button class="lib-del" data-k="{{ ic.key }}" title="Delete {{ ic.name }}" aria-label="Delete {{ ic.name }}" sc-camel-on-click="{{ onLibDelete }}">×</button>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <div role="main" aria-label="Diagram canvas" style="position:relative; flex:1; min-height:0" ref="{{ wrapRef }}">
+      <canvas role="img" tabindex="0" aria-label="Pathway diagram" style="width:100%; height:100%; display:block; cursor:{{ cursor }}" ref="{{ cvRef }}" sc-camel-on-pointer-down="{{ onDown }}" sc-camel-on-pointer-move="{{ onMove }}" sc-camel-on-pointer-up="{{ onUp }}" sc-camel-on-pointer-cancel="{{ onUp }}"></canvas>
+      <sc-if value="{{ hint }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; top:8px; left:50%; transform:translateX(-50%); background:var(--color-neutral-900); color:var(--color-neutral-100); font-size:12px; font-style:italic; padding:6px 14px; border-radius:999px; pointer-events:none; white-space:nowrap">{{ hint }}</div>
+      </sc-if>
+      <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:#fff; color:var(--color-text); border:1px solid var(--color-divider); font-size:12px; padding:7px 14px; border-radius:999px; box-shadow:var(--shadow-sm); pointer-events:none">{{ toastMsg }}</div>
+      </sc-if>
+    </div>
+  </div>
+
+  <section style="grid-column:2; grid-row:3; border-top:1px solid var(--color-divider); padding:var(--space-3) var(--space-4) var(--space-4); max-height:36vh; overflow-y:auto; min-height:0">
+
+    <sc-if value="{{ showEmpty }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-3) var(--space-8); font-size:12px; color:var(--color-neutral-700); line-height:1.6">
+        <p style="margin:0; flex:1 1 300px; max-width:520px">Write the pathway in steps 1 and 2, then Generate. Nodes are ranked left to right along the flow; metabolites sit on a lower track, signalling on the upper one; nucleus and mitochondrion boxes wrap their nodes. Click anything on the sheet to edit it here.</p>
+        <p style="margin:0; flex:1 1 260px; max-width:420px">Enzymes go on arrows as labels (G6P =&gt; F6P : PGI). Feedback arrows curve automatically; adjust the bend when one is selected. Only notation used on the sheet appears in the legend.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ nodeSel }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-3) var(--space-6)">
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none">
+          <span class="pb-kicker">Node</span>
+          <button class="pb-btn" style="width:auto; border:none; padding:0; font-size:11.5px; color:var(--color-neutral-700)" sc-camel-on-click="{{ deselect }}">Done</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 220px; min-width:200px; max-width:320px">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Label</span>
+          <textarea class="pb-input" style="font-family:var(--font-body); font-size:13px; white-space:pre-wrap" rows="2" maxlength="120" value="{{ nodeSel.label }}" sc-camel-on-change="{{ onNodeLabel }}"></textarea>
+          <span style="font-size:12px; color:var(--color-neutral-700)">Subtitle</span>
+          <input class="pb-input" maxlength="80" placeholder="italic line under the label" value="{{ nodeSel.sub }}" sc-camel-on-change="{{ onNodeSub }}">
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:none">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Type</span>
+          <sc-for list="{{ nodeKinds }}" as="k" hint-placeholder-count="4">
+            <button class="pb-btn" style="padding:5px 10px; font-size:12.5px" data-on="{{ k.on }}" data-k="{{ k.key }}" sc-camel-on-click="{{ onNodeKind }}">{{ k.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:0 1 240px; min-width:180px">
+          <label for="node-font" style="font-size:12px; color:var(--color-neutral-700)">Typeface</label>
+          <select id="node-font" class="pb-input" sc-camel-on-change="{{ onNodeFont }}">
+            <sc-for list="{{ nodeFonts }}" as="nf" hint-placeholder-count="16">
+              <option value="{{ nf.key }}" selected="{{ nf.sel }}">{{ nf.label }}</option>
+            </sc-for>
+          </select>
+          <span style="font-size:12px; color:var(--color-neutral-700)">Text colour</span>
+          <div class="pb-swatches" role="group" aria-label="Node text colour">
+            <sc-for list="{{ nodeTextColors }}" as="nc" hint-placeholder-count="12">
+              <button class="pb-sw" style="background:{{ nc.hex }}" data-on="{{ nc.on }}" data-k="{{ nc.key }}" title="{{ nc.label }}" aria-label="{{ nc.label }}" aria-pressed="{{ nc.on }}" sc-camel-on-click="{{ onNodeTextColor }}">{{ nc.mark }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <sc-if value="{{ nodeIsIcon }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-direction:column; gap:6px; flex:0 1 170px; min-width:150px">
+            <span style="font-size:12px; color:var(--color-neutral-700)">Icon size — {{ nodeSel.size }}px</span>
+            <input type="range" min="24" max="160" step="2" value="{{ nodeSel.size }}" sc-camel-on-change="{{ onNodeSize }}">
+            <span style="font-size:12px; color:var(--color-neutral-700)">Tint — {{ nodeSel.hue }}°</span>
+            <input type="range" min="-180" max="180" step="5" value="{{ nodeSel.hue }}" sc-camel-on-change="{{ onNodeHue }}">
+            <button class="pb-btn" style="padding:5px 10px; font-size:12.5px" data-on="{{ nodeBadgeOn }}" sc-camel-on-click="{{ toggleBadge }}">Phosphate badge</button>
+            <span style="font-size:12px; color:var(--color-neutral-700)">Colour</span>
+            <sc-for list="{{ nodeTones }}" as="tn" hint-placeholder-count="3">
+              <button class="pb-btn" style="padding:4px 10px; font-size:12.5px" data-on="{{ tn.on }}" data-k="{{ tn.key }}" sc-camel-on-click="{{ onNodeTone }}">{{ tn.label }}</button>
+            </sc-for>
+            <span style="font-size:12px; color:var(--color-neutral-700)">Label position</span>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px">
+              <sc-for list="{{ nodeLps }}" as="lp" hint-placeholder-count="4">
+                <button class="pb-btn" style="padding:4px 8px; font-size:12px; justify-content:center" data-on="{{ lp.on }}" data-k="{{ lp.key }}" sc-camel-on-click="{{ onNodeLp }}">{{ lp.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ nodeIsIcon }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 360px; min-width:280px">
+            <span style="font-size:12px; color:var(--color-neutral-700)">Icon — {{ nodeIconName }}</span>
+            <button class="pb-btn" style="padding:5px 10px; font-size:12.5px; width:auto; align-self:flex-start" sc-camel-on-click="{{ openLib }}">Search the full library</button>
+            <sc-for list="{{ iconGroups }}" as="g" hint-placeholder-count="0">
+              <div style="display:flex; flex-direction:column; gap:3px">
+                <span style="font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--color-neutral-600)">{{ g.name }}</span>
+                <div style="display:flex; flex-wrap:wrap; gap:4px">
+                  <sc-for list="{{ g.items }}" as="ic" hint-placeholder-count="0">
+                    <button style="width:40px; height:40px; padding:3px; box-sizing:border-box; background:#fff {{ ic.bg }} center / contain no-repeat; background-origin:content-box; border:{{ ic.border }}; border-radius:0; cursor:pointer; display:flex; align-items:center; justify-content:center" style-hover="border-color:var(--color-accent)" title="{{ ic.name }}" aria-label="{{ ic.name }}" data-k="{{ ic.key }}" sc-camel-on-click="{{ onNodeIcon }}"></button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:none">
+          <button class="pb-btn" sc-camel-on-click="{{ connectFromSel }}">Connect from here</button>
+          <button class="pb-btn" sc-camel-on-click="{{ duplicateSel }}">Duplicate</button>
+          <button class="pb-btn" sc-camel-on-click="{{ deleteSel }}">Delete node</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ edgeSel }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-3) var(--space-6)">
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none">
+          <span class="pb-kicker">Arrow</span>
+          <span style="font-size:12px; color:var(--color-neutral-700); max-width:200px">{{ edgeSel.desc }}</span>
+          <button class="pb-btn" style="width:auto; border:none; padding:0; font-size:11.5px; color:var(--color-neutral-700)" sc-camel-on-click="{{ deselect }}">Done</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Meaning</span>
+          <sc-for list="{{ edgeTypes }}" as="t" hint-placeholder-count="7">
+            <button class="pb-btn" style="padding:4px 10px; font-size:12.5px; font-weight:500" data-on="{{ t.on }}" data-k="{{ t.key }}" sc-camel-on-click="{{ onEdgeType }}">{{ t.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 220px; min-width:200px; max-width:320px">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Label (enzyme, cofactor, note)</span>
+          <input class="pb-input" maxlength="60" placeholder="e.g. HK2" value="{{ edgeSel.label }}" sc-camel-on-change="{{ onEdgeLabel }}">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Bend — {{ edgeSel.bend }}</span>
+          <input type="range" min="-320" max="320" step="5" value="{{ edgeSel.bend }}" sc-camel-on-change="{{ onEdgeBend }}">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Colour</span>
+          <div style="display:flex; gap:6px">
+            <sc-for list="{{ edgeColors }}" as="ec" hint-placeholder-count="3">
+              <button class="pb-btn" style="justify-content:center; padding:4px 8px; font-size:12px" data-on="{{ ec.on }}" data-k="{{ ec.key }}" sc-camel-on-click="{{ onEdgeColor }}">{{ ec.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:6px">
+            <button class="pb-btn" style="justify-content:center" data-on="{{ edgeLabelFlip }}" sc-camel-on-click="{{ flipEdgeLabel }}">Label other side</button>
+            <button class="pb-btn" style="justify-content:center" sc-camel-on-click="{{ straightenEdge }}">Straighten</button>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:none">
+          <button class="pb-btn" sc-camel-on-click="{{ reverseEdge }}">Reverse direction</button>
+          <button class="pb-btn" sc-camel-on-click="{{ deleteSel }}">Delete arrow</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ regionSel }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-3) var(--space-6)">
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none">
+          <span class="pb-kicker">Compartment</span>
+          <button class="pb-btn" style="width:auto; border:none; padding:0; font-size:11.5px; color:var(--color-neutral-700)" sc-camel-on-click="{{ deselect }}">Done</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 200px; max-width:280px">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Label</span>
+          <input class="pb-input" maxlength="40" value="{{ regionSel.label }}" sc-camel-on-change="{{ onRegionLabel }}">
+          <p class="pb-help">Drag the label or edge to move; drag the bottom-right handle to resize.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Drawn as</span>
+          <sc-for list="{{ regionKinds }}" as="k" hint-placeholder-count="3">
+            <button class="pb-btn" style="padding:4px 10px; font-size:12.5px" data-on="{{ k.on }}" data-k="{{ k.key }}" sc-camel-on-click="{{ onRegionKind }}">{{ k.label }}</button>
+          </sc-for>
+          <button class="pb-btn" style="padding:4px 10px; font-size:12.5px" data-on="{{ regionDoubleOn }}" sc-camel-on-click="{{ toggleRegionDouble }}">Double envelope</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:none">
+          <button class="pb-btn" sc-camel-on-click="{{ deleteSel }}">Delete compartment</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ stepSel }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:var(--space-3) var(--space-6)">
+        <div style="display:flex; flex-direction:column; gap:4px; flex:none">
+          <span class="pb-kicker">Step {{ stepSel.n }}</span>
+          <button class="pb-btn" style="width:auto; border:none; padding:0; font-size:11.5px; color:var(--color-neutral-700)" sc-camel-on-click="{{ deselect }}">Done</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 320px; max-width:560px">
+          <span style="font-size:12px; color:var(--color-neutral-700)">Caption</span>
+          <textarea class="pb-input" style="font-family:var(--font-body); font-size:13px; white-space:pre-wrap" rows="2" maxlength="200" value="{{ stepSel.text }}" sc-camel-on-change="{{ onStepText }}"></textarea>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex:none">
+          <button class="pb-btn" sc-camel-on-click="{{ deleteSel }}">Delete step</button>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="">
+const W = 1600, H = 900, KEY = 'bio-pathway-v1';
+const ICONS = {
+  'rtk': ['Receptor tyrosine kinase', 'Receptors', .491], 'rtk-active': ['RTK dimer, phosphorylated', 'Receptors', .533], 'receptor-ligand': ['Receptor with bound ligand', 'Receptors', .523],
+  'gpcr': ['GPCR', 'Receptors', .627], 'gpcr-gprotein': ['GPCR with G protein', 'Receptors', 1.239], 'cytokine-jak': ['Cytokine receptor with JAK', 'Receptors', .711],
+  'cytokine-active': ['Activated cytokine receptor', 'Receptors', .932], 'tnf-receptor': ['TNF receptor', 'Receptors', .388], 'receptor-y': ['Generic receptor (Y)', 'Receptors', .539],
+  'receptor-u': ['Generic receptor (U)', 'Receptors', .591], 'transporter': ['Transporter / channel', 'Receptors', .859], 'ion-channel': ['Ligand-gated channel', 'Receptors', .91],
+  'pump': ['Pump (SERCA)', 'Receptors', .72], 'atp-synthase': ['ATP synthase', 'Receptors', .623],
+  'protein-globular': ['Protein (globular)', 'Proteins', 1], 'protein-compact': ['Protein (kinase)', 'Proteins', .749], 'protein-arc': ['Protein (adaptor)', 'Proteins', 1.305],
+  'protein-complex': ['Protein complex / enzyme', 'Proteins', 1.417], 'tf-zincfinger': ['Transcription factor (zinc finger)', 'Proteins', 1.043], 'protein-acetylated': ['Acetylated protein', 'Proteins', .985],
+  'polypeptide': ['Polypeptide', 'Proteins', 1.163], 'antibody': ['Antibody (IgG)', 'Proteins', 1.053], 'ferritin': ['Ferritin', 'Proteins', 1.041], 'transferrin-r': ['Transferrin receptor', 'Proteins', .748],
+  'dna': ['DNA', 'Nucleic acids', 2.064], 'dna-bases': ['DNA base pairs', 'Nucleic acids', 2.391], 'nucleosome': ['Nucleosome', 'Nucleic acids', 2.342],
+  'rna-polymerase': ['RNA polymerase transcribing', 'Nucleic acids', 1.643], 'ribosome': ['Ribosome translating', 'Nucleic acids', 1.397], 'promoter': ['Promoter arrow', 'Nucleic acids', 1.525],
+  'atp': ['ATP', 'Small molecules', 1.405], 'adp': ['ADP', 'Small molecules', 1.405], 'phosphate': ['Phosphate (P)', 'Small molecules', 1], 'proton': ['Proton (H+)', 'Small molecules', 1],
+  'ros': ['Reactive oxygen species', 'Small molecules', 1.138], 'nucleotide-atp': ['ATP (structure)', 'Small molecules', 1.836], 'nucleotide-adp': ['ADP (structure)', 'Small molecules', 1.615],
+  'cycle': ['Cycle (TCA, Calvin…)', 'Small molecules', 1], 'phospholipid': ['Phospholipid', 'Small molecules', .368], 'triacylglycerol': ['Triacylglycerol', 'Small molecules', .473],
+  'beta-barrel': ['Beta barrel', 'Proteins', .58], 'atpase': ['ATPase', 'Receptors', .537],
+  'dsdna-circular': ['Circular dsDNA', 'Nucleic acids', .997], 'plasmid': ['Plasmid', 'Nucleic acids', .982], 'base-pair-gc': ['G–C base pair', 'Nucleic acids', 3.927],
+  'spheres-1': ['Cytokines — cluster 1', 'Cytokines & immune cells', 1.111], 'spheres-2': ['Cytokines — cluster 2', 'Cytokines & immune cells', 1.236],
+  'spheres-3': ['Cytokines — cluster 3', 'Cytokines & immune cells', 1.071], 'spheres-4': ['Cytokines — cluster 4', 'Cytokines & immune cells', 1.051],
+  'cytokine-receptor-jak': ['Activated cytokine receptor (JAK)', 'Cytokines & immune cells', .949], 'cytokine-storm': ['Cytokine storm', 'Cytokines & immune cells', 1.482],
+  'treg': ['Treg cell', 'Cytokines & immune cells', .93], 'th1': ['Th1 cell', 'Cytokines & immune cells', .963], 'th2': ['Th2 cell', 'Cytokines & immune cells', .922], 'th17': ['Th17 cell', 'Cytokines & immune cells', .922],
+  'treg-cytokines': ['Treg with cytokines', 'Cytokines & immune cells', .425], 'th1-cytokines': ['Th1 with cytokines', 'Cytokines & immune cells', .404],
+  'th2-cytokines': ['Th2 with cytokines', 'Cytokines & immune cells', .419], 'th17-cytokines': ['Th17 with cytokines', 'Cytokines & immune cells', .42],
+  'cancer-cytokines': ['Cancer cell with cytokines', 'Cytokines & immune cells', 1.089], 'neutrophil-degranulating': ['Neutrophil degranulating', 'Cytokines & immune cells', 1.426],
+  'eosinophil-degranulating': ['Eosinophil degranulating', 'Cytokines & immune cells', 1.26], 'mast-cell-degranulating': ['Mast cell degranulating', 'Cytokines & immune cells', 1.26],
+  'eppendorf': ['Eppendorf tube', 'Lab equipment', .547], 'eppendorf-open': ['Eppendorf tube (open)', 'Lab equipment', .547], 'eppendorf-closed': ['Eppendorf tube (closed, filled)', 'Lab equipment', .427],
+  'falcon-15': ['Falcon tube 15 mL', 'Lab equipment', .206], 'falcon-15-filled': ['Falcon tube 15 mL (filled)', 'Lab equipment', .193], 'falcon-50': ['Falcon tube 50 mL', 'Lab equipment', .306], 'falcon-50-filled': ['Falcon tube 50 mL (filled)', 'Lab equipment', .32],
+  'test-tube': ['Test tube', 'Lab equipment', .156], 'test-tube-low': ['Test tube (low)', 'Lab equipment', .156], 'test-tube-half': ['Test tube (half)', 'Lab equipment', .156], 'test-tube-full': ['Test tube (full)', 'Lab equipment', .156],
+  'pipette': ['Pipette', 'Lab equipment', .232], 'petri-dish': ['Petri dish with cells', 'Lab equipment', 1.377], 'pcr-plate': ['PCR plate', 'Lab equipment', 2.992],
+  'cell': ['Cell', 'Cells', .973], 'epithelial-cell': ['Epithelial cell', 'Cells', .707], 'cancer-cell': ['Cancer cell', 'Cells', .988],
+  'ciliated-columnar-cell': ['Ciliated columnar cell', 'Cells', .392],
+  'ciliated-cuboidal-cell': ['Ciliated cuboidal cell', 'Cells', .803],
+  'ciliated-epithelial-cell-1': ['Ciliated epithelial cell (1)', 'Cells', .355],
+  'ciliated-epithelial-cell-2': ['Ciliated epithelial cell (2)', 'Cells', .355],
+  'columnar-cell-brush': ['Columnar cell, brush border', 'Cells', 1.028],
+  'columnar-cell-brush-line': ['Columnar cell, brush border line', 'Cells', 4.364],
+  'cuboidal-cell-brush': ['Cuboidal cell, brush border', 'Cells', 1.114],
+  'endothelial-brush': ['Endothelial cell', 'Cells', 2.648],
+  'epithelial-columnar-cell': ['Epithelial columnar cell', 'Cells', .453],
+  'hair-cell': ['Hair cell', 'Cells', .394],
+  'cholangiocyte': ['Cholangiocyte', 'Cells', .732],
+  'respiratory-ciliated-columnar-cell': ['Respiratory ciliated columnar cell', 'Cells', .687],
+  'mitochondria': ['Mitochondrion', 'Cells', 2.179],
+  'basophil': ['Basophil', 'Cytokines & immune cells', 1.0],
+  'dendritic-cell': ['Dendritic cell', 'Cytokines & immune cells', .948],
+  'macrophage': ['Macrophage', 'Cytokines & immune cells', 1.014],
+  'monocyte': ['Monocyte', 'Cytokines & immune cells', 1.0],
+  'neutrophil': ['Neutrophil', 'Cytokines & immune cells', .949],
+  'heart': ['Heart', 'Organs & systems', .72],
+  'kidney': ['Kidney', 'Organs & systems', .796],
+  'liver': ['Liver', 'Organs & systems', 1.477],
+  'lung': ['Lung', 'Organs & systems', .827],
+  'pancreas': ['Pancreas', 'Organs & systems', 1.337],
+  'stomach': ['Stomach', 'Organs & systems', 1.245],
+  'intestines': ['Intestines', 'Organs & systems', .852],
+  'bone-marrow': ['Bone marrow', 'Organs & systems', .432],
+  'blood-vessel': ['Blood vessel', 'Organs & systems', 2.424],
+  'capillary': ['Capillary', 'Organs & systems', 1.306],
+  'circulatory-system': ['Circulatory system', 'Organs & systems', .575],
+  'lymphatic-system': ['Lymphatic system', 'Organs & systems', .573],
+  'musculoskeletal-system': ['Musculoskeletal system', 'Organs & systems', .46],
+  'nervous-system': ['Nervous system', 'Organs & systems', .575],
+  'skeletal-system': ['Skeletal system', 'Organs & systems', .379],
+  'skeletal-muscle': ['Skeletal muscle', 'Organs & systems', 1.721],
+  'epidermis': ['Epidermis', 'Organs & systems', 1.818],
+  'white-adipose-tissue': ['White adipose tissue', 'Organs & systems', 1.0],
+  'tumor': ['Tumour', 'Organs & systems', 1.088],
+  'intestinal-villus': ['Intestinal villus', 'Tissues', .627],
+  'intestinal-organoid': ['Intestinal organoid', 'Tissues', 1.162],
+  'colon-epithelium': ['Colon epithelium', 'Tissues', 2.051],
+  'respiratory-epithelium-proximal': ['Respiratory epithelium (proximal)', 'Tissues', 3.582],
+  'respiratory-epithelium-distal': ['Respiratory epithelium (distal)', 'Tissues', 3.556],
+  'squamocolumnar-junction': ['Squamocolumnar junction', 'Tissues', 1.951],
+  'healthy-breast-duct': ['Healthy breast duct', 'Tissues', 1.039],
+  'glucose': ['Glucose', 'Sugars & lipids', 1.159],
+  'fructose': ['Fructose', 'Sugars & lipids', 1.052],
+  'galactose': ['Galactose', 'Sugars & lipids', 1.139],
+  'maltose': ['Maltose', 'Sugars & lipids', 2.553],
+  'sucrose': ['Sucrose', 'Sugars & lipids', 2.553],
+  'lactose': ['Lactose', 'Sugars & lipids', 2.553],
+  'glycogen-simple': ['Glycogen (simple)', 'Sugars & lipids', 1.0],
+  'glycogen-complex': ['Glycogen (complex)', 'Sugars & lipids', 1.194],
+  'hdl': ['HDL', 'Sugars & lipids', 1.0],
+  'ldl': ['LDL', 'Sugars & lipids', 1.0],
+  'ldl1': ['LDL (variant)', 'Sugars & lipids', 1.0],
+  'micelle': ['Micelle', 'Sugars & lipids', 1.0],
+  'krebs-cycle': ['Krebs cycle', 'Sugars & lipids', 1.043],
+  'hemoglobin': ['Haemoglobin', 'Proteins', 1.081],
+  'insulin-receptor': ['Insulin receptor', 'Receptors', .877],
+  'glucose-meter': ['Glucose meter', 'Lab equipment', .483],
+  'iv-infusion': ['IV infusion', 'Lab equipment', .41],
+  'alembic': ['Alembic', 'Lab equipment', 1.0],
+  'balance-scale': ['Balance scale', 'Lab equipment', 1.0],
+  'beaker': ['Beaker', 'Lab equipment', 1.0],
+  'bunsen-burner': ['Bunsen burner', 'Lab equipment', 1.0],
+  'dna-helix': ['DNA helix model', 'Lab equipment', 1.0],
+  'erlenmeyer-flask': ['Erlenmeyer flask', 'Lab equipment', 1.0],
+  'flame': ['Flame', 'Lab equipment', 1.0],
+  'gel-electrophoresis': ['Gel electrophoresis', 'Lab equipment', 1.0],
+  'magnet': ['Magnet', 'Lab equipment', 1.0],
+  'measuring-cylinder': ['Measuring cylinder', 'Lab equipment', 1.0],
+  'microcentrifuge-tube': ['Microcentrifuge tube', 'Lab equipment', 1.0],
+  'microscope': ['Microscope', 'Lab equipment', 1.0],
+  'qpcr-machine': ['qPCR machine', 'Lab equipment', .785],
+  'syringe': ['Syringe', 'Lab equipment', 1.0],
+  'telescope': ['Telescope', 'Lab equipment', 1.0],
+  'thermometer': ['Thermometer', 'Lab equipment', 1.0],
+  'multichannel-pipette': ['Multichannel pipette', 'Lab equipment', .673],
+  'pipette-controller': ['Pipette controller', 'Lab equipment', .162],
+  'electronic-pipette-controller': ['Electronic pipette controller', 'Lab equipment', .711],
+  'pasteur-pipette': ['Pasteur pipette', 'Lab equipment', .138],
+  'pipette-filler-bulb': ['Pipette filler bulb', 'Lab equipment', .238],
+};
+const CUSTOM_KEY = 'sd-maker:custom-icons', CUSTOM_DATA = {}, CUSTOM_KEYS = [];
+let CUSTOM_GROUPS = [];
+const readCustom = () => { try { const c = JSON.parse(localStorage.getItem(CUSTOM_KEY)); if (c && Array.isArray(c.groups) && Array.isArray(c.icons)) return c; } catch (e) {} return { groups: [], icons: [] }; };
+const writeCustom = c => { try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(c)); return true; } catch (e) { return false; } };
+const syncCustom = () => {
+  CUSTOM_KEYS.forEach(k => { delete ICONS[k]; delete CUSTOM_DATA[k]; }); CUSTOM_KEYS.length = 0;
+  const c = readCustom(); CUSTOM_GROUPS = c.groups.slice();
+  c.icons.forEach(ic => { if (ic && ic.key && ic.data && !ICONS[ic.key]) { ICONS[ic.key] = [ic.name || ic.key, ic.group || 'Custom', ic.ratio > 0 ? ic.ratio : 1]; CUSTOM_DATA[ic.key] = ic.data; CUSTOM_KEYS.push(ic.key); } });
+};
+const iconUrl = k => CUSTOM_DATA[k] ? `url(${CUSTOM_DATA[k]})` : `url(icons/${k}.png)`;
+syncCustom();
+const ROLE = {
+  ligand: { kind: 'pill' }, metabolite: { kind: 'pill' }, messenger: { kind: 'pill' }, process: { kind: 'box' }, output: { kind: 'box' },
+  receptor: { icon: 'rtk', size: 96 }, gpcr: { icon: 'gpcr-gprotein', size: 84 }, transporter: { icon: 'transporter', size: 60 }, channel: { icon: 'ion-channel', size: 70 },
+  kinase: { icon: 'protein-compact', size: 60 }, protein: { icon: 'protein-globular', size: 52 }, adaptor: { icon: 'protein-arc', size: 40 }, enzyme: { icon: 'protein-complex', size: 52 },
+  tf: { icon: 'tf-zincfinger', size: 60 }, gene: { icon: 'rna-polymerase', size: 68 }, dna: { icon: 'dna', size: 46 }, ribosome: { icon: 'ribosome', size: 62 },
+  cytokine: { icon: 'spheres-2', size: 46 }, plasmid: { icon: 'plasmid', size: 56 }, immune: { icon: 'th1', size: 60 },
+  cycle: { icon: 'cycle', size: 62 }, atp: { icon: 'atp', size: 40 }, ros: { icon: 'ros', size: 46 }, pump: { icon: 'pump', size: 70 },
+};
+const ETYPES = [['activate', 'Activation'], ['inhibit', 'Inhibition'], ['convert', 'Conversion (metabolic)'], ['induce', 'Induction (expression)'], ['translocate', 'Translocation'], ['feedbackPos', 'Positive feedback'], ['feedbackNeg', 'Negative feedback']];
+const ESTY = {
+  activate: { c: '#1d1f20', d: [], h: 'arrow', w: 1 }, inhibit: { c: '#1d1f20', d: [], h: 'bar', w: 1 }, convert: { c: '#1d1f20', d: [], h: 'open', w: 1.35 },
+  induce: { c: '#3d7a4f', d: [2, 4], h: 'arrow', w: 1.1 }, translocate: { c: '#1d1f20', d: [9, 4, 2, 4], h: 'arrow', w: 1 },
+  feedbackPos: { c: '#416180', d: [7, 5], h: 'arrow', w: 1.2 }, feedbackNeg: { c: '#b03a2e', d: [7, 5], h: 'bar', w: 1.2 },
+};
+const OPRE = /^(.+?)\s*(-->|\.\.>|~>|~\||->|-\||=>)\s*(.+?)\s*(?::\s*(.*))?$/;
+const OPS = { '-->': 'translocate', '..>': 'induce', '~>': 'feedbackPos', '~|': 'feedbackNeg', '->': 'activate', '-|': 'inhibit', '=>': 'convert' };
+const FONTS = {
+  barlow: ['Barlow', '"Barlow", system-ui, sans-serif'], barlowCond: ['Barlow Condensed', '"Barlow Condensed", "Barlow", sans-serif'],
+  helvetica: ['Helvetica / Arial', 'Helvetica, Arial, sans-serif'], arial: ['Arial', 'Arial, "Helvetica Neue", Helvetica, sans-serif'],
+  roboto: ['Roboto', 'Roboto, Arial, sans-serif'], openSans: ['Open Sans', '"Open Sans", Arial, sans-serif'],
+  calibri: ['Calibri', 'Calibri, Carlito, "Segoe UI", Arial, sans-serif'], verdana: ['Verdana', 'Verdana, Geneva, sans-serif'],
+  tahoma: ['Tahoma', 'Tahoma, Geneva, Verdana, sans-serif'], trebuchet: ['Trebuchet MS', '"Trebuchet MS", "Lucida Grande", sans-serif'],
+  times: ['Times New Roman', '"Times New Roman", Times, serif'], georgia: ['Georgia', 'Georgia, "Times New Roman", serif'],
+  palatino: ['Palatino', '"Palatino Linotype", Palatino, "Book Antiqua", serif'], cambria: ['Cambria', 'Cambria, Georgia, serif'],
+  courier: ['Courier New', '"Courier New", Courier, monospace'],
+};
+const TEXT_COLORS = [['', 'Default ink', '#1d1f20'], ['#000000', 'Black'], ['#1f3a5f', 'Navy'], ['#416180', 'Slate blue'], ['#0f6a73', 'Teal'], ['#2f6b4a', 'Forest green'], ['#7a4a1d', 'Brown'], ['#8a5a00', 'Ochre'], ['#9c2f25', 'Brick red'], ['#6b3a8c', 'Purple'], ['#5d5d60', 'Grey'], ['#ffffff', 'White']];
+const INK = '#1d1f20', MUTED = '#5d5d60', ACC = '#5980a6', ACC7 = '#416180', GREY = '#8a8a8d';
+const VKEY = 'bio-pathway-versions';
+const TONES = { accent: '#749dc4', grey: '#b0b0b3' };
+const KINDS = [
+  ['signalling', 'Signalling pathway', 'Flat figure: phospholipid bilayer across the upper third, ligand on a receptor, a three-protein cascade with labelled arrows ending at the nucleus. One blue accent for the signal path, grey for structures.'],
+  ['metabolic', 'Metabolic pathway', 'Glycolysis to pyruvate with lactate, PPP and TCA branches; enzymes sit on the arrows, ATP inhibits PFK-1.'],
+  ['receptor', 'Receptor-to-response map', 'One receptor fanning out to several cellular responses — insulin → IRS1 → PI3K → AKT → GLUT4, mTORC1, FOXO.'],
+  ['enzyme', 'Enzyme route', 'A linear enzyme route with branch products and an end-product feedback — the mevalonate pathway to cholesterol.'],
+  ['feedback', 'Feedback loop figure', 'A loop-centred figure — p53 induces its own inhibitor MDM2 while driving arrest or apoptosis.'],
+  ['overview', 'Broad molecular pathway overview', 'Receptor activation, kinase cascades, transcription, induced enzymes and metabolism in one 16:9 figure.'],
+  ['apparatus', 'Labelled apparatus', 'Textbook cross-section of simple distillation; every part named with a straight horizontal leader line, none crossing.'],
+  ['blank', 'Blank Template', 'An empty sheet to build from. Your typeface, text colour, preset and text size are kept.'],
+];
+const SPECS = {
+  metabolic: { name: 'Glycolysis and its branch points', nodes: `Glucose : metabolite
+ATP : atp
+TCA cycle : cycle @mitochondrion
+Acetyl-CoA : metabolite @mitochondrion`, flow: `Glucose => G6P : hexokinase
+G6P => F6P : PGI
+F6P => F1,6BP : PFK-1
+F1,6BP => GAP : aldolase
+GAP => 1,3-BPG : GAPDH
+1,3-BPG => PEP : PGK → ENO
+PEP => Pyruvate : pyruvate kinase
+Pyruvate => Lactate : LDHA
+G6P => Ribose-5-P : G6PD
+Pyruvate => Acetyl-CoA : PDH
+Acetyl-CoA => TCA cycle
+TCA cycle => ATP : OXPHOS
+ATP ~| (F6P => F1,6BP) : allosteric
+# Glucose is phosphorylated and trapped as G6P, the first branch point.
+# PFK-1 commits F6P to glycolysis and is inhibited by ATP.
+# Pyruvate is reduced to lactate or oxidised to acetyl-CoA for the TCA cycle.` },
+  receptor: { name: 'Insulin receptor to cellular responses', nodes: `Insulin : ligand @extracellular
+Insulin receptor : receptor @membrane
+IRS1 : adaptor
+PI3K : kinase
+PIP3 : messenger
+AKT : kinase
+mTORC1 : kinase
+FOXO1 : tf @nucleus
+Gluconeogenic genes : gene @nucleus
+GLUT4 translocation : output
+Protein synthesis : output
+Glycogen synthesis : output`, flow: `Insulin -> Insulin receptor
+Insulin receptor -> IRS1 : pY
+IRS1 -> PI3K
+PI3K -> PIP3
+PIP3 -> AKT
+AKT -> mTORC1
+AKT -| FOXO1
+FOXO1 -> Gluconeogenic genes
+AKT -> GLUT4 translocation
+mTORC1 -> Protein synthesis
+AKT -> Glycogen synthesis : via GSK3
+# Insulin activates its receptor, which phosphorylates IRS1.
+# PI3K makes PIP3, recruiting and activating AKT.
+# AKT fans out: glucose uptake, glycogen and protein synthesis, and FOXO1 exclusion.`,
+    pos: { 'Insulin': [90, 330], 'Insulin receptor': [210, 330], 'IRS1': [400, 330], 'PI3K': [560, 330], 'PIP3': [710, 330], 'AKT': [860, 330], 'mTORC1': [1080, 160], 'Protein synthesis': [1380, 160], 'GLUT4 translocation': [1380, 300], 'Glycogen synthesis': [1380, 420], 'FOXO1': [1080, 600], 'Gluconeogenic genes': [1330, 600] } },
+  enzyme: { name: 'Mevalonate pathway to cholesterol', nodes: `Acetyl-CoA : metabolite
+Statins : ligand
+Cholesterol : metabolite`, flow: `Acetyl-CoA => HMG-CoA : HMGCS1
+HMG-CoA => Mevalonate : HMGCR
+Mevalonate => IPP : MVK · PMVK · MVD
+IPP => FPP : FDPS
+FPP => Squalene : SQS
+Squalene => Lanosterol : SQLE · LSS
+Lanosterol => Cholesterol : 19 steps
+FPP => Ubiquinone
+FPP => Dolichol
+Statins -| (HMG-CoA => Mevalonate)
+Cholesterol ~| (HMG-CoA => Mevalonate) : SREBP2
+# HMGCR is the rate-limiting step and the target of statins.
+# FPP branches to ubiquinone, dolichol and sterols.
+# Cholesterol suppresses HMGCR through SREBP2.`,
+    pos: { 'Statins': [374, 500] } },
+  feedback: { name: 'p53–MDM2 feedback loop', nodes: `DNA damage : process
+ATM : kinase
+p53 : tf
+MDM2 gene : gene
+MDM2 : protein
+p21 : protein
+Cell-cycle arrest : output
+Apoptosis : output`, flow: `DNA damage -> ATM
+ATM -> p53 : phosphorylation
+p53 -> MDM2 gene : transcription
+MDM2 gene -> MDM2 : translation
+MDM2 ~| p53 : ubiquitination
+p53 -> p21
+p21 -> Cell-cycle arrest
+p53 -> Apoptosis : PUMA · BAX
+# DNA damage activates ATM, which stabilises p53.
+# p53 induces MDM2, which ubiquitinates p53 — a negative feedback loop.
+# Sustained p53 drives arrest through p21 or apoptosis.`,
+    pos: { 'DNA damage': [120, 270], 'ATM': [340, 270], 'p53': [620, 270], 'MDM2 gene': [850, 120], 'MDM2': [1080, 270], 'p21': [880, 490], 'Cell-cycle arrest': [1180, 490], 'Apoptosis': [880, 650] },
+    bends: { 'MDM2>p53': 45 } },
+};
+
+const OVERVIEW_NODES = `Growth factor : ligand @extracellular
+Hormone : ligand @extracellular
+Glucose (out) : metabolite @extracellular
+RTK : receptor @membrane
+GPCR · Gαs : gpcr @membrane
+GLUT1 : transporter @membrane
+SOS : adaptor
+RAS : protein "GTPase"
+RAF : kinase
+MEK : kinase
+ERK : kinase
+cAMP : messenger
+PKA : kinase
+ELK1 · CREB : tf @nucleus "transcription factors"
+Target genes : gene @nucleus "HK2 · PFKFB3 · MYC"
+Translation : ribosome
+Cell growth & proliferation : output
+HK2 · PFKFB3 : enzyme "induced enzymes"
+Glucose : metabolite
+Ribose-5-P + NADPH : metabolite
+Acetyl-CoA : metabolite @mitochondrion
+TCA cycle : cycle @mitochondrion
+ATP : atp @mitochondrion`;
+const OVERVIEW_FLOW = `Growth factor -> RTK
+RTK -> SOS
+SOS -> RAS
+RAS -> RAF
+RAF -> MEK
+MEK -> ERK
+ERK -> ELK1 · CREB
+Hormone -> GPCR · Gαs
+GPCR · Gαs -> cAMP : AC
+cAMP -> PKA
+PKA -> ELK1 · CREB
+ELK1 · CREB -> Target genes
+Target genes --> Translation : mRNA
+Translation -> Cell growth & proliferation
+Translation => HK2 · PFKFB3
+Glucose (out) => GLUT1
+GLUT1 => Glucose
+Glucose => G6P : HK2
+G6P => F6P : PGI
+F6P => F1,6BP : PFK-1
+F1,6BP => Pyruvate : aldolase … PK
+Pyruvate => Lactate : LDHA
+G6P => Ribose-5-P + NADPH : G6PD
+Pyruvate => Acetyl-CoA : PDH
+Acetyl-CoA => TCA cycle
+TCA cycle => ATP : OXPHOS
+ERK ~| SOS
+ATP ~| (F6P => F1,6BP) : allosteric
+HK2 · PFKFB3 ..> (Glucose => G6P)
+HK2 · PFKFB3 ..> (F6P => F1,6BP)
+# Ligands activate receptor tyrosine kinases (RTK) and G-protein-coupled receptors (GPCR).
+# SOS loads RAS-GTP; the RAF–MEK–ERK cascade and cAMP–PKA relay the signal.
+# Phosphorylated ELK1 and CREB induce target genes; mRNA is exported and translated.
+# Induced HK2 and PFKFB3 raise glycolytic flux; G6P and pyruvate are branch points.
+# Negative feedback: ERK inhibits SOS; ATP allosterically inhibits PFK-1.`;
+
+function overviewModel() {
+  const N = (id, kind, label, x, y, o) => Object.assign({ id, kind, label, x, y, sub: '', icon: '', size: 60, hue: 0, badge: false, role: '' }, o || {});
+  const nodes = [
+    N('gf', 'pill', 'Growth factor', 80, 190, { role: 'ligand' }), N('hor', 'pill', 'Hormone', 80, 370, { role: 'ligand' }), N('glco', 'pill', 'Glucose', 80, 600, { role: 'metabolite' }),
+    N('rtk', 'icon', 'RTK', 163, 196, { icon: 'rtk', size: 96 }), N('gpcr', 'icon', 'GPCR · Gαs', 198, 372, { icon: 'gpcr-gprotein', size: 84 }), N('glut', 'icon', 'GLUT1', 163, 600, { icon: 'transporter', size: 58 }),
+    N('sos', 'icon', 'SOS', 262, 196, { icon: 'protein-arc', size: 38 }), N('ras', 'icon', 'RAS', 350, 196, { icon: 'protein-globular', size: 50, sub: 'GTPase' }),
+    N('raf', 'icon', 'RAF', 440, 196, { icon: 'protein-compact', size: 58 }), N('mek', 'icon', 'MEK', 530, 196, { icon: 'protein-compact', size: 58 }),
+    N('erk', 'icon', 'ERK', 620, 196, { icon: 'protein-compact', size: 58, badge: true }),
+    N('camp', 'pill', 'cAMP', 350, 372, { role: 'messenger' }), N('pka', 'icon', 'PKA', 470, 372, { icon: 'protein-compact', size: 58, hue: -90 }),
+    N('tf', 'icon', 'ELK1 · CREB', 805, 214, { icon: 'tf-zincfinger', size: 58, badge: true, sub: 'transcription factors' }),
+    N('gene', 'icon', 'Target genes', 980, 214, { icon: 'rna-polymerase', size: 66, sub: 'HK2 · PFKFB3 · MYC' }),
+    N('ribo', 'icon', 'Translation', 1250, 214, { icon: 'ribosome', size: 60 }), N('grow', 'box', 'Cell growth &\nproliferation', 1460, 214, { role: 'output' }),
+    N('enz', 'icon', 'HK2 · PFKFB3', 1250, 405, { icon: 'protein-complex', size: 50, sub: 'induced enzymes' }),
+    N('glci', 'pill', 'Glucose', 272, 600, { role: 'metabolite' }), N('g6p', 'pill', 'G6P', 405, 600, { role: 'metabolite' }), N('f6p', 'pill', 'F6P', 535, 600, { role: 'metabolite' }),
+    N('f16', 'pill', 'F1,6BP', 670, 600, { role: 'metabolite' }), N('pyr', 'pill', 'Pyruvate', 880, 600, { role: 'metabolite' }), N('lac', 'pill', 'Lactate', 880, 712, { role: 'metabolite' }),
+    N('ppp', 'pill', 'Ribose-5-P\n+ NADPH', 405, 718, { role: 'metabolite' }), N('acoa', 'pill', 'Acetyl-CoA', 1250, 600, { role: 'metabolite' }),
+    N('tca', 'icon', 'TCA cycle', 1405, 596, { icon: 'cycle', size: 60 }), N('atp', 'icon', '', 1515, 700, { icon: 'atp', size: 38 }),
+  ];
+  const E = (id, from, to, type, label, bend, o) => Object.assign({ id, from, to, type, label: label || '', bend: bend || 0, flip: false }, o || {});
+  const edges = [
+    E('a1', 'gf', 'rtk', 'activate'), E('a2', 'rtk', 'sos', 'activate'), E('a3', 'sos', 'ras', 'activate'), E('a4', 'ras', 'raf', 'activate'), E('a5', 'raf', 'mek', 'activate'),
+    E('a6', 'mek', 'erk', 'activate'), E('a7', 'erk', 'tf', 'activate'), E('a8', 'hor', 'gpcr', 'activate'), E('a9', 'gpcr', 'camp', 'activate', 'AC'), E('a10', 'camp', 'pka', 'activate'),
+    E('a11', 'pka', 'tf', 'activate'), E('a12', 'tf', 'gene', 'activate'), E('a13', 'gene', 'ribo', 'translocate', 'mRNA'), E('a14', 'ribo', 'grow', 'activate'), E('a15', 'ribo', 'enz', 'convert'),
+    E('m1', 'glco', 'glut', 'convert'), E('m2', 'glut', 'glci', 'convert'), E('m3', 'glci', 'g6p', 'convert', 'HK2'), E('m4', 'g6p', 'f6p', 'convert', 'PGI'), E('m5', 'f6p', 'f16', 'convert', 'PFK-1'),
+    E('m6', 'f16', 'pyr', 'convert', 'aldolase … PK'), E('m7', 'pyr', 'lac', 'convert', 'LDHA'), E('m8', 'g6p', 'ppp', 'convert', 'G6PD'), E('m9', 'pyr', 'acoa', 'convert', 'PDH'),
+    E('m10', 'acoa', 'tca', 'convert'), E('m11', 'tca', 'atp', 'convert', 'OXPHOS'),
+    E('f1', 'erk', 'sos', 'feedbackNeg', '', 95), E('f2', 'atp', 'e:m5', 'feedbackNeg', 'allosteric', -215, { flip: true }), E('f3', 'enz', 'e:m3', 'induce'), E('f4', 'enz', 'e:m5', 'induce'),
+  ];
+  const regions = [
+    { id: 'mem', kind: 'membrane', label: 'Plasma membrane', x: 150, y: 100, w: 26, h: 672, double: false },
+    { id: 'ext', kind: 'zone', label: 'Extracellular', x: 24, y: 112, w: 120, h: 20, double: false },
+    { id: 'cyt', kind: 'zone', label: 'Cytoplasm', x: 196, y: 112, w: 120, h: 20, double: false },
+    { id: 'nuc', kind: 'compartment', label: 'Nucleus', x: 712, y: 128, w: 360, h: 206, double: true },
+    { id: 'mito', kind: 'compartment', label: 'Mitochondrion', x: 1150, y: 528, w: 424, h: 238, double: false },
+  ];
+  const steps = [
+    { id: 's1', n: 1, x: 108, y: 140, text: 'Ligands activate receptor tyrosine kinases (RTK) and G-protein-coupled receptors (GPCR).' },
+    { id: 's2', n: 2, x: 395, y: 102, text: 'SOS loads RAS-GTP; the RAF–MEK–ERK cascade and cAMP–PKA relay the signal.' },
+    { id: 's3', n: 3, x: 700, y: 116, text: 'Phosphorylated ELK1 and CREB induce target genes; mRNA is exported and translated.' },
+    { id: 's4', n: 4, x: 1172, y: 380, text: 'Induced HK2 and PFKFB3 raise glycolytic flux; G6P and pyruvate are branch points.' },
+    { id: 's5', n: 5, x: 1560, y: 650, text: 'Negative feedback: ERK inhibits SOS; ATP allosterically inhibits PFK-1.' },
+  ];
+  return { v: 1, title: 'Growth-factor signalling and glycolytic reprogramming', spec: { name: 'Growth-factor signalling and glycolytic reprogramming', nodes: OVERVIEW_NODES, flow: OVERVIEW_FLOW },
+    nodes, edges, regions, steps, kind: 'overview', showLegend: true, showCaptions: true, showSteps: true, snap: true, preset: 'report', font: 'barlow', fs: 1.15, textOnly: false, seq: 100 };
+}
+
+class SvgCtx {
+  constructor(m) { Object.assign(this, { o: [], defs: {}, p: '', st: [], m, fillStyle: '#000', strokeStyle: '#000', lineWidth: 1, font: '12px sans-serif', textAlign: 'left', textBaseline: 'alphabetic', dash: [], filter: 'none', lineCap: 'butt', lineJoin: 'miter', letterSpacing: '0px', globalAlpha: 1, tx: 0, ty: 0 }); }
+  _s() { return { fillStyle: this.fillStyle, strokeStyle: this.strokeStyle, lineWidth: this.lineWidth, font: this.font, textAlign: this.textAlign, textBaseline: this.textBaseline, dash: this.dash, filter: this.filter, lineCap: this.lineCap, lineJoin: this.lineJoin, letterSpacing: this.letterSpacing, globalAlpha: this.globalAlpha, tx: this.tx, ty: this.ty }; }
+  save() { this.st.push(this._s()); } restore() { Object.assign(this, this.st.pop()); }
+  translate(x, y) { this.tx += x; this.ty += y; }
+  setLineDash(a) { this.dash = a; } beginPath() { this.p = ''; }
+  n(v) { return Math.round(v * 100) / 100; }
+  moveTo(x, y) { this.p += `M${this.n(x + this.tx)} ${this.n(y + this.ty)}`; } lineTo(x, y) { this.p += `L${this.n(x + this.tx)} ${this.n(y + this.ty)}`; }
+  quadraticCurveTo(a, b, x, y) { this.p += `Q${this.n(a + this.tx)} ${this.n(b + this.ty)} ${this.n(x + this.tx)} ${this.n(y + this.ty)}`; }
+  closePath() { this.p += 'Z'; }
+  arc(x, y, r) { const X = x + this.tx, Y = y + this.ty; this.p += `M${this.n(X - r)} ${this.n(Y)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`; }
+  rect(x, y, w, h) { this.moveTo(x, y); this.lineTo(x + w, y); this.lineTo(x + w, y + h); this.lineTo(x, y + h); this.closePath(); }
+  fillRect(x, y, w, h) { this.beginPath(); this.rect(x, y, w, h); this.fill(); }
+  op() { return this.globalAlpha < 1 ? ` opacity="${this.globalAlpha}"` : ''; }
+  fill() { this.o.push(`<path d="${this.p}" fill="${this.fillStyle}"${this.op()}/>`); }
+  strokeAttrs() { return `fill="none" stroke="${this.strokeStyle}" stroke-width="${this.n(this.lineWidth)}"${this.dash.length ? ` stroke-dasharray="${this.dash.join(' ')}"` : ''} stroke-linecap="${this.lineCap}" stroke-linejoin="${this.lineJoin}"${this.op()}`; }
+  stroke() { this.o.push(`<path d="${this.p}" ${this.strokeAttrs()}/>`); }
+  measureText(t) { this.m.font = this.font; return this.m.measureText(t); }
+  esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  textAttrs(x, y) {
+    const m = this.font.match(/^(italic )?(\d+) ([\d.]+)px (.+)$/) || [];
+    const anchor = { center: 'middle', left: 'start', right: 'end' }[this.textAlign] || 'start';
+    const base = this.textBaseline === 'middle' ? ' dominant-baseline="central"' : '';
+    const ls = parseFloat(this.letterSpacing) ? ` letter-spacing="${parseFloat(this.letterSpacing)}"` : '';
+    return `x="${this.n(x + this.tx)}" y="${this.n(y + this.ty)}" font-family='${(m[4] || 'sans-serif')}' font-size="${m[3] || 12}" font-weight="${m[2] || 400}"${m[1] ? ' font-style="italic"' : ''} text-anchor="${anchor}"${base}${ls}`;
+  }
+  fillText(t, x, y) { this.o.push(`<text ${this.textAttrs(x, y)} fill="${this.fillStyle}">${this.esc(t)}</text>`); }
+  strokeText(t, x, y) { this.o.push(`<text ${this.textAttrs(x, y)} ${this.strokeAttrs()}>${this.esc(t)}</text>`); }
+  drawImage(img, x, y, w, h) {
+    let f = ''; const m = String(this.filter).match(/hue-rotate\((-?[\d.]+)deg\)/);
+    if (m && +m[1]) { const id = 'h' + String(m[1]).replace('-', 'm').replace('.', '_'); this.defs[id] = `<filter id="${id}" color-interpolation-filters="sRGB"><feColorMatrix type="hueRotate" values="${m[1]}"/></filter>`; f = ` filter="url(#${id})"`; }
+    this.o.push(`<image href="${img._data || img.src}" x="${this.n(x + this.tx)}" y="${this.n(y + this.ty)}" width="${this.n(w)}" height="${this.n(h)}" preserveAspectRatio="none"${f}/>`);
+  }
+  toString(w, h, bg) { return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><defs>${Object.values(this.defs).join('')}</defs>${bg ? `<rect width="${w}" height="${h}" fill="${bg}"/>` : ''}${this.o.join('')}</svg>`; }
+}
+
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.d = this.load() || overviewModel();
+    this.history = [JSON.stringify(this.d)]; this.histIndex = 0;
+    this.sel = null; this.connect = false; this.connectFrom = null; this.connectType = 'activate';
+    this.libOpen = false; this.libQ = ''; this.libCat = 'All'; this.libMode = 'replace'; this.libForm = ''; this.libGroupName = ''; this.libIconName = ''; this.libIconGroup = ''; this.libIconFile = null;
+    this.imgs = {}; this.toastMsg = ''; this.saveNote = 'Saved in this browser'; this.busy = false;
+    this.mctx = document.createElement('canvas').getContext('2d');
+    this.cvRef = el => { this.cv = el; if (el) requestAnimationFrame(() => this.draw()); }; this.wrapRef = el => { if (el && el !== this.wrap) { this.ro = this.ro || new ResizeObserver(() => this.draw()); this.ro.observe(el); requestAnimationFrame(() => this.draw()); } this.wrap = el; }; this.fileRef = el => { this.fileIn = el; };
+    this.view = { s: 1, ox: 0, oy: 0 };
+  }
+  componentDidMount() {
+    Object.keys(ICONS).forEach(k => this.loadImg(k));
+    const kick = (n) => { if (this.cv && this.wrap && this.wrap.clientWidth) this.draw(); else if (n < 60) requestAnimationFrame(() => kick(n + 1)); }; kick(0);
+    if (document.fonts) { Promise.all(['600 15px Barlow', '400 15px Barlow', 'italic 400 12px Barlow', '600 15px "Barlow Condensed"', '400 15px "Barlow Condensed"'].map(f => document.fonts.load(f))).then(() => this.draw()); }
+    this.onKey = e => this.handleKey(e); window.addEventListener('keydown', this.onKey);
+    this.draw();
+  }
+  loadImg(k) {
+    const im = new Image(); im.onload = () => { try { const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext('2d').drawImage(im, 0, 0); im._data = c.toDataURL('image/png'); } catch (e) {} this.draw(); };
+    im.src = CUSTOM_DATA[k] || `icons/${k}.png`; this.imgs[k] = im;
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); this.ro && this.ro.disconnect(); }
+  componentDidUpdate() { this.draw(); }
+  describe() {
+    const cv = this.cv, d = this.d; if (!cv || !d) return;
+    const nm = n => String((n && n.label) || '').replace(/\n/g, ' ').trim();
+    const names = d.nodes.map(nm).filter(Boolean);
+    const links = d.edges.map(e => { const a = nm(this.node(e.from)), b = nm(this.node(e.to)); return a && b ? a + ' ' + (e.type || 'to') + ' ' + b : ''; }).filter(Boolean);
+    let s = (d.title || 'Pathway') + '. ' + d.nodes.length + ' nodes, ' + d.edges.length + ' links. Nodes: ' + names.join(', ') + '. Links: ' + links.join('; ') + '. PageUp and PageDown pick a node, arrow keys move it, Delete removes it, C starts a link from the selected node.';
+    if (this.connect && this.connectFrom) { const f = nm(this.node(this.connectFrom)); const tn = this.kbTo ? nm(this.node(this.kbTo)) : ''; s += ' Linking from ' + f + '. ' + (tn ? 'Target ' + tn + '. Press Enter to create the link.' : 'PageDown picks the target.'); }
+    const o = this.sel && this.selObj(); if (o) s += ' Selected: ' + (nm(o) || o.id) + '.';
+    cv.setAttribute('aria-label', s.slice(0, 1800));
+  }
+
+  load() { try { const s = JSON.parse(localStorage.getItem(KEY)); return s && s.v === 1 ? s : null; } catch (e) { return null; } }
+  persist() { try { localStorage.setItem(KEY, JSON.stringify(this.d)); this.saveNote = 'Saved in this browser'; } catch (e) { this.saveNote = 'Not saved — storage full'; } }
+  pushHistory() {
+    const s = JSON.stringify(this.d); if (s === this.history[this.histIndex]) return;
+    this.history = this.history.slice(0, this.histIndex + 1); this.history.push(s);
+    if (this.history.length > 60) this.history.shift(); this.histIndex = this.history.length - 1;
+  }
+  touch(save) { if (save !== false) { this.persist(); this.pushHistory(); } this.forceUpdate(); }
+  touchSoft() { this.persist(); clearTimeout(this._ht); this._ht = setTimeout(() => this.pushHistory(), 700); this.forceUpdate(); }
+  undo() { if (this.histIndex > 0) { this.histIndex--; this.restoreSnapshot(this.history[this.histIndex]); } }
+  redo() { if (this.histIndex < this.history.length - 1) { this.histIndex++; this.restoreSnapshot(this.history[this.histIndex]); } }
+  restoreSnapshot(snap) { this.d = JSON.parse(snap); this.sel = null; this.connectFrom = null; this.persist(); this.forceUpdate(); }
+  toast(m) { this.toastMsg = m; clearTimeout(this._tt); this._tt = setTimeout(() => { this.toastMsg = ''; this.forceUpdate(); }, 2600); this.forceUpdate(); }
+  nid() { this.d.seq = (this.d.seq || 100) + 1; return 'n' + this.d.seq; }
+
+  handleKey(e) {
+    const tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (e.key === 'Escape' && this.libOpen) { this.libOpen = false; this.forceUpdate(); return; }
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    const mod = e.metaKey || e.ctrlKey;
+    if (mod && e.key.toLowerCase() === 'z') { e.preventDefault(); e.shiftKey ? this.redo() : this.undo(); return; }
+    if (mod && e.key.toLowerCase() === 'y') { e.preventDefault(); this.redo(); return; }
+    if (e.key === 'Escape') { this.connect = false; this.connectFrom = null; this.sel = null; this.forceUpdate(); }
+    if (document.activeElement === this.cv && !mod && (e.key === 'c' || e.key === 'C') && this.sel && this.sel.t === 'node') { this.connect = true; this.connectFrom = this.sel.id; this.kbTo = null; e.preventDefault(); this.forceUpdate(); return; }
+    if (document.activeElement === this.cv && this.connect && this.connectFrom) {
+      if (e.key === 'PageDown' || e.key === 'PageUp') {
+        const ns = this.d.nodes.filter(n => n.id !== this.connectFrom);
+        if (ns.length) { const i0 = ns.findIndex(n => n.id === this.kbTo); this.kbTo = ns[(i0 + (e.key === 'PageDown' ? 1 : -1) + ns.length) % ns.length].id; this.sel = { t: 'node', id: this.kbTo }; }
+        e.preventDefault(); this.forceUpdate(); return;
+      }
+      if (e.key === 'Enter' && this.kbTo) {
+        const id = 'e' + (++this.d.seq), fb = this.connectType.startsWith('feedback');
+        this.d.edges.push({ id, from: this.connectFrom, to: this.kbTo, type: this.connectType, label: '', bend: fb ? 80 : 0, flip: false });
+        this.connectFrom = null; this.connect = false; this.kbTo = null; this.sel = { t: 'edge', id }; e.preventDefault(); this.touch(); return;
+      }
+    }
+    if ((e.key === 'PageDown' || e.key === 'PageUp') && document.activeElement === this.cv && this.d.nodes.length) {
+      const ns = this.d.nodes, i0 = this.sel && this.sel.t === 'node' ? ns.findIndex(n => n.id === this.sel.id) : -1;
+      this.sel = { t: 'node', id: ns[(i0 + (e.key === 'PageDown' ? 1 : -1) + ns.length) % ns.length].id }; e.preventDefault(); this.forceUpdate(); return;
+    }
+    if ((e.key === 'Delete' || e.key === 'Backspace') && this.sel) { e.preventDefault(); this.deleteSel(); }
+    if (this.sel && /^Arrow/.test(e.key)) {
+      const o = this.selObj(); if (!o || this.sel.t === 'edge') return; e.preventDefault();
+      const s = e.shiftKey ? 10 : 1; if (e.key === 'ArrowLeft') o.x -= s; if (e.key === 'ArrowRight') o.x += s; if (e.key === 'ArrowUp') o.y -= s; if (e.key === 'ArrowDown') o.y += s; this.touchSoft();
+    }
+  }
+
+  // ---------- geometry ----------
+  k() { return (this.d.preset === 'slide' ? 1.3 : 1) * (this.d.fs || 1); }
+  lw() { return this.d.preset === 'slide' ? 2.1 : 1.5; }
+  fam() { return (FONTS[this.d.font] || FONTS.barlow)[1]; }
+  ink() { return this.d.textColor || INK; }
+  mixHex(c, t) { const h = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); const a = h(c), w = [255, 255, 255]; return '#' + a.map((v, i) => Math.round(v + (w[i] - v) * t).toString(16).padStart(2, '0')).join(''); }
+  muted() { return this.d.textColor ? this.mixHex(this.d.textColor, .3) : MUTED; }
+  font(sz, w, it, fm) { return `${it ? 'italic ' : ''}${w || 400} ${Math.round(sz * 10) / 10}px ${fm || this.fam()}`; }
+  tw(t, f) { this.mctx.font = f; return this.mctx.measureText(t).width; }
+  node(id) { return this.d.nodes.find(n => n.id === id); }
+  edge(id) { return this.d.edges.find(e => e.id === id); }
+  geom(n) {
+    const fm = n.font && FONTS[n.font] ? FONTS[n.font][1] : null, F = (a, b, c) => this.font(a, b, c, fm);
+    const k = this.k(), lab = ((n.label || (this.d.textOnly && n.kind === 'icon' && ICONS[n.icon] ? ICONS[n.icon][0] : ''))).split('\n').filter((t, i, a) => t || a.length > 1), sub = n.sub ? n.sub.split('\n') : [];
+    const SF = F(12 * k, 400, true), sh = 12 * k * 1.25;
+    const maxW = (arr, f) => arr.reduce((m, t) => Math.max(m, this.tw(t, f)), 0);
+    if (n.kind === 'apparatus') { const ax = 230 + n.x, ay = 230 + n.y; return { ax, ay, aw: 860, ah: 650, hx: ax, hy: ay, hw: 860, hh: 650, t: { x: 0, y: 0, lab: [], sub: [], LF: SF, SF, lh: 0, sh: 0 } }; }
+    if (n.kind === 'icon' && !this.d.textOnly && ICONS[n.icon]) {
+      const LF = F(15 * k, 600), lh = 15 * k * 1.2;
+      const ih = n.size || 60, iw = ih * ICONS[n.icon][2], ax = n.x - iw / 2, ay = n.y - ih / 2;
+      const wl = Math.max(maxW(lab, LF), maxW(sub, SF)), th = lab.length * lh + sub.length * sh;
+      const hw = Math.max(iw, wl) + 8, lp = n.lp || 'below';
+      if (lp === 'right' || lp === 'left') {
+        const tx = lp === 'right' ? ax + iw + 8 : ax - 8, ty = n.y - th / 2, hx = lp === 'right' ? ax - 4 : ax - 16 - wl;
+        return { ax, ay, aw: iw, ah: ih, hx, hy: Math.min(ay, ty) - 4, hw: iw + wl + 20, hh: Math.max(ih, th) + 8, t: { x: tx, y: ty, lab, sub, LF, SF, lh, sh, align: lp === 'right' ? 'left' : 'right' } };
+      }
+      if (lp === 'above') return { ax, ay, aw: iw, ah: ih, hx: n.x - hw / 2, hy: ay - 9 - th, hw, hh: ih + th + 13, t: { x: n.x, y: ay - 5 - th, lab, sub, LF, SF, lh, sh } };
+      return { ax, ay, aw: iw, ah: ih, hx: n.x - hw / 2, hy: ay - 4, hw, hh: ih + 8 + th + 4, t: { x: n.x, y: ay + ih + 5, lab, sub, LF, SF, lh, sh } };
+    }
+    const isText = n.kind === 'text', pill = n.kind === 'pill';
+    const fz = (isText ? (n.size && n.size < 40 ? n.size : 14) : pill ? 14 : 15) * k;
+    const LF = F(fz, isText ? 400 : 600), lh = fz * 1.22;
+    const wl = Math.max(maxW(lab, LF), maxW(sub, SF)), th = lab.length * lh + sub.length * sh;
+    const px = isText ? 4 : pill ? 13 * k : 12 * k, py = isText ? 2 : 6 * k;
+    const aw = Math.max(wl + px * 2, pill ? 40 * k : 0), ah = th + py * 2;
+    const ax = n.tAlign === 'right' ? n.x - aw : n.tAlign === 'left' ? n.x : n.x - aw / 2, ay = n.y - ah / 2;
+    return { ax, ay, aw, ah, hx: ax - 3, hy: ay - 3, hw: aw + 6, hh: ah + 6, t: { x: ax + aw / 2, y: ay + py, lab, sub, LF, SF, lh, sh }, inside: true };
+  }
+  endpoint(ref, depth) {
+    if (typeof ref === 'string' && ref.startsWith('e:')) {
+      const e = this.edge(ref.slice(2)); if (!e || depth > 2) return null;
+      const pts = this.edgePts(e, depth + 1); if (!pts || pts.length < 2) return null;
+      return { pt: pts[Math.floor(pts.length / 2)], box: null };
+    }
+    const n = this.node(ref); if (!n) return null;
+    const g = this.geom(n); return { pt: { x: g.ax + g.aw / 2, y: g.ay + g.ah / 2 }, box: g };
+  }
+  edgePts(e, depth) {
+    depth = depth || 0;
+    const A = this.endpoint(e.from, depth), B = this.endpoint(e.to, depth); if (!A || !B) return null;
+    const a = A.pt, b = B.pt, dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
+    const c = { x: (a.x + b.x) / 2 + (-dy / L) * (e.bend || 0), y: (a.y + b.y) / 2 + (dx / L) * (e.bend || 0) };
+    const N = 90, pts = [];
+    for (let i = 0; i <= N; i++) { const t = i / N, u = 1 - t; pts.push({ x: u * u * a.x + 2 * u * t * c.x + t * t * b.x, y: u * u * a.y + 2 * u * t * c.y + t * t * b.y }); }
+    const inside = (p, X, gap) => X.box ? (p.x > X.box.ax - gap && p.x < X.box.ax + X.box.aw + gap && p.y > X.box.ay - gap && p.y < X.box.ay + X.box.ah + gap) : Math.hypot(p.x - X.pt.x, p.y - X.pt.y) < gap + 2;
+    let i0 = 0, i1 = N; while (i0 < N && inside(pts[i0], A, 4)) i0++; while (i1 > i0 && inside(pts[i1], B, 5)) i1--;
+    return pts.slice(i0, i1 + 1);
+  }
+
+  // ---------- drawing ----------
+  rr(ctx, x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); }
+  haloText(ctx, t, x, y, color) { ctx.save(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 4; ctx.lineJoin = 'round'; ctx.setLineDash([]); ctx.strokeText(t, x, y); ctx.restore(); ctx.fillStyle = color; ctx.fillText(t, x, y); }
+  head(ctx, kind, P, ang, color) {
+    const k = this.k(), L = 11 * k, w = 4.6 * k, c = Math.cos(ang), s = Math.sin(ang);
+    ctx.setLineDash([]); ctx.fillStyle = color; ctx.strokeStyle = color;
+    if (kind === 'arrow') { ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(P.x - L * c + w * s, P.y - L * s - w * c); ctx.lineTo(P.x - L * c - w * s, P.y - L * s + w * c); ctx.closePath(); ctx.fill(); }
+    else if (kind === 'open') { ctx.lineWidth = this.lw() * 1.25; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(P.x - L * c + w * 1.2 * s, P.y - L * s - w * 1.2 * c); ctx.lineTo(P.x, P.y); ctx.lineTo(P.x - L * c - w * 1.2 * s, P.y - L * s + w * 1.2 * c); ctx.stroke(); }
+    else { const b = 7.5 * k; ctx.lineWidth = this.lw() * 1.6; ctx.lineCap = 'butt'; ctx.beginPath(); ctx.moveTo(P.x + b * s, P.y - b * c); ctx.lineTo(P.x - b * s, P.y + b * c); ctx.stroke(); }
+  }
+  drawEdge(ctx, e, hi) {
+    const pts = this.edgePts(e); if (!pts || pts.length < 3) return;
+    const st0 = ESTY[e.type] || ESTY.activate, st = e.color === 'accent' ? Object.assign({}, st0, { c: ACC }) : e.color === 'grey' ? Object.assign({}, st0, { c: GREY }) : st0, k = this.k(), n = pts.length - 1;
+    const P = pts[n], Q = pts[Math.max(0, n - 4)], ang = Math.atan2(P.y - Q.y, P.x - Q.x);
+    const back = st.h === 'arrow' ? 9 * k : st.h === 'open' ? 2 : 1;
+    let end = n; while (end > 1 && Math.hypot(pts[end].x - P.x, pts[end].y - P.y) < back) end--;
+    if (hi) { ctx.save(); ctx.strokeStyle = 'rgba(89,128,166,.28)'; ctx.lineWidth = 9; ctx.lineCap = 'round'; ctx.setLineDash([]); ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.stroke(); ctx.restore(); }
+    ctx.save(); ctx.strokeStyle = st.c; ctx.lineWidth = this.lw() * st.w; ctx.lineCap = st.d.length ? 'butt' : 'round'; ctx.lineJoin = 'round'; ctx.setLineDash(st.d.map(v => v * k));
+    ctx.beginPath(); for (let i = 0; i <= end; i++) i ? ctx.lineTo(pts[i].x, pts[i].y) : ctx.moveTo(pts[i].x, pts[i].y); ctx.stroke();
+    this.head(ctx, st.h, P, ang, st.c); ctx.restore();
+    if (e.label) {
+      const m = pts[Math.floor(n / 2)], m2 = pts[Math.min(n, Math.floor(n / 2) + 2)], m1 = pts[Math.max(0, Math.floor(n / 2) - 2)];
+      const tx = m2.x - m1.x, ty = m2.y - m1.y, tl = Math.hypot(tx, ty) || 1; let nx = -ty / tl, ny = tx / tl;
+      let side = e.bend ? Math.sign(e.bend) : (e.type === 'convert' ? (ny > 0 ? 1 : -1) : (ny < 0 ? 1 : -1));
+      if (e.flip) side = -side;
+      const f = this.font(12 * k, 400, true); ctx.font = f; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const w = this.tw(e.label, f), off = 6 * k + Math.abs(nx) * w / 2 + Math.abs(ny) * 7 * k;
+      this.haloText(ctx, e.label, m.x + nx * side * off, m.y + ny * side * off, e.color === 'accent' ? ACC7 : e.color === 'grey' ? MUTED : e.type.startsWith('feedback') || e.type === 'induce' ? st.c : (this.d.textColor || '#424244'));
+    }
+  }
+  tinted(key, color) {
+    this.tcache = this.tcache || {}; const id = key + color; if (this.tcache[id]) return this.tcache[id];
+    const im = this.imgs[key]; if (!im || !im.naturalWidth) return null;
+    const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight; const x = c.getContext('2d');
+    x.filter = 'grayscale(1) contrast(1.1)'; x.drawImage(im, 0, 0); x.filter = 'none';
+    x.globalCompositeOperation = 'source-atop'; x.globalAlpha = .62; x.fillStyle = color; x.fillRect(0, 0, c.width, c.height); x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+    try { c._data = c.toDataURL('image/png'); } catch (e) {} this.tcache[id] = c; return c;
+  }
+  drawApparatus(ctx, n) {
+    const X = n.x, Y = n.y, P = (x, y) => ({ x: x + X, y: y + Y });
+    const poly = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); if (close) ctx.closePath(); };
+    const A = { x: 365, y: 462 }, C = { x: 985, y: 718 }, dx = C.x - A.x, dy = C.y - A.y, L = Math.hypot(dx, dy), u = { x: dx / L, y: dy / L }, v = { x: -u.y, y: u.x };
+    const at = (t, o) => P(A.x + dx * t + v.x * o, A.y + dy * t + v.y * o);
+    const fc = { x: 350, y: 652 }, r = 86, arcPts = (a0, a1, steps) => { const o = []; for (let i = 0; i <= steps; i++) { const a = a0 + (a1 - a0) * i / steps; o.push(P(fc.x + r * Math.cos(a), fc.y + r * Math.sin(a))); } return o; };
+    const t0 = .17, t1 = .88, J = 24, T = 7, lw = 2 * (this.d.preset === 'slide' ? 1.3 : 1);
+    ctx.save(); ctx.setLineDash([]); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    // fills
+    ctx.fillStyle = '#e4e4e7'; ctx.strokeStyle = INK; ctx.lineWidth = 1.5; poly([P(240, 740), P(460, 740), P(460, 770), P(240, 770)], true); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#9a9a9e'; poly([P(262, 740), P(438, 740), P(438, 746), P(262, 746)], true); ctx.fill();
+    ctx.fillStyle = '#fafbfc'; poly([at(t0, -J), at(t1, -J), at(t1, J), at(t0, J)], true); ctx.fill();
+    const a0 = Math.asin(38 / r); ctx.fillStyle = '#e2e2e6'; poly(arcPts(a0, Math.PI - a0, 40), true); ctx.fill();
+    ctx.fillStyle = '#d6ebff'; poly([P(337, 626), P(363, 626), P(363, 452), P(337, 452)], true); ctx.fill();
+    poly([at(-.012, -T + 1), at(.62, -T + 1), at(.62, T - 1), at(-.012, T - 1)], true); ctx.fill();
+    ctx.fillStyle = '#bcd8f2'; poly([P(922.2, 845), P(1047.8, 845), P(1070, 870), P(900, 870)], true); ctx.fill();
+    // glass outlines
+    ctx.strokeStyle = INK; ctx.lineWidth = lw;
+    const aL = -(Math.PI - Math.acos(15 / r)), aR = -Math.acos(15 / r) - 2 * Math.PI;
+    poly([P(335, 430), ...arcPts(aL, aR, 90), P(365, 470)]); ctx.stroke();
+    poly([P(365, 454), P(365, 430)]); ctx.stroke();
+    poly([at(t0, -J), at(t1, -J), at(t1, J), at(t0, J)], true); ctx.stroke();
+    const e1 = at(1, -T), e2 = at(1, T);
+    poly([at(0, -T), e1, P(992, 716), P(992, 776)]); ctx.stroke();
+    poly([at(0, T), e2, P(978, 729), P(978, 776)]); ctx.stroke();
+    [[.22, -1], [.82, 1]].forEach(([t, sd]) => { [-1, 1].forEach(q => { poly([at(t + q * T / L, sd * J), at(t + q * T / L, sd * (J + 30))]); ctx.stroke(); }); });
+    poly([P(971, 760), P(971, 790), P(900, 870), P(1070, 870), P(999, 790), P(999, 760)]); ctx.stroke();
+    ctx.fillStyle = '#9a9a9e'; ctx.lineWidth = 1.5; poly([P(328, 412), P(372, 412), P(372, 432), P(328, 432)], true); ctx.fill(); ctx.stroke();
+    // thermometer
+    ctx.fillStyle = '#fff'; this.rr(ctx, 345 + X, 240 + Y, 10, 216, 5); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#5d5d60'; ctx.lineWidth = 3; poly([P(350, 300), P(350, 456)]); ctx.stroke();
+    ctx.lineWidth = 1; for (let y = 256; y <= 400; y += 16) { poly([P(355, y), P(359, y)]); ctx.stroke(); }
+    ctx.fillStyle = '#5d5d60'; ctx.strokeStyle = INK; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(350 + X, 462 + Y, 7.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    // arrows: vapour (accent) and water (grey)
+    const arrow = (p, q, col, w) => { ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineCap = 'butt'; const ang = Math.atan2(q.y - p.y, q.x - p.x); const b = { x: q.x - Math.cos(ang) * 8, y: q.y - Math.sin(ang) * 8 }; poly([p, b]); ctx.stroke(); this.head(ctx, 'arrow', q, ang, col); };
+    arrow(at(.03, 0), at(.32, 0), ACC7, 2);
+    arrow(at(.82, J + 76), at(.82, J + 40), GREY, 1.6);
+    arrow(at(.22, -(J + 40)), at(.22, -(J + 76)), GREY, 1.6);
+    ctx.restore();
+  }
+  drawNode(ctx, n) {
+    const g = this.geom(n), k = this.k();
+    if (n.kind === 'apparatus') { this.drawApparatus(ctx, n); return; }
+    if (n.kind === 'icon' && !this.d.textOnly && ICONS[n.icon]) {
+      const im = n.tone && TONES[n.tone] ? this.tinted(n.icon, TONES[n.tone]) : this.imgs[n.icon];
+      if (im && (im.naturalWidth || im.width) && (im.complete !== false)) { ctx.save(); if (n.hue && !n.tone) ctx.filter = `hue-rotate(${n.hue}deg)`; ctx.drawImage(im, g.ax, g.ay, g.aw, g.ah); ctx.restore(); }
+      else { ctx.save(); ctx.strokeStyle = '#d4d4d7'; ctx.setLineDash([3, 3]); ctx.lineWidth = 1; ctx.beginPath(); ctx.rect(g.ax, g.ay, g.aw, g.ah); ctx.stroke(); ctx.restore(); }
+      if (n.badge && this.imgs.phosphate && this.imgs.phosphate.naturalWidth) { const b = 19 * k; ctx.drawImage(this.imgs.phosphate, g.ax + g.aw - b * 0.55, g.ay - b * 0.25, b, b); }
+    } else if (n.kind !== 'text') {
+      const pill = n.kind === 'pill', role = n.role;
+      ctx.save(); this.rr(ctx, g.ax, g.ay, g.aw, g.ah, pill ? g.ah / 2 : 3);
+      ctx.fillStyle = pill ? (role === 'ligand' ? '#eef6ff' : role === 'messenger' ? '#f5f5f8' : '#fff') : n.kind === 'box' ? '#f5f5f8' : '#fff'; ctx.fill();
+      ctx.strokeStyle = pill && role === 'ligand' ? '#416180' : INK; ctx.lineWidth = this.lw() * (n.kind === 'icon' ? 0.9 : 0.8); ctx.setLineDash([]); ctx.stroke(); ctx.restore();
+      if (n.kind === 'icon' && n.badge) { ctx.save(); ctx.fillStyle = '#ffd52e'; ctx.strokeStyle = '#5b4300'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(g.ax + g.aw, g.ay, 7.5 * k, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); ctx.fillStyle = INK; ctx.font = this.font(9.5 * k, 600); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('P', g.ax + g.aw, g.ay + 0.5); ctx.restore(); }
+    }
+    if (n.kind === 'text' && n.leadX != null) { ctx.save(); ctx.strokeStyle = INK; ctx.lineWidth = 1.2; ctx.setLineDash([]); ctx.lineCap = 'butt'; const sx = n.leadX > n.x ? g.ax + g.aw + 4 : g.ax - 4; ctx.beginPath(); ctx.moveTo(sx, n.y); ctx.lineTo(n.leadX, n.y); ctx.stroke(); ctx.restore(); }
+    const t = g.t; ctx.textAlign = t.align || 'center'; ctx.textBaseline = 'middle';
+    let y = t.y; ctx.font = t.LF;
+    const ink = n.tc || this.ink(), mut = n.tc ? this.mixHex(n.tc, .3) : this.muted();
+    t.lab.forEach(s => { ctx.font = t.LF; if (g.inside) { ctx.fillStyle = ink; ctx.fillText(s, t.x, y + t.lh / 2); } else this.haloText(ctx, s, t.x, y + t.lh / 2, ink); y += t.lh; });
+    t.sub.forEach(s => { ctx.font = t.SF; if (g.inside) { ctx.fillStyle = mut; ctx.fillText(s, t.x, y + t.sh / 2); } else this.haloText(ctx, s, t.x, y + t.sh / 2, mut); y += t.sh; });
+  }
+  drawRegion(ctx, r) {
+    const k = this.k();
+    ctx.save(); ctx.setLineDash([]);
+    const lab = () => { ctx.font = this.font(11 * k, 600); ctx.letterSpacing = `${1.2 * k}px`; ctx.fillStyle = this.muted(); ctx.textBaseline = 'middle'; };
+    if (r.kind === 'membrane') {
+      ctx.fillStyle = '#f2f2f4'; ctx.fillRect(r.x, r.y, r.w, r.h);
+      ctx.fillStyle = '#a3a3a7';
+      if (r.w > r.h) {
+        for (let x = r.x + 4; x < r.x + r.w - 2; x += 8.5) { ctx.beginPath(); ctx.arc(x, r.y + 3.4, 3.1, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(x, r.y + r.h - 3.4, 3.1, 0, Math.PI * 2); ctx.fill(); }
+        lab(); ctx.textAlign = 'right'; ctx.fillText(r.label.toUpperCase(), r.x + r.w, r.y - 12 * k);
+      } else {
+        for (let y = r.y + 4; y < r.y + r.h - 2; y += 8.5) { ctx.beginPath(); ctx.arc(r.x + 3.4, y, 3.1, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(r.x + r.w - 3.4, y, 3.1, 0, Math.PI * 2); ctx.fill(); }
+        lab(); ctx.textAlign = 'center'; ctx.fillText(r.label.toUpperCase(), r.x + r.w / 2, r.y + r.h + 13 * k);
+      }
+    } else if (r.kind === 'compartment') {
+      ctx.strokeStyle = '#7a7a7d'; ctx.lineWidth = 1.2; this.rr(ctx, r.x, r.y, r.w, r.h, 22); ctx.stroke();
+      if (r.double) { this.rr(ctx, r.x + 5, r.y + 5, r.w - 10, r.h - 10, 18); ctx.stroke(); }
+      lab(); ctx.textAlign = 'left'; ctx.fillText(r.label.toUpperCase(), r.x + 20, r.y + 20 * k);
+    } else { lab(); ctx.textAlign = 'left'; ctx.fillText(r.label.toUpperCase(), r.x, r.y + 8); }
+    ctx.restore();
+  }
+  wrapLines(text, f, maxW) { const words = String(text).split(/\s+/), out = []; let cur = ''; words.forEach(w => { const t = cur ? cur + ' ' + w : w; if (this.tw(t, f) > maxW && cur) { out.push(cur); cur = w; } else cur = t; }); if (cur) out.push(cur); return out; }
+  drawBand(ctx) {
+    const k = this.k(), used = ETYPES.filter(([t]) => this.d.edges.some(e => e.type === t));
+    const legend = this.d.showLegend && used.length, caps = this.d.showCaptions && this.d.steps.length;
+    if (!legend && !caps) return;
+    const top = H - 104; ctx.save(); ctx.strokeStyle = '#d4d4d7'; ctx.lineWidth = 1; ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(24, top); ctx.lineTo(W - 24, top); ctx.stroke();
+    let x0 = 24;
+    if (legend) {
+      const rows = Math.ceil(used.length / 2), rh = Math.min(20 * k, 80 / rows), colW = 200 * Math.min(k, 1.15);
+      used.forEach(([t, name], i) => {
+        const cx = 24 + Math.floor(i / rows) * colW, cy = top + 18 + (i % rows) * rh, st = ESTY[t];
+        ctx.save(); ctx.strokeStyle = st.c; ctx.lineWidth = this.lw() * st.w; ctx.setLineDash(st.d.map(v => v * k)); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + 30 * k - (st.h === 'arrow' ? 8 * k : 0), cy); ctx.stroke(); this.head(ctx, st.h, { x: cx + 32 * k, y: cy }, 0, st.c); ctx.restore();
+        ctx.font = this.font(12 * k); ctx.fillStyle = this.d.textColor || '#424244'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(name, cx + 42 * k, cy);
+      });
+      x0 = 24 + (used.length > rows ? 2 : 1) * colW + 24;
+    }
+    if (caps) {
+      const steps = [...this.d.steps].sort((a, b) => a.n - b.n), cols = Math.min(3, steps.length), colW = (W - 24 - x0) / cols, f = this.font(12.5 * k), lh = 12.5 * k * 1.3;
+      const rowsN = Math.ceil(steps.length / cols), rowH = 88 / rowsN;
+      steps.forEach((s, i) => {
+        const cx = x0 + (i % cols) * colW, cy = top + 12 + Math.floor(i / cols) * rowH;
+        ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(cx + 8 * k, cy + 7 * k, 8 * k, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = this.font(10.5 * k, 600); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(s.n), cx + 8 * k, cy + 7.5 * k);
+        const lines = this.wrapLines(s.text, f, colW - 30 * k).slice(0, Math.max(1, Math.floor(rowH / lh)));
+        ctx.font = f; ctx.fillStyle = this.d.textColor || '#2b2b2d'; ctx.textAlign = 'left'; lines.forEach((l, j) => ctx.fillText(l, cx + 22 * k, cy + 7 * k + j * lh));
+      });
+    }
+    ctx.restore();
+  }
+  drawSheet(ctx, opt) {
+    opt = opt || {};
+    if (opt.bg) { ctx.fillStyle = opt.bg; ctx.fillRect(0, 0, W, H); }
+    const ui = opt.ui;
+    this.d.regions.forEach(r => this.drawRegion(ctx, r));
+    this.d.edges.forEach(e => this.drawEdge(ctx, e, ui && this.sel && this.sel.t === 'edge' && this.sel.id === e.id));
+    this.d.nodes.forEach(n => this.drawNode(ctx, n));
+    if (this.d.showSteps) this.d.steps.forEach(s => {
+      const k = this.k(); ctx.save(); ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(s.x, s.y, 11 * k, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = this.font(13 * k, 600); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(s.n), s.x, s.y + 0.5); ctx.restore();
+    });
+    this.drawBand(ctx);
+    if (ui) {
+      ctx.save(); ctx.strokeStyle = '#5980a6'; ctx.lineWidth = 1.2 / this.view.s; ctx.setLineDash([4 / this.view.s, 3 / this.view.s]);
+      const s = this.sel;
+      if (s && s.t === 'node') { const n = this.node(s.id); if (n) { const g = this.geom(n); ctx.strokeRect(g.hx - 3, g.hy - 3, g.hw + 6, g.hh + 6); } }
+      if (s && s.t === 'step') { const st = this.d.steps.find(x => x.id === s.id); if (st) { ctx.beginPath(); ctx.arc(st.x, st.y, 16 * this.k(), 0, Math.PI * 2); ctx.stroke(); } }
+      if (s && s.t === 'region') { const r = this.d.regions.find(x => x.id === s.id); if (r) { ctx.strokeRect(r.x - 4, r.y - 4, r.w + 8, r.h + 8); ctx.setLineDash([]); ctx.fillStyle = '#5980a6'; ctx.fillRect(r.x + r.w - 5, r.y + r.h - 5, 10, 10); } }
+      if (this.connectFrom) { const n = this.node(this.connectFrom); if (n) { const g = this.geom(n); ctx.setLineDash([]); ctx.lineWidth = 2 / this.view.s; ctx.strokeRect(g.ax - 4, g.ay - 4, g.aw + 8, g.ah + 8); } }
+      ctx.restore();
+    }
+  }
+  draw() {
+    const cv = this.cv, wrap = this.wrap; if (!cv || !wrap) return;
+    const cw = wrap.clientWidth, ch = wrap.clientHeight; if (!cw || !ch) return;
+    const dpr = window.devicePixelRatio || 1;
+    if (cv.width !== Math.round(cw * dpr) || cv.height !== Math.round(ch * dpr)) { cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr); }
+    const pad = 14, s = Math.min((cw - pad * 2) / W, (ch - pad * 2) / H), ox = (cw - W * s) / 2, oy = (ch - H * s) / 2;
+    this.view = { s, ox, oy };
+    const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch);
+    ctx.strokeStyle = '#d4d4d7'; ctx.lineWidth = 1; ctx.strokeRect(ox - 0.5, oy - 0.5, W * s + 1, H * s + 1);
+    ctx.strokeStyle = 'rgba(29,31,32,.55)'; [[ox, oy], [ox + W * s, oy], [ox, oy + H * s], [ox + W * s, oy + H * s]].forEach(([x, y]) => { ctx.beginPath(); ctx.moveTo(x - 6, y); ctx.lineTo(x + 6, y); ctx.moveTo(x, y - 6); ctx.lineTo(x, y + 6); ctx.stroke(); });
+    ctx.save(); ctx.translate(ox, oy); ctx.scale(s, s); ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.clip();
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H); this.drawSheet(ctx, { ui: true }); ctx.restore();
+    this.describe();
+  }
+
+  // ---------- hit testing ----------
+  toSheet(e) { const r = this.cv.getBoundingClientRect(); return { x: (e.clientX - r.left - this.view.ox) / this.view.s, y: (e.clientY - r.top - this.view.oy) / this.view.s }; }
+  hitNode(p) { for (let i = this.d.nodes.length - 1; i >= 0; i--) { const n = this.d.nodes[i], g = this.geom(n); if (p.x >= g.hx && p.x <= g.hx + g.hw && p.y >= g.hy && p.y <= g.hy + g.hh) return n; } return null; }
+  hitEdge(p) {
+    let best = null, bd = 7 / Math.max(this.view.s, .4);
+    this.d.edges.forEach(e => { const pts = this.edgePts(e); if (!pts) return; for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i], dx = b.x - a.x, dy = b.y - a.y, l2 = dx * dx + dy * dy || 1; const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / l2)); const d = Math.hypot(p.x - a.x - t * dx, p.y - a.y - t * dy); if (d < bd) { bd = d; best = e; } } });
+    return best;
+  }
+  hitStep(p) { return this.d.showSteps ? this.d.steps.find(s => Math.hypot(p.x - s.x, p.y - s.y) < 14 * this.k()) : null; }
+  hitRegion(p) {
+    for (let i = this.d.regions.length - 1; i >= 0; i--) {
+      const r = this.d.regions[i];
+      if (r.kind === 'membrane' && p.x > r.x - 4 && p.x < r.x + r.w + 4 && p.y > r.y - (r.w > r.h ? 24 : 0) && p.y < r.y + r.h + 22) return r;
+      if (r.kind === 'zone' && p.x > r.x - 4 && p.x < r.x + 160 && p.y > r.y - 4 && p.y < r.y + 22) return r;
+      if (r.kind === 'compartment') {
+        const inX = p.x > r.x - 6 && p.x < r.x + r.w + 6, inY = p.y > r.y - 6 && p.y < r.y + r.h + 6;
+        const nearEdge = inX && inY && (Math.abs(p.x - r.x) < 7 || Math.abs(p.x - r.x - r.w) < 7 || Math.abs(p.y - r.y) < 7 || Math.abs(p.y - r.y - r.h) < 7);
+        const onLabel = p.x > r.x + 12 && p.x < r.x + 180 && p.y > r.y + 6 && p.y < r.y + 34;
+        if (nearEdge || onLabel) return r;
+      }
+    }
+    return null;
+  }
+  selObj() { const s = this.sel; if (!s) return null; return s.t === 'node' ? this.node(s.id) : s.t === 'edge' ? this.edge(s.id) : s.t === 'step' ? this.d.steps.find(x => x.id === s.id) : this.d.regions.find(x => x.id === s.id); }
+  snapV(v) { return this.d.snap ? Math.round(v / 5) * 5 : Math.round(v); }
+
+  onDown(e) {
+    if (!this.cv) return; const p = this.toSheet(e);
+    if (this.connect) {
+      const n = this.hitNode(p);
+      if (!this.connectFrom) { if (n) { this.connectFrom = n.id; this.forceUpdate(); } return; }
+      let to = n && n.id !== this.connectFrom ? n.id : null;
+      if (!to) { const ed = this.hitEdge(p); if (ed && ed.from !== this.connectFrom) to = 'e:' + ed.id; }
+      if (to) { const id = 'e' + (++this.d.seq); const fb = this.connectType.startsWith('feedback'); this.d.edges.push({ id, from: this.connectFrom, to, type: this.connectType, label: '', bend: fb ? 80 : 0, flip: false }); this.connectFrom = null; this.sel = { t: 'edge', id }; this.touch(); }
+      else { this.connectFrom = null; this.forceUpdate(); }
+      return;
+    }
+    const sr = this.sel && this.sel.t === 'region' ? this.d.regions.find(r => r.id === this.sel.id) : null;
+    if (sr && Math.abs(p.x - sr.x - sr.w) < 10 && Math.abs(p.y - sr.y - sr.h) < 10) { this.drag = { t: 'resize', o: sr, sx: p.x, sy: p.y, w: sr.w, h: sr.h, moved: false }; this.cv.setPointerCapture(e.pointerId); return; }
+    const st = this.hitStep(p), n = !st && this.hitNode(p), ed = !st && !n && this.hitEdge(p), rg = !st && !n && !ed && this.hitRegion(p);
+    const o = st || n || rg;
+    if (o) { this.sel = { t: st ? 'step' : n ? 'node' : 'region', id: o.id }; this.drag = { t: 'move', o, dx: p.x - o.x, dy: p.y - o.y, moved: false }; this.cv.setPointerCapture(e.pointerId); }
+    else if (ed) this.sel = { t: 'edge', id: ed.id };
+    else this.sel = null;
+    this.forceUpdate();
+  }
+  onMove(e) {
+    if (!this.cv) return; const p = this.toSheet(e), dr = this.drag;
+    if (!dr) { const c = this.connect ? 'crosshair' : (this.hitStep(p) || this.hitNode(p) || this.hitRegion(p)) ? 'move' : this.hitEdge(p) ? 'pointer' : 'default'; if (c !== this.cursor) { this.cursor = c; this.forceUpdate(); } return; }
+    if (dr.t === 'move') {
+      const ox = dr.o.x, oy = dr.o.y; dr.o.x = this.snapV(p.x - dr.dx); dr.o.y = this.snapV(p.y - dr.dy);
+      if (dr.o.kind === 'apparatus') { const mx = dr.o.x - ox, my = dr.o.y - oy; this.d.nodes.forEach(m => { if (m.attach === dr.o.id) { m.x += mx; m.y += my; if (m.leadX != null) m.leadX += mx; } }); }
+    }
+    else { dr.o.w = Math.max(40, this.snapV(dr.w + p.x - dr.sx)); dr.o.h = Math.max(30, this.snapV(dr.h + p.y - dr.sy)); }
+    dr.moved = true; this.draw();
+  }
+  onUp() { const dr = this.drag; this.drag = null; if (dr && dr.moved) this.touch(); }
+
+  baseModel(o) { return Object.assign(overviewModel(), { nodes: [], edges: [], regions: [], steps: [] }, o); }
+  signallingModel() {
+    const N = (id, kind, label, x, y, o) => Object.assign({ id, kind, label, x, y, sub: '', icon: '', size: 60, hue: 0, badge: false, role: '' }, o || {});
+    const E = (id, from, to, label) => ({ id, from, to, type: 'activate', label, bend: 0, flip: false, color: 'accent' });
+    return this.baseModel({ kind: 'signalling', title: 'Cell signalling pathway', spec: { name: 'Cell signalling pathway', nodes: `Ligand : ligand @extracellular
+Receptor : receptor @membrane
+Adaptor protein : adaptor
+Kinase : kinase
+Transcription factor : tf
+DNA : dna @nucleus`, flow: `Receptor -> Adaptor protein : recruits
+Adaptor protein -> Kinase : activates
+Kinase -> Transcription factor : phosphorylates
+Transcription factor -> DNA : Gene transcription` },
+      nodes: [
+        N('lig', 'icon', 'Ligand', 300, 178, { icon: 'protein-globular', size: 30, tone: 'accent', lp: 'right' }),
+        N('rec', 'icon', 'Receptor', 300, 280, { icon: 'rtk', size: 170, tone: 'accent', lp: 'right' }),
+        N('ad', 'icon', 'Adaptor protein', 540, 480, { icon: 'protein-arc', size: 50, tone: 'accent' }),
+        N('kin', 'icon', 'Kinase', 800, 480, { icon: 'protein-compact', size: 68, tone: 'accent' }),
+        N('tf', 'icon', 'Transcription factor', 1050, 480, { icon: 'protein-globular', size: 58, tone: 'accent' }),
+        N('dna', 'icon', 'DNA', 1365, 575, { icon: 'dna', size: 66, tone: 'grey' }),
+      ],
+      edges: [E('s1', 'rec', 'ad', 'recruits'), E('s2', 'ad', 'kin', 'activates'), E('s3', 'kin', 'tf', 'phosphorylates'), E('s4', 'tf', 'dna', 'Gene transcription')],
+      regions: [
+        { id: 'mem', kind: 'membrane', label: 'Phospholipid bilayer', x: 40, y: 262, w: 1520, h: 36, double: false },
+        { id: 'ext', kind: 'zone', label: 'Extracellular', x: 40, y: 140, w: 120, h: 20, double: false },
+        { id: 'cyt', kind: 'zone', label: 'Cytoplasm', x: 40, y: 330, w: 120, h: 20, double: false },
+        { id: 'nuc', kind: 'compartment', label: 'Nucleus', x: 1190, y: 410, w: 340, h: 320, double: true },
+      ],
+      showLegend: false, showCaptions: false, showSteps: false });
+  }
+  apparatusModel() {
+    const L = (id, label, x, y, leadX, align) => ({ id, kind: 'text', label, x, y, leadX, tAlign: align, attach: 'app', sub: '', icon: '', size: 15, hue: 0, badge: false, role: '' });
+    return this.baseModel({ kind: 'apparatus', title: 'Simple distillation', spec: { name: 'Simple distillation', nodes: '', flow: '' },
+      nodes: [
+        { id: 'app', kind: 'apparatus', label: '', x: 0, y: 0, sub: '', icon: '', size: 100, hue: 0, badge: false, role: '' },
+        L('l1', 'thermometer', 205, 300, 345, 'right'), L('l2', 'round-bottomed flask', 205, 600, 282, 'right'),
+        L('l3', 'mixture', 205, 715, 292, 'right'), L('l4', 'heat source', 205, 755, 240, 'right'),
+        L('l5', 'water out', 1130, 468, 522, 'left'), L('l6', 'condenser', 1130, 581, 715, 'left'),
+        L('l7', 'water in', 775, 722, 853, 'right'), L('l8', 'collection flask', 1130, 825, 1031, 'left'), L('l9', 'distillate', 1130, 860, 1061, 'left'),
+      ], showLegend: false, showCaptions: false, showSteps: false });
+  }
+  loadKind(k) {
+    const keep = { font: this.d.font, textColor: this.d.textColor };
+    if (k === 'blank') { Object.assign(keep, { preset: this.d.preset, fs: this.d.fs }); this.d = Object.assign(overviewModel(), { kind: 'blank', title: 'Untitled pathway', spec: { name: '', nodes: '', flow: '' }, nodes: [], edges: [], regions: [], steps: [] }); }
+    else if (k === 'overview') this.d = Object.assign(overviewModel(), { kind: 'overview' });
+    else if (k === 'signalling') this.d = this.signallingModel();
+    else if (k === 'apparatus') this.d = this.apparatusModel();
+    else if (SPECS[k]) { this.d = this.baseModel({ kind: k, title: SPECS[k].name, spec: Object.assign({}, SPECS[k]) }); this.generate(); }
+    Object.keys(keep).forEach(x => { if (keep[x] !== undefined) this.d[x] = keep[x]; else delete this.d[x]; });
+    this.d.kind = k; this.sel = null; this.connect = false; this.connectFrom = null; this.touch();
+    this.toast(`${(KINDS.find(x => x[0] === k) || [])[1]} loaded — Undo to go back`);
+  }
+  loadVersions() { try { return JSON.parse(localStorage.getItem(VKEY)) || []; } catch (e) { return []; } }
+  saveVersion() {
+    const name = (this.versionName || '').trim() || `${this.d.title || 'Pathway'} · ${new Date().toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}`;
+    const list = this.loadVersions(); list.unshift({ key: 'v' + Date.now(), name, at: Date.now(), n: this.d.nodes.length, data: JSON.stringify(this.d) });
+    try { localStorage.setItem(VKEY, JSON.stringify(list.slice(0, 30))); } catch (e) { this.toast('Browser storage is full — delete a version first'); return; }
+    this.versionName = ''; this.toast(`Saved version “${name}”`);
+  }
+  openVersion(key) { const v = this.loadVersions().find(x => x.key === key); if (!v) return; this.d = Object.assign(overviewModel(), JSON.parse(v.data)); this.sel = null; this.touch(); this.toast(`Opened “${v.name}” — Undo to go back`); }
+  deleteVersion(key) { const list = this.loadVersions().filter(x => x.key !== key); try { localStorage.setItem(VKEY, JSON.stringify(list)); } catch (e) {} this.forceUpdate(); }
+
+  // ---------- text → diagram ----------
+  canonComp(c) { c = (c || '').toLowerCase(); if (/^(ext|extra|out|outside)/.test(c)) return 'extracellular'; if (/^(mem|pm|plasma)/.test(c)) return 'membrane'; if (/^nuc/.test(c)) return 'nucleus'; if (/^mito/.test(c)) return 'mitochondrion'; if (/^(cyt|cytosol)/.test(c) || !c) return 'cytoplasm'; return c; }
+  guessRole(name) {
+    if (/^ATP$/i.test(name)) return 'atp'; if (/cycle$/i.test(name)) return 'cycle'; if (/ROS/.test(name)) return 'ros';
+    if (/(ose|ate|CoA|NADP?H|NAD\+|cAMP|cGMP|Ca2\+|Ca²⁺|IP3|DAG|\dP|BP|ine|ol)$/i.test(name) || /^[a-z]/.test(name)) return 'metabolite';
+    if (/^[A-Z][A-Z0-9αβγ·\-\/ ]{1,10}$/.test(name)) return 'protein';
+    return 'metabolite';
+  }
+  parseSpec() {
+    const spec = this.d.spec || {}, decl = {}, order = [];
+    const add = (name, info) => { if (!decl[name]) { decl[name] = Object.assign({ name, role: '', comp: '', sub: '' }, info || {}); order.push(name); } else if (info) Object.assign(decl[name], Object.fromEntries(Object.entries(info).filter(([, v]) => v))); };
+    (spec.nodes || '').split('\n').forEach(l => {
+      let s = l.trim(); if (!s || s.startsWith('//')) return; let sub = '', comp = '', role = '';
+      s = s.replace(/"([^"]*)"/, (m, a) => { sub = a; return ''; }); s = s.replace(/@([\w-]+)/, (m, a) => { comp = a; return ''; });
+      const i = s.lastIndexOf(':'); if (i > 0) { role = s.slice(i + 1).trim().toLowerCase(); s = s.slice(0, i); }
+      if (s.trim()) add(s.trim(), { role, comp, sub });
+    });
+    const edges = [], captions = [], pend = [];
+    (spec.flow || '').split('\n').forEach(l => {
+      const s = l.trim(); if (!s || s.startsWith('//')) return;
+      if (s.startsWith('#')) { captions.push(s.replace(/^#+\s*/, '')); return; }
+      const m = s.match(OPRE); if (!m) return;
+      const from = m[1].trim(), toRaw = m[3].trim(), type = OPS[m[2]], label = (m[4] || '').trim();
+      add(from);
+      const em = toRaw.match(/^\((.+)\)$/);
+      if (em) { const im = em[1].trim().match(OPRE); if (im) pend.push({ from, a: im[1].trim(), b: im[3].trim(), type, label }); }
+      else { add(toRaw); edges.push({ from, to: toRaw, type, label }); }
+    });
+    return { decl, order, edges, pend, captions };
+  }
+  generate() {
+    const P = this.parseSpec(); if (!P.order.length) { this.toast('Add nodes in step 1 or arrows in step 2 first'); return; }
+    const ids = {}; P.order.forEach((nm, i) => { ids[nm] = 'g' + (i + 1); });
+    const info = nm => { const d = P.decl[nm]; const role = d.role && (ROLE[d.role] || d.role === 'metabolite') ? d.role : (d.role ? 'protein' : this.guessRole(nm)); return { role, comp: this.canonComp(d.comp), sub: d.sub }; };
+    const meta = {}; P.order.forEach(nm => { meta[nm] = info(nm); });
+    P.edges.forEach(e => { if (e.type === 'convert') { [e.from, e.to].forEach(nm => { if (!P.decl[nm].role) { meta[nm].met = true; if (!['atp', 'cycle', 'transporter', 'ros'].includes(meta[nm].role)) meta[nm].role = 'metabolite'; } }); } });
+    // rank (longest path, back-edges removed)
+    const fwd = P.edges.filter(e => !e.type.startsWith('feedback') && e.type !== 'induce');
+    const adj = {}; P.order.forEach(nm => adj[nm] = []); fwd.forEach((e, i) => adj[e.from].push(i));
+    const color = {}, back = new Set();
+    const dfs = u => { color[u] = 1; adj[u].forEach(i => { const v = fwd[i].to; if (color[v] === 1) back.add(i); else if (!color[v]) dfs(v); }); color[u] = 2; };
+    P.order.forEach(nm => { if (!color[nm]) dfs(nm); });
+    const rank = {}; P.order.forEach(nm => rank[nm] = 0);
+    const memNames = P.order.filter(nm => meta[nm].comp === 'membrane'), extNames = P.order.filter(nm => meta[nm].comp === 'extracellular');
+    const relax = () => { for (let it = 0; it < P.order.length + 2; it++) { let ch = false; fwd.forEach((e, i) => { if (back.has(i)) return; if (rank[e.to] < rank[e.from] + 1) { rank[e.to] = rank[e.from] + 1; ch = true; } }); if (!ch) break; } };
+    relax();
+    if (memNames.length) { const mr = Math.max(1, ...memNames.map(n => rank[n])); memNames.forEach(n => rank[n] = mr); relax(); extNames.forEach(n => { if (rank[n] >= mr) rank[n] = mr - 1; }); }
+    const R = Math.max(0, ...Object.values(rank));
+    const SIGR = ['ribosome', 'enzyme', 'gene', 'kinase', 'protein', 'tf', 'receptor', 'gpcr', 'adaptor', 'ligand', 'process', 'output', 'messenger'];
+    const isMet = nm => ['metabolite', 'atp', 'cycle'].includes(meta[nm].role) && meta[nm].role !== 'messenger' && !(meta[nm].role === 'metabolite' && !P.edges.some(e => e.type === 'convert' && (e.from === nm || e.to === nm)) && P.edges.some(e => e.type === 'activate' && (e.from === nm || e.to === nm))) || (!SIGR.includes(meta[nm].role) && P.edges.some(e => e.type === 'convert' && (e.from === nm || e.to === nm)));
+    const hasMet = P.order.some(isMet), hasSig = P.order.some(nm => !isMet(nm));
+    const bands = { sig: hasMet ? [120, 470] : [120, 770], met: hasSig ? [545, 770] : [120, 770] };
+    const x0 = 90, x1 = W - 110, colW = R ? (x1 - x0) / R : 0;
+    const pos = {}, preds = {}; P.order.forEach(nm => preds[nm] = []); fwd.forEach((e, i) => { if (!back.has(i)) preds[e.to].push(e.from); });
+    for (let r = 0; r <= R; r++) {
+      ['sig', 'met'].forEach(track => {
+        const list = P.order.filter(nm => rank[nm] === r && (track === 'met') === isMet(nm)); if (!list.length) return;
+        const [top, bot] = bands[track], bary = nm => { const ps = preds[nm].filter(q => pos[q]); return ps.length ? ps.reduce((s, q) => s + pos[q].y, 0) / ps.length : (top + bot) / 2; };
+        const outdeg = nm => fwd.filter(e => e.from === nm).length;
+        if (track === 'sig') {
+          list.sort((a, b) => bary(a) - bary(b));
+          const g2 = Math.min(150, (bot - top) / list.length), mean = list.reduce((s, nm) => s + bary(nm), 0) / list.length;
+          let y0 = mean - g2 * (list.length - 1) / 2; y0 = Math.max(top + g2 * 0.3, Math.min(y0, bot - g2 * 0.3 - g2 * (list.length - 1)));
+          list.forEach((nm, i) => { pos[nm] = { x: Math.round(R ? x0 + r * colW : W / 2), y: Math.round(y0 + i * g2) }; });
+          return;
+        }
+        list.sort((a, b) => outdeg(b) - outdeg(a) || bary(a) - bary(b));
+        const gap = Math.min(track === 'met' ? 120 : 150, (bot - top) / list.length), ys = [];
+        list.forEach((nm, i) => { const step = Math.ceil(i / 2) * gap * (i % 2 ? 1 : -1) * (track === 'met' ? 1 : -1); ys.push((i ? ys[0] : bary(nm)) + step); });
+        const lo = Math.min(...ys), hi = Math.max(...ys), shift = lo < top ? top - lo : hi > bot ? bot - hi : 0;
+        list.forEach((nm, i) => { pos[nm] = { x: Math.round(R ? x0 + r * colW : W / 2), y: Math.round(ys[i] + shift) }; });
+      });
+    }
+    const nodes = P.order.map(nm => {
+      const m = meta[nm], ro = ROLE[m.role] || {}, kind = ro.kind || (ro.icon ? 'icon' : 'pill');
+      const label = nm.replace(/\s*\((in|out|cyt|nuc|ext)\)$/i, '');
+      return { id: ids[nm], kind, label: label === 'ATP' && ro.icon === 'atp' ? '' : label, sub: m.sub || '', icon: ro.icon || '', size: ro.size || 60, hue: 0, badge: false, role: m.role, x: pos[nm].x, y: pos[nm].y, comp: m.comp };
+    });
+    const edges = P.edges.map((e, i) => ({ id: 'x' + (i + 1), from: ids[e.from], to: ids[e.to], type: e.type, label: e.label, bend: 0, flip: false }));
+    P.pend.forEach((p, i) => { const t = edges.find(e => e.from === ids[p.a] && e.to === ids[p.b]); if (t && ids[p.from]) edges.push({ id: 'y' + (i + 1), from: ids[p.from], to: 'e:' + t.id, type: p.type, label: p.label, bend: 0, flip: false }); });
+    const ov = (this.d.spec || {}).pos; if (ov) P.order.forEach(nm => { const n = nodes.find(x => x.id === ids[nm]); if (n && ov[nm]) { n.x = ov[nm][0]; n.y = ov[nm][1]; } });
+    this.d.nodes = nodes; this.d.edges = edges;
+    nodes.forEach(n => { const g = this.geom(n), over = g.hx + g.hw - (W - 16); if (over > 0) n.x -= Math.ceil(over); if (g.hx < 16) n.x += Math.ceil(16 - g.hx); });
+    edges.forEach(e => {
+      if (!e.type.startsWith('feedback')) return;
+      const a = this.endpoint(e.from, 0), b = this.endpoint(e.to, 0); if (!a || !b) return;
+      const dx = b.pt.x - a.pt.x, dy = b.pt.y - a.pt.y, L = Math.hypot(dx, dy) || 1, py = dx / L;
+      const fromN = nodes.find(n => n.id === e.from), wantUp = fromN && fromN.y < 500;
+      const mag = 60 + L * 0.12; e.bend = Math.round((wantUp ? (py < 0 ? 1 : -1) : (py < 0 ? -1 : 1)) * mag);
+    });
+    const bo = (this.d.spec || {}).bends; if (bo) Object.entries(bo).forEach(([key, b]) => { const [f, t] = key.split('>'); const e = edges.find(x => x.from === ids[f] && x.to === ids[t]); if (e) e.bend = b; });
+    const regions = [];
+    const memN = nodes.filter(n => n.comp === 'membrane');
+    if (memN.length) {
+      const mx = Math.round(memN.reduce((s, n) => s + n.x, 0) / memN.length); memN.forEach(n => n.x = mx);
+      regions.push({ id: 'mem', kind: 'membrane', label: 'Plasma membrane', x: mx - 13, y: 100, w: 26, h: 672, double: false });
+      if (nodes.some(n => n.comp === 'extracellular')) regions.push({ id: 'ext', kind: 'zone', label: 'Extracellular', x: 24, y: 112, w: 120, h: 20, double: false });
+      regions.push({ id: 'cyt', kind: 'zone', label: 'Cytoplasm', x: mx + 34, y: 112, w: 120, h: 20, double: false });
+    }
+    const compNames = [...new Set(nodes.map(n => n.comp).filter(c => c && !['membrane', 'extracellular', 'cytoplasm'].includes(c)))];
+    compNames.forEach(c => {
+      const ns = nodes.filter(n => n.comp === c); let x1 = 1e9, y1 = 1e9, x2 = -1e9, y2 = -1e9;
+      ns.forEach(n => { const g = this.geom(n); x1 = Math.min(x1, g.hx); y1 = Math.min(y1, g.hy); x2 = Math.max(x2, g.hx + g.hw); y2 = Math.max(y2, g.hy + g.hh); });
+      regions.push({ id: 'c-' + c, kind: 'compartment', label: c.charAt(0).toUpperCase() + c.slice(1), x: Math.round(x1 - 34), y: Math.round(y1 - 40), w: Math.round(x2 - x1 + 68), h: Math.round(y2 - y1 + 66), double: c === 'nucleus' });
+    });
+    nodes.forEach(n => delete n.comp);
+    this.d.regions = regions;
+    this.d.steps = P.captions.map((t, i) => {
+      const used = this._usedSteps = i ? (this._usedSteps || new Set()) : new Set(); const nm0 = nm => nm.replace(/\s*\(.*\)$/, ''); const cands = P.order.filter(nm => !used.has(nm) && nm0(nm).split(/\s*[·\/]\s*/).some(p => p.length > 1 && t.includes(p))); const hit = cands.sort((x, y) => t.indexOf(nm0(x).split(/\s*[·\/]\s*/)[0]) - t.indexOf(nm0(y).split(/\s*[·\/]\s*/)[0]))[0]; if (hit) used.add(hit); const n = hit && nodes.find(x => x.id === ids[hit]);
+      const g = n && this.geom(n);
+      if (!g) { const ed = edges.find(e => e.label && e.label.length > 2 && t.includes(e.label)); const pts = ed && this.edgePts(ed); if (pts && pts.length) { const m = pts[Math.floor(pts.length / 2)]; return { id: 'st' + (i + 1), n: i + 1, x: Math.round(m.x), y: Math.round(m.y - 34), text: t }; } }
+      return { id: 'st' + (i + 1), n: i + 1, x: g ? Math.round(g.hx - 6) : 40 + i * 40, y: g ? Math.round(g.hy - 4) : 60, text: t };
+    });
+    if (spec_title(this.d)) this.d.title = this.d.spec.name;
+    this.sel = null; this.touch(); this.toast(`Generated ${nodes.length} nodes and ${edges.length} arrows — Undo to go back`);
+    function spec_title(d) { return d.spec && d.spec.name && d.spec.name.trim(); }
+  }
+  // ---------- export ----------
+  slug() { return ((this.d.title || 'pathway').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'pathway'); }
+  download(blob, name) { if (window.__sdDownload) return window.__sdDownload(blob, name); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+  exportPngAt(bg) {
+    const sc = 3, c = document.createElement('canvas'); c.width = W * sc; c.height = H * sc;
+    const ctx = c.getContext('2d'); ctx.scale(sc, sc); this.drawSheet(ctx, { bg });
+    c.toBlob(b => { if (b) { this.download(b, `${this.slug()}${bg ? '' : '-transparent'}.png`); this.toast('PNG downloaded — 4800 × 2700 px'); } }, 'image/png');
+  }
+  exportSvg() { const s = new SvgCtx(this.mctx); this.drawSheet(s, {}); this.download(new Blob([s.toString(W, H, '#ffffff')], { type: 'image/svg+xml' }), `${this.slug()}.svg`); this.toast('SVG downloaded'); }
+
+  deleteSel() {
+    const s = this.sel; if (!s) return;
+    if (s.t === 'node') { this.d.nodes = this.d.nodes.filter(n => n.id !== s.id); const gone = new Set(this.d.edges.filter(e => e.from === s.id || e.to === s.id).map(e => e.id)); this.d.edges = this.d.edges.filter(e => !gone.has(e.id) && !(e.to.startsWith('e:') && gone.has(e.to.slice(2)))); }
+    if (s.t === 'edge') this.d.edges = this.d.edges.filter(e => e.id !== s.id && e.to !== 'e:' + s.id);
+    if (s.t === 'region') this.d.regions = this.d.regions.filter(r => r.id !== s.id);
+    if (s.t === 'step') { this.d.steps = this.d.steps.filter(r => r.id !== s.id); this.d.steps.sort((a, b) => a.n - b.n).forEach((x, i) => x.n = i + 1); }
+    this.sel = null; this.touch();
+  }
+
+  renderVals() {
+    const d = this.d, s = this.sel, o = this.selObj();
+    const set = (fn, soft) => e => { fn(e); soft ? this.touchSoft() : this.touch(); };
+    const nodeSel = s && s.t === 'node' && o ? { label: o.label, sub: o.sub || '', size: o.size || 60, hue: o.hue || 0 } : null;
+    const edgeSel = s && s.t === 'edge' && o ? (() => {
+      const nm = r => r.startsWith('e:') ? 'an arrow' : ((this.node(r) || {}).label || '').replace(/\n/g, ' ') || 'node';
+      return { label: o.label || '', bend: o.bend || 0, desc: `${nm(o.from)} → ${nm(o.to)}` };
+    })() : null;
+    const groups = {}; Object.entries(ICONS).forEach(([key, [name, g]]) => { (groups[g] = groups[g] || []).push({ key, name, bg: iconUrl(key), border: nodeSel && o.icon === key ? '2px solid var(--color-accent)' : '1px solid var(--color-divider)' }); });
+    const libSel = !!(s && s.t === 'node' && o && o.kind === 'icon'), libQ = (this.libQ || '').trim().toLowerCase();
+    const libGroupNames = [...new Set(Object.values(ICONS).map(v => v[1]).concat(CUSTOM_GROUPS))];
+    const libCat = libGroupNames.includes(this.libCat) ? this.libCat : 'All';
+    const libMatch = ([k, [nm, g]]) => (libCat === 'All' || g === libCat) && (!libQ || (nm + ' ' + g + ' ' + k.replace(/-/g, ' ')).toLowerCase().includes(libQ));
+    const libShownList = Object.entries(ICONS).filter(libMatch);
+    const libSections = libGroupNames.map(name => ({ name, custom: CUSTOM_GROUPS.includes(name) ? 1 : 0, items: libShownList.filter(([, v]) => v[1] === name).map(([key, v]) => ({ key, name: v[0], custom: CUSTOM_DATA[key] ? 1 : 0, bg: iconUrl(key), on: libSel && o.icon === key ? 1 : 0 })) })).filter(x => x.items.length || (!libQ && x.custom && (libCat === 'All' || libCat === x.name)));
+    const libReplace = libSel && this.libMode !== 'add';
+    return {
+      libOn: this.libOpen ? 1 : 0, libCount: Object.keys(ICONS).length, libGroupCount: libGroupNames.length, libShown: libShownList.length, libQ: this.libQ || '',
+      libButton: this.libOpen ? 'Close icon library' : 'Browse ' + Object.keys(ICONS).length + ' icons',
+      toggleLib: () => { this.libOpen = !this.libOpen; this.forceUpdate(); }, openLib: () => { this.libOpen = true; this.libMode = 'replace'; this.forceUpdate(); }, closeLib: () => { this.libOpen = false; this.forceUpdate(); },
+      libSearchRef: el => { if (el && !el._libBound) { el._libBound = true; el.addEventListener('input', ev => { this.libQ = ev.target.value; this.forceUpdate(); const i = document.querySelector('input[type="search"][aria-label="Search icons"]'); if (i && i !== document.activeElement) { i.focus(); try { i.setSelectionRange(i.value.length, i.value.length); } catch (x) {} } }); } if (el && this.libOpen && !el._libFocused) { el._libFocused = true; setTimeout(() => el.focus(), 0); } if (!el) return; },
+      libCats: ['All'].concat(libGroupNames).map(c => ({ key: c, label: c + ' (' + (c === 'All' ? Object.keys(ICONS).length : Object.values(ICONS).filter(v => v[1] === c).length) + ')', on: libCat === c ? 1 : 0 })),
+      onLibCat: e => { this.libCat = e.currentTarget.dataset.k; this.forceUpdate(); },
+      libFormIcon: this.libForm === 'icon' ? 1 : 0, libFormGroup: this.libForm === 'group' ? 1 : 0, libAddIconOn: this.libForm === 'icon' ? 1 : 0, libAddGroupOn: this.libForm === 'group' ? 1 : 0,
+      libGroupName: this.libGroupName, libIconName: this.libIconName, libIconGroup: this.libIconGroup || libGroupNames[0],
+      libGroupOptions: libGroupNames.map(g => ({ name: g, sel: (this.libIconGroup || libGroupNames[0]) === g ? 1 : 0 })),
+      toggleLibForm: e => { const k = e.currentTarget.dataset.k; this.libForm = this.libForm === k ? '' : k; this.forceUpdate(); },
+      onLibGroupName: e => { this.libGroupName = e.target.value; },
+      onLibIconName: e => { this.libIconName = e.target.value; },
+      onLibIconGroup: e => { this.libIconGroup = e.target.value; },
+      libFileRef: el => { this.libFileIn = el; },
+      onLibIconFile: e => { const f = e.target.files && e.target.files[0]; this.libIconFile = f || null; if (f && !this.libIconName) { this.libIconName = f.name.replace(/\.[^.]+$/, ''); } this.forceUpdate(); },
+      libFileLabel: this.libIconFile ? this.libIconFile.name : 'No file chosen',
+      submitLibGroup: () => {
+        const name = (this.libGroupName || '').trim(); if (!name) { this.toast('Type a name for the group first'); return; }
+        if (libGroupNames.some(g => g.toLowerCase() === name.toLowerCase())) { this.toast(`A group called “${name}” already exists`); return; }
+        const c = readCustom(); c.groups.push(name);
+        if (!writeCustom(c)) { this.toast('Browser storage is full — delete an icon first'); return; }
+        syncCustom(); this.libGroupName = ''; this.libForm = ''; this.libIconGroup = name; this.toast(`Added group ${name}`); this.forceUpdate();
+      },
+      submitLibIcon: () => {
+        const f = this.libIconFile; if (!f) { this.toast('Choose an image file first'); return; }
+        const name = (this.libIconName || '').trim() || f.name.replace(/\.[^.]+$/, ''), group = this.libIconGroup || libGroupNames[0];
+        const fr = new FileReader(); fr.onerror = () => this.toast('Could not read that file');
+        fr.onload = () => {
+          const im = new Image(); im.onerror = () => this.toast('That file is not an image the browser can open');
+          im.onload = () => {
+            const w0 = im.naturalWidth || 128, h0 = im.naturalHeight || 128, sc = Math.min(1, 256 / Math.max(w0, h0)), w = Math.max(1, Math.round(w0 * sc)), h = Math.max(1, Math.round(h0 * sc));
+            let data; try { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; cv.getContext('2d').drawImage(im, 0, 0, w, h); data = cv.toDataURL('image/png'); } catch (e) { this.toast('Could not process that image'); return; }
+            const c = readCustom(), base = 'custom-' + (name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'icon'); let key = base, n = 2;
+            while (ICONS[key] || c.icons.some(x => x.key === key)) key = base + '-' + n++;
+            c.icons.push({ key, name, group, ratio: Math.round(w / h * 1000) / 1000, data });
+            if (!writeCustom(c)) { this.toast('Browser storage is full — delete an icon first'); return; }
+            syncCustom(); this.loadImg(key); this.libIconFile = null; this.libIconName = ''; this.libForm = '';
+            if (this.libFileIn) this.libFileIn.value = '';
+            this.toast(`Added ${name} to ${group}`); this.forceUpdate();
+          };
+          im.src = String(fr.result);
+        };
+        fr.readAsDataURL(f);
+      },
+      onLibDelete: e => {
+        const key = e.currentTarget.dataset.k, info = ICONS[key]; if (!info || !CUSTOM_DATA[key]) return;
+        if (!window.confirm(`Delete the icon “${info[0]}”? Nodes that use it will show a blank space.`)) return;
+        const c = readCustom(); c.icons = c.icons.filter(x => x.key !== key); writeCustom(c); syncCustom(); delete this.imgs[key]; this.toast(`Deleted ${info[0]}`); this.draw(); this.forceUpdate();
+      },
+      onLibDeleteGroup: e => {
+        const g = e.currentTarget.dataset.k, n = readCustom().icons.filter(x => x.group === g).length;
+        if (n && !window.confirm(`Delete the group “${g}” and its ${n} icon${n === 1 ? '' : 's'}?`)) return;
+        const c = readCustom(); c.groups = c.groups.filter(x => x !== g); c.icons = c.icons.filter(x => x.group !== g); writeCustom(c); syncCustom();
+        if (this.libCat === g) this.libCat = 'All'; this.toast(`Deleted group ${g}`); this.draw(); this.forceUpdate();
+      },
+      libSections, libEmpty: !libSections.length,
+      libCanReplace: libSel, libReplaceOn: libReplace ? 1 : 0, libAddOn: libSel && !libReplace ? 1 : 0,
+      onLibMode: e => { this.libMode = e.currentTarget.dataset.k; this.forceUpdate(); },
+      libHelp: libReplace ? `Click an icon to replace the one on “${(o.label || 'the selected node').replace(/\n/g, ' ')}”.` : 'Click an icon to add it to the sheet. The library stays open so you can add several.',
+      onLibPick: e => {
+        const key = e.currentTarget.dataset.k, info = ICONS[key]; if (!info) return;
+        if (libReplace) { o.icon = key; o.kind = 'icon'; this.touch(); this.toast(`Icon changed to ${info[0]}`); return; }
+        const id = this.nid(), j = (d.seq % 7) * 14, r = info[2], size = r < .3 ? 96 : r < .6 ? 72 : r > 2.5 ? 34 : r > 1.6 ? 44 : 56;
+        d.nodes.push({ id, kind: 'icon', x: W / 2 + j, y: H / 2 - 40 + j, sub: '', icon: key, size, hue: 0, badge: false, role: '', label: info[0] });
+        this.sel = null; this.libMode = 'replace'; this.touch(); this.toast(`Added ${info[0]} to the sheet`);
+      },
+      title: d.title, onTitle: set(e => { d.title = e.target.value; }, true),
+      nodeCount: d.nodes.length, edgeCount: d.edges.length, saveNote: this.saveNote,
+      specName: (d.spec || {}).name || '', specNodes: (d.spec || {}).nodes || '', specFlow: (d.spec || {}).flow || '',
+      onSpecName: set(e => { d.spec = d.spec || {}; d.spec.name = e.target.value; }, true),
+      onSpecNodes: set(e => { d.spec = d.spec || {}; d.spec.nodes = e.target.value; }, true),
+      onSpecFlow: set(e => { d.spec = d.spec || {}; d.spec.flow = e.target.value; }, true),
+      generate: () => this.generate(),
+      iconsOn: d.textOnly ? 0 : 1, textOnlyOn: d.textOnly ? 1 : 0, setTextOnly: set(e => { d.textOnly = e.currentTarget.dataset.k === '1'; }),
+      exportPng: () => this.exportPngAt('#ffffff'), exportPngClear: () => this.exportPngAt(null), exportSvg: () => this.exportSvg(),
+      undo: () => this.undo(), redo: () => this.redo(),
+      undoOpacity: this.histIndex > 0 ? 1 : .45, undoPE: this.histIndex > 0 ? 'auto' : 'none',
+      redoOpacity: this.histIndex < this.history.length - 1 ? 1 : .45, redoPE: this.histIndex < this.history.length - 1 ? 'auto' : 'none',
+      addNode: e => {
+        const kind = e.currentTarget.dataset.k, id = this.nid(), j = (d.seq % 7) * 14;
+        const base = { id, kind, x: W / 2 + j, y: H / 2 - 40 + j, sub: '', icon: '', size: 60, hue: 0, badge: false, role: '' };
+        if (kind === 'icon') Object.assign(base, { label: 'Protein', icon: 'protein-globular', size: 52 });
+        if (kind === 'pill') Object.assign(base, { label: 'Metabolite', role: 'metabolite' });
+        if (kind === 'box') Object.assign(base, { label: 'Process', role: 'process' });
+        if (kind === 'text') Object.assign(base, { label: 'Note', size: 14 });
+        d.nodes.push(base); this.sel = { t: 'node', id }; this.touch();
+      },
+      addStep: () => { const n = d.steps.length + 1, id = 'st' + (++d.seq); d.steps.push({ id, n, x: 60 + n * 30, y: 60, text: 'Describe this step.' }); this.sel = { t: 'step', id }; this.touch(); },
+      addRegion: () => { const id = 'r' + (++d.seq); d.regions.push({ id, kind: 'compartment', label: 'Compartment', x: 620, y: 300, w: 320, h: 200, double: false }); this.sel = { t: 'region', id }; this.touch(); },
+      connectOn: this.connect ? 1 : 0, connectLabel: this.connect ? 'Connecting — click source, then target' : 'Connect',
+      toggleConnect: () => { this.connect = !this.connect; this.connectFrom = null; this.forceUpdate(); },
+      connectTypes: ETYPES.map(([key, label]) => ({ key, label, on: this.connectType === key ? 1 : 0 })),
+      onConnectType: e => { this.connectType = e.currentTarget.dataset.k; this.connect = true; this.forceUpdate(); },
+      legendOn: d.showLegend ? 1 : 0, captionsOn: d.showCaptions ? 1 : 0, stepsOn: d.showSteps ? 1 : 0, snapOn: d.snap ? 1 : 0,
+      toggleLegend: set(() => { d.showLegend = !d.showLegend; }), toggleCaptions: set(() => { d.showCaptions = !d.showCaptions; }),
+      toggleSteps: set(() => { d.showSteps = !d.showSteps; }), toggleSnap: set(() => { d.snap = !d.snap; }),
+      reportOn: d.preset !== 'slide' ? 1 : 0, slideOn: d.preset === 'slide' ? 1 : 0, setPreset: set(e => { d.preset = e.currentTarget.dataset.k; }),
+      fonts: Object.entries(FONTS).map(([key, [label, stack]]) => ({ key, label, stack, on: (d.font || 'barlow') === key ? 1 : 0 })),
+      onFont: set(e => { d.font = e.currentTarget.dataset.k; }),
+      fsLabel: Math.round((d.fs || 1) * 100) + '%', stepFs: set(e => { d.fs = Math.max(.7, Math.min(1.6, Math.round(((d.fs || 1) + (+e.currentTarget.dataset.d) * .05) * 100) / 100)); }),
+      kinds: KINDS.map(([key, label, desc]) => ({ key, label, desc, on: (d.kind || 'overview') === key ? 1 : 0 })),
+      textColors: TEXT_COLORS.map(([key, label, hex]) => ({ key, label, hex: key || hex, on: (d.textColor || '') === key ? 1 : 0, mark: (d.textColor || '') === key ? '✓' : '' })),
+      onTextColor: set(e => { const k = e.currentTarget.dataset.k; if (k) d.textColor = k; else delete d.textColor; }),
+      customText: d.textColor || INK,
+      onCustomText: set(e => { d.textColor = e.target.value; }),
+      nodeTextColors: TEXT_COLORS.map(([key, label, hex]) => ({ key, label: key ? label : 'Same as figure', hex: key || hex, on: nodeSel && (o.tc || '') === key ? 1 : 0, mark: nodeSel && (o.tc || '') === key ? '✓' : '' })),
+      nodeFonts: [['', 'Same as figure'], ...Object.entries(FONTS).map(([k, v]) => [k, v[0]])].map(([key, label]) => ({ key, label, sel: nodeSel && (o.font || '') === key })),
+      onNodeFont: set(e => { if (e.target.value) o.font = e.target.value; else delete o.font; }),
+      onNodeTextColor: set(e => { const k = e.currentTarget.dataset.k; if (k) o.tc = k; else delete o.tc; }),
+      onKind: e => this.loadKind(e.currentTarget.dataset.k),
+      versionName: this.versionName || '', onVersionName: e => { this.versionName = e.target.value; this.forceUpdate(); },
+      saveVersion: () => this.saveVersion(),
+      versions: this.loadVersions().map(v => ({ key: v.key, name: v.name, meta: `${new Date(v.at).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })} · ${v.n} nodes` })),
+      noVersions: !this.loadVersions().length,
+      openVersion: e => this.openVersion(e.currentTarget.dataset.k), deleteVersion: e => this.deleteVersion(e.currentTarget.dataset.k),
+      saveProject: () => this.download(new Blob([JSON.stringify(d, null, 1)], { type: 'application/json' }), `${this.slug()}.pathway.json`),
+      openProject: () => this.fileIn && this.fileIn.click(), fileRef: this.fileRef,
+      onFile: e => { const f = e.target.files && e.target.files[0]; if (!f) return; f.text().then(t => { try { const j = JSON.parse(t); if (!j.nodes) throw 0; this.d = Object.assign(overviewModel(), j); this.sel = null; this.touch(); this.toast('Project opened'); } catch (er) { this.toast('That file is not a pathway project'); } }); e.target.value = ''; },
+      wrapRef: this.wrapRef, cvRef: this.cvRef, cursor: this.cursor || 'default',
+      onDown: e => this.onDown(e), onMove: e => this.onMove(e), onUp: e => this.onUp(e),
+      hint: this.connect ? (this.connectFrom ? `Now click the target node or arrow — ${ETYPES.find(t => t[0] === this.connectType)[1].toLowerCase()}` : 'Click the source node') : '',
+      toastMsg: this.toastMsg,
+      showEmpty: !s, deselect: () => { this.sel = null; this.forceUpdate(); },
+      nodeSel, nodeIsIcon: !!(nodeSel && o.kind === 'icon'), nodeBadgeOn: nodeSel && o.badge ? 1 : 0, nodeIconName: nodeSel && ICONS[o.icon] ? ICONS[o.icon][0] : '',
+      onNodeLabel: set(e => { o.label = e.target.value; }, true), onNodeSub: set(e => { o.sub = e.target.value; }, true),
+      nodeKinds: [['icon', 'Icon'], ['pill', 'Metabolite'], ['box', 'Process box'], ['text', 'Text']].map(([key, label]) => ({ key, label, on: nodeSel && o.kind === key ? 1 : 0 })),
+      onNodeKind: set(e => { o.kind = e.currentTarget.dataset.k; if (o.kind === 'icon' && !o.icon) { o.icon = 'protein-globular'; o.size = 52; } if (o.kind === 'pill' && !o.role) o.role = 'metabolite'; if (o.kind === 'text') o.size = 14; }),
+      onNodeSize: set(e => { o.size = +e.target.value; }, true), onNodeHue: set(e => { o.hue = +e.target.value; }, true),
+      toggleBadge: set(() => { o.badge = !o.badge; }),
+      nodeTones: [['', 'Original colours'], ['accent', 'Blue accent'], ['grey', 'Mid-grey']].map(([key, label]) => ({ key, label, on: nodeSel && (o.tone || '') === key ? 1 : 0 })),
+      onNodeTone: set(e => { o.tone = e.currentTarget.dataset.k || undefined; }),
+      nodeLps: [['below', 'Below'], ['above', 'Above'], ['left', 'Left'], ['right', 'Right']].map(([key, label]) => ({ key, label, on: nodeSel && (o.lp || 'below') === key ? 1 : 0 })),
+      onNodeLp: set(e => { o.lp = e.currentTarget.dataset.k; }),
+      iconGroups: Object.entries(groups).map(([name, items]) => ({ name, items })),
+      onNodeIcon: set(e => { const k = e.currentTarget.dataset.k; o.icon = k; o.kind = 'icon'; }),
+      connectFromSel: () => { this.connect = true; this.connectFrom = s.id; this.forceUpdate(); },
+      duplicateSel: () => { const id = this.nid(); d.nodes.push(Object.assign({}, o, { id, x: o.x + 30, y: o.y + 30 })); this.sel = { t: 'node', id }; this.touch(); },
+      deleteSel: () => this.deleteSel(),
+      edgeSel, edgeTypes: ETYPES.map(([key, label]) => ({ key, label, on: edgeSel && o.type === key ? 1 : 0 })),
+      onEdgeType: set(e => { o.type = e.currentTarget.dataset.k; }), onEdgeLabel: set(e => { o.label = e.target.value; }, true),
+      onEdgeBend: set(e => { o.bend = +e.target.value; }, true), edgeLabelFlip: edgeSel && o.flip ? 1 : 0, flipEdgeLabel: set(() => { o.flip = !o.flip; }),
+      straightenEdge: set(() => { o.bend = 0; }),
+      edgeColors: [['', 'Notation'], ['accent', 'Blue'], ['grey', 'Grey']].map(([key, label]) => ({ key, label, on: edgeSel && (o.color || '') === key ? 1 : 0 })),
+      onEdgeColor: set(e => { o.color = e.currentTarget.dataset.k || undefined; }), reverseEdge: set(() => { if (o.to.startsWith('e:')) { this.toast('Arrows that point at an arrow cannot be reversed'); return; } const t = o.from; o.from = o.to; o.to = t; o.bend = -(o.bend || 0); }),
+      regionSel: s && s.t === 'region' && o ? { label: o.label } : null,
+      onRegionLabel: set(e => { o.label = e.target.value; }, true),
+      regionKinds: [['compartment', 'Compartment box'], ['membrane', 'Membrane'], ['zone', 'Label only']].map(([key, label]) => ({ key, label, on: s && s.t === 'region' && o.kind === key ? 1 : 0 })),
+      onRegionKind: set(e => { const k = e.currentTarget.dataset.k; o.kind = k; if (k === 'membrane') { o.w = 26; } }),
+      regionDoubleOn: s && s.t === 'region' && o.double ? 1 : 0, toggleRegionDouble: set(() => { o.double = !o.double; }),
+      stepSel: s && s.t === 'step' && o ? { n: o.n, text: o.text } : null, onStepText: set(e => { o.text = e.target.value; }, true),
+    };
+  }
+}
+</script>
+
+
+<div id="__claude_design_branding"><style>#__claude_design_branding{position:fixed;right:16px;bottom:16px;z-index:2147483646;display:flex;align-items:center;gap:7px;height:30px;padding:0 5px 0 10px;border-radius:999px;font-family:"Anthropic Sans",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:12.5px;font-weight:400;line-height:1;letter-spacing:normal;text-transform:none;color:#141413;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 0 0 .5px rgba(31,30,29,.14),0 2px 10px rgba(0,0,0,.09)}
+#__claude_design_branding *{box-sizing:border-box;margin:0}
+#__claude_design_branding a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+#__claude_design_branding a:hover span{text-decoration:underline}
+#__claude_design_branding svg{flex:none}
+#__claude_design_branding a svg{color:#D97757}
+#__claude_design_branding button{width:20px;height:20px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:currentColor;opacity:.55;border:0;background:none;cursor:pointer;flex:none;font:inherit;transition:opacity .14s}
+#__claude_design_branding button:hover{opacity:1;background:rgba(127,127,127,.22)}
+@media print{#__claude_design_branding{display:none}}</style><a href="https://claude.com/product/design" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 20 21" fill="none" aria-hidden="true"><path fill="currentColor" d="M9.99902 0C15.5258 0.000170936 19.999 4.50643 19.999 10.0547C19.999 11.7656 19.5863 12.9976 18.7861 13.8203C17.9924 14.6362 16.9465 14.9138 15.9854 15.0078C15.05 15.0993 14.0097 15.0262 13.2549 15.0186C12.8524 15.0145 12.5177 15.0267 12.2441 15.0703C11.9682 15.1144 11.8143 15.1813 11.7305 15.2432C11.4745 15.4322 11.3353 15.7121 11.2656 16.1602C11.2303 16.3875 11.2168 16.6362 11.209 16.9131C11.2017 17.1715 11.1986 17.4893 11.1807 17.7705C11.1469 18.2975 11.0495 19.0865 10.4199 19.5908C9.7846 20.0996 8.88652 20.1057 7.85449 19.877C7.36399 19.7682 6.88652 19.6232 6.42578 19.4453C2.66989 17.9949 0.000187748 14.3414 0 10.0547C0 4.50643 4.47223 0.000171048 9.99902 0ZM9.99902 1.60547C5.36781 1.60564 1.60547 5.38391 1.60547 10.0547C1.60566 13.6582 3.84823 16.7296 7.00391 17.9482C7.39027 18.0974 7.79085 18.2184 8.20215 18.3096C9.1375 18.5169 9.384 18.3633 9.41602 18.3379C9.4524 18.3087 9.54558 18.1915 9.5791 17.668C9.5947 17.4239 9.59473 17.1786 9.60352 16.8672C9.61179 16.5742 9.62831 16.2435 9.67969 15.9131C9.78359 15.2455 10.0474 14.4906 10.7764 13.9521C11.1479 13.6778 11.5842 13.5493 11.9912 13.4844C12.4007 13.4191 12.8434 13.4088 13.2705 13.4131C14.1753 13.4222 15.0071 13.4905 15.8291 13.4102C16.6257 13.3322 17.2249 13.1235 17.6357 12.7012C18.0401 12.2855 18.3935 11.5261 18.3936 10.0547C18.3936 5.38391 14.6302 1.60564 9.99902 1.60547ZM5.11621 9.86719C5.86386 9.91468 6.45486 10.5348 6.45508 11.2939C6.45506 12.0838 5.81519 12.7245 5.02539 12.7246C4.28481 12.7246 3.67573 12.1617 3.60254 11.4404L3.59473 11.2939L3.60156 11.1533C3.66942 10.4596 4.23282 9.91186 4.93359 9.86719H5.11621ZM14.9814 7.19141C15.729 7.23889 16.3199 7.85919 16.3203 8.61816C16.3203 9.40801 15.6804 10.0487 14.8906 10.0488C14.1501 10.0487 13.5409 9.48586 13.4678 8.76465L13.46 8.61816L13.4668 8.47754C13.5348 7.78403 14.0983 7.23618 14.7988 7.19141H14.9814ZM6.4541 4.93457C7.20161 4.9822 7.79275 5.60231 7.79297 6.36133C7.79288 7.151 7.15291 7.7917 6.36328 7.79199C5.62274 7.79199 5.01369 7.22903 4.94043 6.50781L4.93262 6.36133L4.93945 6.2207C5.00731 5.52698 5.5707 4.97922 6.27148 4.93457H6.4541ZM11.3867 3.59668C12.1343 3.64419 12.7253 4.26436 12.7256 5.02344C12.7256 5.81326 12.0857 6.45393 11.2959 6.4541C10.5553 6.4541 9.94622 5.89123 9.87305 5.16992L9.86523 5.02344L9.87207 4.88281C9.93996 4.18912 10.5033 3.64133 11.2041 3.59668H11.3867Z"></path></svg><span>Made with Claude Design</span></a><button type="button" aria-label="Dismiss" style="min-width:44px; min-height:44px" onclick="this.parentElement.remove()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></button></div></body></html>

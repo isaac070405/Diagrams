@@ -17,6 +17,7 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 
 ## Layout
 
+- `pathway/`: readable source and pack script for `public/pathway.html` (see its README)
 - `src/App.tsx`: home page with all diagram cards
 - `src/shell.tsx`: shared editor shell (undo, zoom, autosave, export)
 - `src/editors/`: one file per diagram family

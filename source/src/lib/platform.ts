@@ -25,16 +25,6 @@ export async function saveFile(blob: Blob, filename: string): Promise<string> {
   }
 }
 
-export async function askClaude(req: any): Promise<string> {
-  const sample = await cap('sample');
-  if (!sample) throw new Error('Claude is not available in this view');
-  const msgs = (req && req.messages) || [];
-  const user = msgs.map((m: any) => typeof m.content === 'string' ? m.content : JSON.stringify(m.content)).join('\n\n');
-  const input = (req && req.system ? 'Instructions:\n' + req.system + '\n\n' : '') + (user || String(req || ''));
-  const r = await sample(input, { cache: false });
-  return r.text;
-}
-
 export const store = {
   get(key: string, fallback: any) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } },
   set(key: string, value: any) { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (e) { return false; } },
