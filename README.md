@@ -70,9 +70,13 @@ Steps can be added, reordered and given any of 34 pictograms. Figures are switch
 80 BioRender icons in 7 groups (receptors, proteins, nucleic acids, small molecules, cytokines and immune cells, lab equipment, cells), reached in two places:
 
 - **Home page:** the Icon library card sits beside Biological pathway. It has search, group filters and a PNG download for each icon.
-- **Inside Biological pathway:** the Icon library button at the top of the sidebar opens the same catalogue over the sheet. Click an icon to add it, or to replace the icon on the selected node.
+- **Inside Biological pathway:** the Icon library button under step 4, Edit on the sheet, opens the same catalogue over the sheet. Click an icon to add it, or to replace the icon on the selected node.
 
 **Add icon** and **Add group** appear on both pages. Add icon takes a PNG, JPEG, SVG, WebP or GIF, scales it to 256 px and files it under a group. Add group creates a new group. Your icons and groups are stored in this browser, shared by both pages, and can be deleted with the × on a tile or the Delete group button.
+
+## Biological pathway
+
+The sidebar follows the order of work: Template (seven starting points and a Blank Template), 1 Describe the pathway, 2 Add flow and labels, 3 Generate the diagram, 4 Edit on the sheet (with the Icon library), 5 Style the figure, 6 Export. Styling offers 15 typefaces and 12 text colours plus a custom colour. Select a node to give its text its own colour. Loading a template keeps your typeface and text colour.
 
 ## Histological image
 
