@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { S, Sheet } from './sheet';
 import { EditorShell, type EditorDef, Toast, norm } from './shell';
-import { askClaude, saveFile, store } from './lib/platform';
+import { saveFile, store } from './lib/platform';
 import { wheel } from './editors/wheel';
 import { phylo } from './editors/phylo';
 import { flow } from './editors/flow';
@@ -103,7 +103,6 @@ function PathwayFrame(p: { onHome: () => void }) {
       const d: any = e.data; if (!d || !d.__sd || !d.id) return;
       const reply = (result: any, error?: string) => w.postMessage({ __sdReply: d.id, result, error }, '*');
       if (d.__sd === 'download') { const m = await saveFile(d.payload.blob, d.payload.name); say(m); reply(m); }
-      else if (d.__sd === 'complete') { try { reply(await askClaude(d.payload)); } catch (err: any) { reply(null, String(err && err.message || err)); } }
     };
     window.addEventListener('message', onMsg);
     return () => { window.removeEventListener('message', onMsg); clearTimeout(t); };

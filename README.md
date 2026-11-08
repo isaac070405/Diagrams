@@ -76,7 +76,7 @@ Steps can be added, reordered and given any of 34 pictograms. Figures are switch
 
 ## Biological pathway
 
-The sidebar follows the order of work: Template (seven starting points and a Blank Template), 1 Describe the pathway, 2 Add flow and labels, 3 Generate the diagram, 4 Edit on the sheet (with the Icon library), 5 Style the figure, 6 Export. Styling offers 15 typefaces and 12 text colours plus a custom colour. Select a node to give its text its own colour. Loading a template keeps your typeface and text colour.
+The sidebar follows the order of work: Template (seven starting points and a Blank Template), 1 Describe the pathway, 2 Add flow and labels, 3 Generate the diagram, 4 Edit on the sheet (with the Icon library), 5 Style the figure, 6 Export. Styling offers 15 typefaces and 12 text colours plus a custom colour. Select a node to give its text its own typeface and colour. Loading a template keeps your typeface and text colour.
 
 ## Histological image
 
