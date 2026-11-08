@@ -67,7 +67,7 @@ Steps can be added, reordered and given any of 34 pictograms. Figures are switch
 
 ## Icon library
 
-80 BioRender icons in 7 groups (receptors, proteins, nucleic acids, small molecules, cytokines and immune cells, lab equipment, cells), reached in two places:
+162 BioRender icons in 10 groups (receptors, proteins, nucleic acids, small molecules, cytokines and immune cells, lab equipment, cells, organs and systems, tissues, sugars and lipids), reached in two places:
 
 - **Home page:** the Icon library card sits beside Biological pathway. It has search, group filters and a PNG download for each icon.
 - **Inside Biological pathway:** the Icon library button under step 4, Edit on the sheet, opens the same catalogue over the sheet. Click an icon to add it, or to replace the icon on the selected node.

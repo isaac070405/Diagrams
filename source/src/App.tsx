@@ -26,7 +26,7 @@ import { transect } from './editors/transect';
 import { ICON_LIBRARY, IconLibraryPage, IconLibraryThumb } from './iconLibrary';
 
 const EDITORS: EditorDef[] = [wheel, phylo, flow, pedigree, foodweb, punnett, pyramid, dkey, iceberg, scalebar, gradient];
-const PATHWAY = { id: 'biological-pathway', num: '12', name: 'Biological pathway', field: 'Cells and measurement', blurb: 'Signalling and metabolic pathways with compartments, 80 BioRender icons and a Claude first draft.' };
+const PATHWAY = { id: 'biological-pathway', num: '12', name: 'Biological pathway', field: 'Cells and measurement', blurb: 'Signalling and metabolic pathways with compartments, 162 BioRender icons and seven starting templates.' };
 const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow, wellplate, blot, contour, transect];
 const FIELDS = ['All', 'Methods', 'Evolution and genetics', 'Ecology', 'Cells and measurement', 'Pharmacology'];
 
