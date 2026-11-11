@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use Diagram Workspace in your work, please cite it as below."
+title: "Diagram Workspace"
+abstract: "A browser editor for scientific figures: 26 diagram types for lab reports, essays and slides, exported as PNG, SVG or JPEG."
+type: software
+authors:
+  - alias: "isaac070405"
+repository-code: "https://github.com/isaac070405/Diagrams"
+url: "https://isaac070405.github.io/Diagrams/"
+license: MIT
+keywords:
+  - scientific figures
+  - biology
+  - diagrams
+  - education
