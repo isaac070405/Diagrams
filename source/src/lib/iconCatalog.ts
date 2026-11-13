@@ -100,6 +100,7 @@ export const ICON_LIST: IconEntry[] = [
   { key: "eukaryotic-cells", name: "Eukaryotic cells", group: "Cells", ratio: 1.354 },
   { key: "photoreceptor-cell", name: "Photoreceptor cell", group: "Cells", ratio: 0.78 },
   { key: "sperm-cell", name: "Sperm cell", group: "Cells", ratio: 2.35 },
+  { key: "plant-cells", name: "Plant cells", group: "Cells", ratio: 1.273 },
   { key: "basophil", name: "Basophil", group: "Cytokines & immune cells", ratio: 1.0 },
   { key: "dendritic-cell", name: "Dendritic cell", group: "Cytokines & immune cells", ratio: 0.948 },
   { key: "macrophage", name: "Macrophage", group: "Cytokines & immune cells", ratio: 1.014 },
