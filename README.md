@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 45 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 48 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -39,7 +39,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 39 | Venn diagram | 40 | Scatter plot with regression |
 | 41 | Enzyme kinetics | 42 | Sankey diagram |
 | 43 | Standard curve | 44 | Funnel plot |
-| 45 | Pie and donut chart | | |
+| 45 | Pie and donut chart | 46 | PCA plot |
+| 47 | Rarefaction and species accumulation | 48 | Growth curve |
 
 ## Contour plot
 
@@ -124,6 +125,18 @@ A check for small-study effects in a meta-analysis. Paste each study as name, es
 ## Pie and donut chart
 
 Shares of a whole. One row per slice with a name, a value and a colour. A hole size turns the pie into a donut with the total in the centre. Labels can sit outside with leader lines pushed apart so they never overlap, show percent inside the slices, or go in a legend, with percent, values and a unit. Start angle and largest-first ordering. Three starting points: macronutrient energy, fatty acid composition and benthic cover (illustrative values).
+
+## PCA plot
+
+Principal component analysis of a table with samples down the side and variables across the top, plus an optional group column. Samples are points coloured by group, variables are arrows (a biplot), and each group can have a 95% confidence ellipse. Choose any two components for the axes, whose titles show the share of variance. Variables can be scaled to unit variance (a correlation matrix, for variables in different units) or left unscaled (for variables in one unit, such as percent cover). Eigenvalues come from the Jacobi method. The Results panel gives the variance explained and the loadings. Three starting points (simulated).
+
+## Rarefaction and species accumulation
+
+Species richness against sampling effort, from a table of counts with samples down the side and species across the top. Rarefaction by individuals gives the exact expected richness in a random subsample of n individuals (Hurlbert 1971), one curve per sample, and marks every sample rarefied to the smallest one for a fair comparison. Accumulation by samples adds whole samples in 300 random orders and shows the mean and 95% interval, with an optional Chao1 estimate of total richness. The Results panel gives, for each sample, individuals, species, expected richness at the smallest sample size, Chao1 and the Shannon index. Three starting points (simulated).
+
+## Growth curve
+
+Size at age (or time) fitted with a von Bertalanffy, Gompertz or logistic curve by Levenberg-Marquardt, with a curve for each group. The figure shows the points, the fitted curves, a 95% confidence band from the delta method, the asymptote L∞ and the parameters. The Results panel gives L∞, K and t0 (or the inflection age) with standard errors, R², the growth performance index for von Bertalanffy, and the AIC of all three models so they can be compared. Three starting points (simulated): reef fish length at age, males against females, and a bacterial culture.
 
 ## Gradient bar
 
