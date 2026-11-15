@@ -33,3 +33,4 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `src/lib/diagnostic.js` and `consort.js`: ROC, Bland-Altman and CONSORT arithmetic for diagrams 32 to 34, run with `node tests/stats.test.cjs`
 - `src/lib/boxstats.js` and `volcano.js`: summary statistics, group tests, Benjamini-Hochberg and classification for diagrams 35 and 36, run with `node tests/stats.test.cjs`
 - `src/lib/heatmap.js` and `venn.js`: clustering and set-overlap maths for diagrams 38 and 39, run with `node tests/stats.test.cjs`
+- `src/lib/regress.js`, `enzyme.js` and `sankey.js`: regression, Michaelis-Menten fitting and Sankey layout for diagrams 40 to 42, run with `node tests/stats.test.cjs`

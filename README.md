@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 39 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 42 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -36,7 +36,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 33 | ROC curve | 34 | Bland-Altman plot |
 | 35 | Box plot | 36 | Volcano plot |
 | 37 | Bar chart with error bars | 38 | Clustered heatmap |
-| 39 | Venn diagram | | |
+| 39 | Venn diagram | 40 | Scatter plot with regression |
+| 41 | Enzyme kinetics | 42 | Sankey diagram |
 
 ## Contour plot
 
@@ -97,6 +98,18 @@ A matrix as colours. Paste a table with column names on top and row names on the
 ## Venn diagram
 
 Overlaps between two or three lists. Paste each set's items, one per line, and the count in every region is worked out, with the shared items listed in the Results panel. Case can be ignored. Two sets can be drawn to scale (circle and overlap areas follow the counts); three sets use equal circles. Counts or percent, item names in small regions and set sizes in the titles. Three starting points.
+
+## Scatter plot with regression
+
+Points with a least squares line. Paste x, y and an optional group on each row. The line, a 95% confidence band for the line and a 95% prediction band are optional, with the equation, r, R², p and n on the figure. With groups, fit one line to all points or one per group. The Results panel gives slope, intercept and r with 95% intervals (Student's t, Fisher z), the residual SD and Spearman rho. Three starting points (simulated).
+
+## Enzyme kinetics
+
+Initial rates against substrate concentration, one column per condition (for example without and with an inhibitor). The Michaelis-Menten curve is fitted by nonlinear least squares (Levenberg-Marquardt), giving Vmax and Km with standard errors and 95% intervals, R² and, with an enzyme concentration, kcat and kcat/Km. Switch the plot to Lineweaver-Burk, Eadie-Hofstee or Hanes-Woolf to see straight lines and tell competitive from non-competitive inhibition. The straight-line estimates are listed beside the fit for comparison. Three starting points (simulated).
+
+## Sankey diagram
+
+Flows between stages, drawn as bands whose width is the amount. Paste flows as source, target and value. Columns come from the longest path (no loops allowed), node order is arranged to reduce crossings, and the Check panel flags any middle node that does not pass on what it receives. Colour by source, by target or grey, justified or left alignment, optional unit and values in the labels. Three starting points: dietary energy partition, participant flow and carbon flow (illustrative values).
 
 ## Gradient bar
 

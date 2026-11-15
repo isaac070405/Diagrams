@@ -1,11 +1,11 @@
-// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 36)
+// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 42)
 const assert = require("assert");
 const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -205,5 +205,60 @@ t("Venn regions for three sets", () => {
 t("lens area: equal unit circles at d = 0, 1 and 2", () => { near(Vn.lens(1, 1, 0), Math.PI, 1e-12); near(Vn.lens(1, 1, 1), 2 * Math.PI / 3 - Math.sqrt(3) / 2, 1e-12); near(Vn.lens(1, 1, 2), 0, 1e-12); });
 t("solveD recovers the distance from an overlap area, and handles no overlap and containment", () => {
   near(Vn.solveD(1, 1, Vn.lens(1, 1, 0.8)), 0.8, 1e-9); near(Vn.solveD(2, 1, Vn.lens(2, 1, 1.7)), 1.7, 1e-9); assert.strictEqual(Vn.solveD(1, 1, 0), 2); near(Vn.solveD(2, 1, Math.PI), 1, 1e-9);
+});
+
+const xy = [[1, 2], [2, 4], [3, 5], [4, 4], [5, 5]];
+t("linear regression: slope 0.6, intercept 2.2, r2 0.6, SE of the slope 0.2828", () => {
+  const f = Rg.linear(xy); near(f.slope, 0.6, 1e-12); near(f.intercept, 2.2, 1e-12); near(f.r2, 0.6, 1e-12); near(f.r, Math.sqrt(0.6), 1e-12); near(f.s, Math.sqrt(0.8), 1e-12); near(f.seSlope, Math.sqrt(0.08), 1e-12);
+});
+t("regression p value: t = 2.1213 on 3 df gives p = 0.1238; the slope interval uses t(3) = 3.1824", () => {
+  const f = Rg.linear(xy); near(f.p, 0.1238, 1e-3); near(f.slopeCI[1] - f.slopeCI[0], 2 * 3.1824463 * Math.sqrt(0.08), 1e-5);
+});
+t("Fisher interval for r encloses r and stays in -1 to 1", () => { const f = Rg.linear(xy); assert.ok(f.rCI[0] < f.r && f.rCI[1] > f.r && f.rCI[0] > -1 && f.rCI[1] < 1); });
+t("bands: the prediction band is wider than the confidence band, and both are narrowest at the mean of x", () => {
+  const f = Rg.linear(xy), a = Rg.at(f, 3, "mean"), b = Rg.at(f, 3, "pred"), c = Rg.at(f, 5, "mean");
+  assert.ok(b.half > a.half && c.half > a.half); near(a.y, 4, 1e-12); near(a.half, 3.1824463 * Math.sqrt(0.8) * Math.sqrt(0.2), 1e-6);
+});
+t("regression needs 3 points and spread in x", () => { assert.strictEqual(Rg.linear([[1, 1], [2, 2]]), null); assert.strictEqual(Rg.linear([[1, 1], [1, 2], [1, 3]]), null); });
+t("Spearman: a monotone curve gives rho = 1; a reversed one gives -1", () => {
+  near(Rg.spearman([[1, 1], [2, 4], [3, 9], [4, 16], [5, 100]]).rho, 1, 1e-12); near(Rg.spearman([[1, 5], [2, 4], [3, 3], [4, 2]]).rho, -1, 1e-12);
+});
+
+const mmS = [1, 2, 5, 10, 20, 50], mmV = mmS.map(s => 100 * s / (5 + s));
+t("Michaelis-Menten: exact data returns Vmax 100, Km 5 and R2 1", () => {
+  const f = En.fit(mmS, mmV); near(f.Vmax, 100, 1e-6); near(f.Km, 5, 1e-6); near(f.r2, 1, 1e-9);
+});
+t("Michaelis-Menten: noisy data lands near the true values and the interval covers them", () => {
+  const noise = [1.2, -0.9, 0.7, -1.1, 0.8, -0.5], f = En.fit(mmS, mmV.map((v, i) => v + noise[i]));
+  assert.ok(Math.abs(f.Vmax - 100) < 6 && Math.abs(f.Km - 5) < 1.5); assert.ok(f.VmaxCI[0] < 100 && f.VmaxCI[1] > 100); assert.ok(f.seKm > 0 && f.df === 4);
+});
+t("straight-line transforms recover Vmax 100 and Km 5 from exact data", () => {
+  const pts = En.clean(mmS, mmV); ["lb", "eh", "hw"].forEach(k => { const l = En.lineFit(pts, k); near(l.Vmax, 100, 1e-6, k); near(l.Km, 5, 1e-6, k); });
+});
+t("a competitive inhibitor raises Km and leaves Vmax: fit of v = 100 S / (15 + S)", () => {
+  const f = En.fit(mmS, mmS.map(s => 100 * s / (15 + s))); near(f.Vmax, 100, 1e-5); near(f.Km, 15, 1e-5);
+});
+t("enzyme fit needs 3 positive substrate points", () => { assert.strictEqual(En.fit([1, 2], [1, 2]), null); assert.strictEqual(En.fit([0, 0, 0], [1, 2, 3]), null); });
+
+t("Sankey parse: names with spaces, header skipped, bad rows dropped", () => {
+  const r = Sk.parse("from,to,value\nGross energy, Faecal energy, 120\nGross energy,Urine,x\nA,B,-3\nA,B,4"); assert.strictEqual(r.length, 2); assert.strictEqual(r[0].s, "Gross energy"); assert.strictEqual(r[1].v, 4);
+});
+const diamond = [{ s: "A", t: "B", v: 10 }, { s: "A", t: "C", v: 5 }, { s: "B", t: "D", v: 10 }, { s: "C", t: "D", v: 5 }];
+t("Sankey layout: depths, node values and link widths follow the flows", () => {
+  const r = Sk.layout(diamond, 600, 300), by = {}; r.nodes.forEach(n => { by[n.name] = n; });
+  assert.deepStrictEqual(["A", "B", "C", "D"].map(n => by[n].depth), [0, 1, 1, 2]); near(by.A.value, 15, 1e-12); near(by.D.value, 15, 1e-12);
+  r.links.forEach(l => near(l.w, l.v * r.k, 1e-9)); r.nodes.forEach(n => near(n.h, n.value * r.k, 1e-9));
+});
+t("Sankey layout: nodes in a column never overlap and stay inside the height", () => {
+  const r = Sk.layout(diamond, 600, 300);
+  [0, 1, 2].forEach(d => { const c = r.nodes.filter(n => n.depth === d).sort((a, b) => a.y - b.y); c.forEach((n, i) => { assert.ok(n.y >= -1e-9 && n.y + n.h <= 300 + 1e-9); if (i) assert.ok(n.y >= c[i - 1].y + c[i - 1].h - 1e-9); }); });
+});
+t("Sankey layout: link ends stay within their node", () => {
+  const r = Sk.layout(diamond, 600, 300); r.links.forEach(l => { const s = r.nodes[l.s], d = r.nodes[l.t]; assert.ok(l.sy - l.w / 2 >= s.y - 1e-9 && l.sy + l.w / 2 <= s.y + s.h + 1e-9); assert.ok(l.ty - l.w / 2 >= d.y - 1e-9 && l.ty + l.w / 2 <= d.y + d.h + 1e-9); });
+});
+t("Sankey layout: sinks move to the last column when justified, and a loop is rejected", () => {
+  const r = Sk.layout([{ s: "A", t: "B", v: 1 }, { s: "A", t: "C", v: 1 }, { s: "B", t: "D", v: 1 }], 600, 300), c = r.nodes.find(n => n.name === "C"); assert.strictEqual(c.depth, 2);
+  assert.strictEqual(Sk.layout([{ s: "A", t: "C", v: 1 }, { s: "A", t: "B", v: 1 }, { s: "B", t: "D", v: 1 }], 600, 300, { justify: false }).nodes.find(n => n.name === "C").depth, 1);
+  assert.ok(Sk.layout([{ s: "A", t: "B", v: 1 }, { s: "B", t: "A", v: 1 }], 600, 300).error); assert.ok(Sk.layout([{ s: "A", t: "A", v: 1 }], 600, 300).error);
 });
 console.log(pass + " tests passed");
