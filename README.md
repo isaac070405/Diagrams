@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 42 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 45 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -38,6 +38,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 37 | Bar chart with error bars | 38 | Clustered heatmap |
 | 39 | Venn diagram | 40 | Scatter plot with regression |
 | 41 | Enzyme kinetics | 42 | Sankey diagram |
+| 43 | Standard curve | 44 | Funnel plot |
+| 45 | Pie and donut chart | | |
 
 ## Contour plot
 
@@ -110,6 +112,18 @@ Initial rates against substrate concentration, one column per condition (for exa
 ## Sankey diagram
 
 Flows between stages, drawn as bands whose width is the amount. Paste flows as source, target and value. Columns come from the longest path (no loops allowed), node order is arranged to reduce crossings, and the Check panel flags any middle node that does not pass on what it receives. Colour by source, by target or grey, justified or left alignment, optional unit and values in the labels. Three starting points: dietary energy partition, participant flow and carbon flow (illustrative values).
+
+## Standard curve
+
+A calibration curve from known standards, with unknown samples read back off it. Paste standards as concentration and signal (repeat a concentration for replicates) and unknowns as name and signal. Three models: straight line, semi-log (signal against log10 concentration, the usual qPCR fit, which also reports amplification efficiency) and a four-parameter logistic for the S-shaped ELISA curve (fitted by Levenberg-Marquardt, 5 or more standards). Unknowns are marked on the curve, with 95% intervals for the straight-line and semi-log models, and readings outside the standards or beyond the curve's asymptotes are flagged. Three starting points (simulated).
+
+## Funnel plot
+
+A check for small-study effects in a meta-analysis. Paste each study as name, estimate, lower and upper 95% limit. The plot shows effect against standard error with the pooled centre line and 95% (and optionally 99%) pseudo confidence limits, on a log scale for ratios. Egger's regression test reports the asymmetry intercept with its 95% interval and p value, and warns when there are fewer than 10 studies. Asymmetry can come from heterogeneity as well as bias, which the help text says. Three starting points (simulated).
+
+## Pie and donut chart
+
+Shares of a whole. One row per slice with a name, a value and a colour. A hole size turns the pie into a donut with the total in the centre. Labels can sit outside with leader lines pushed apart so they never overlap, show percent inside the slices, or go in a legend, with percent, values and a unit. Start angle and largest-first ordering. Three starting points: macronutrient energy, fatty acid composition and benthic cover (illustrative values).
 
 ## Gradient bar
 

@@ -1,11 +1,11 @@
-// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 42)
+// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 45)
 const assert = require("assert");
 const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js", "calib.js", "funnel.js", "pie.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk, SDCalib: Cb, SDFunnel: Fu, SDPie: Pi } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -260,5 +260,44 @@ t("Sankey layout: sinks move to the last column when justified, and a loop is re
   const r = Sk.layout([{ s: "A", t: "B", v: 1 }, { s: "A", t: "C", v: 1 }, { s: "B", t: "D", v: 1 }], 600, 300), c = r.nodes.find(n => n.name === "C"); assert.strictEqual(c.depth, 2);
   assert.strictEqual(Sk.layout([{ s: "A", t: "C", v: 1 }, { s: "A", t: "B", v: 1 }, { s: "B", t: "D", v: 1 }], 600, 300, { justify: false }).nodes.find(n => n.name === "C").depth, 1);
   assert.ok(Sk.layout([{ s: "A", t: "B", v: 1 }, { s: "B", t: "A", v: 1 }], 600, 300).error); assert.ok(Sk.layout([{ s: "A", t: "A", v: 1 }], 600, 300).error);
+});
+
+t("standard curve, linear: y = 1 + 2x is recovered and inverted; the 95% interval brackets the reading", () => {
+  const f = Cb.fit([0, 1, 2, 3, 4, 5].map(x => [x, 1 + 2 * x + (x % 2 ? 0.05 : -0.05)]), "linear");
+  near(f.params.b, 2, 0.02); near(f.params.a, 1, 0.06); near(f.invert(11), 5, 0.05); const ci = f.invertCI(11); assert.ok(ci[0] < f.invert(11) && ci[1] > f.invert(11));
+});
+t("semi-log curve (qPCR): Ct = 38 - 3.32 log10(copies) gives 100% efficiency", () => {
+  const f = Cb.fit([10, 100, 1e3, 1e4, 1e5, 1e6].map(x => [x, 38 - Math.log2(10) * Math.log10(x)]), "log"); near(f.params.b, -Math.log2(10), 1e-9); near(f.efficiency, 1, 1e-9); near(f.invert(38 - Math.log2(10) * 4), 1e4, 1e-6);
+});
+t("four-parameter curve: exact data returns the four parameters and inverts a reading", () => {
+  const q = [0.05, 1.2, 30, 2.5], xs = [1, 3, 10, 30, 100, 300, 1000], f = Cb.fit(xs.map(x => [x, q[3] + (q[0] - q[3]) / (1 + Math.pow(x / q[2], q[1]))]), "4pl");
+  near(f.params.a, 0.05, 1e-3); near(f.params.b, 1.2, 1e-3); near(f.params.c, 30, 0.05); near(f.params.d, 2.5, 1e-3); near(f.r2, 1, 1e-9); near(f.invert(f.predict(55)), 55, 1e-6);
+});
+t("four-parameter curve: a reading outside the asymptotes cannot be read back; decreasing curves work", () => {
+  const f = Cb.fit([1, 3, 10, 30, 100, 300, 1000].map(x => [x, 0.1 + 2.4 / (1 + Math.pow(x / 40, 1.5))]), "4pl"); assert.ok(isNaN(f.invert(5))); near(f.invert(f.predict(20)), 20, 1e-5);
+});
+t("standard curve needs 5 points for four parameters and positive x for log models", () => {
+  assert.strictEqual(Cb.fit([[1, 1], [2, 2], [3, 3], [4, 4]], "4pl"), null); assert.strictEqual(Cb.fit([[0, 1], [0, 2]], "log"), null);
+});
+
+t("Egger: a funnel with y = 0.3 + 1.2 se gives intercept 1.2 and slope 0.3", () => {
+  const e = Fu.egger([0.1, 0.2, 0.3, 0.4, 0.5].map(se => ({ y: 0.3 + 1.2 * se, se }))); near(e.intercept, 1.2, 1e-9); near(e.slope, 0.3, 1e-9); assert.strictEqual(e.low, true); assert.strictEqual(e.k, 5);
+});
+t("Egger: a symmetric funnel has intercept near 0 and a large p", () => {
+  const e = Fu.egger([[0.1, 0.02], [0.1, -0.03], [0.2, 0.1], [0.2, -0.12], [0.3, 0.2], [0.3, -0.18], [0.4, 0.05], [0.4, -0.04]].map(([se, d]) => ({ y: -0.2 + d, se }))); assert.ok(Math.abs(e.intercept) < 0.8 && e.p > 0.2);
+});
+t("pseudo limits: 1.96 se and 2.576 se", () => { near(Fu.limit(0.5, 95), 0.97998, 1e-4); near(Fu.limit(0.5, 99), 1.28791, 1e-4); });
+t("Egger needs 3 studies", () => { assert.strictEqual(Fu.egger([{ y: 0, se: 1 }, { y: 1, se: 1 }]), null); });
+
+t("pie slices: fractions sum to 1, angles run once round, bad values are dropped", () => {
+  const r = Pi.slices([{ value: 50 }, { value: "x" }, { value: 30 }, { value: 20 }, { value: -4 }], 0, false);
+  assert.strictEqual(r.length, 3); near(r.reduce((a, b) => a + b.frac, 0), 1, 1e-12); near(r[2].a1, 2 * Math.PI, 1e-12); near(r[0].a1 - r[0].a0, Math.PI, 1e-12);
+});
+t("pie slices: sorting puts the largest first and a start angle rotates them", () => {
+  const r = Pi.slices([{ value: 1 }, { value: 5 }, { value: 3 }], 90, true); assert.deepStrictEqual(Array.from(r.map(x => x.index)), [1, 2, 0]); near(r[0].a0, Math.PI / 2, 1e-12);
+});
+t("pie arc: points start at the top, clockwise; a full circle still draws", () => {
+  const p = Pi.point(100, 100, 50, 0), q = Pi.point(100, 100, 50, Math.PI / 2); near(p[0], 100, 1e-9); near(p[1], 50, 1e-9); near(q[0], 150, 1e-9); near(q[1], 100, 1e-9);
+  assert.ok(/^M/.test(Pi.arc(0, 0, 0, 10, 0, 2 * Math.PI))); assert.ok(Pi.arc(0, 0, 5, 10, 0, 1).indexOf("A5") > 0);
 });
 console.log(pass + " tests passed");

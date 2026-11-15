@@ -7,6 +7,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Standard curve (43), funnel plot with Egger's test (44) and pie and donut chart (45).
 - Scatter plot with regression (40), enzyme kinetics (41) and Sankey diagram (42).
 - Bar chart with error bars (37), clustered heatmap (38) and Venn diagram (39).
 - Box plot (35) and volcano plot (36).
@@ -20,4 +21,4 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes before this file existed are in the
 [commit history](https://github.com/isaac070405/Diagrams/commits/main) and the pull requests.
-The workspace has 42 diagram types, an 80-icon library, and PNG, SVG and JPEG export.
+The workspace has 45 diagram types, an 80-icon library, and PNG, SVG and JPEG export.
