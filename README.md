@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 34 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 36 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -34,6 +34,7 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 29 | PRISMA 2020 flow diagram | 30 | Forest plot |
 | 31 | Kaplan-Meier survival curve | 32 | CONSORT flow diagram |
 | 33 | ROC curve | 34 | Bland-Altman plot |
+| 35 | Box plot | 36 | Volcano plot |
 
 ## Contour plot
 
@@ -74,6 +75,14 @@ Diagnostic accuracy for one or more markers. One row per subject: tick Case if t
 ## Bland-Altman plot
 
 Agreement between two measurement methods. One row per participant with both values. The plot shows the difference (or percent difference) against the mean, with the mean difference and 95% limits of agreement, each with a confidence interval from Student's t. A trend line and its slope test show whether the bias changes with the size of the measurement. Three starting points (simulated): a food frequency questionnaire against a food record, two vitamin D assays and bioimpedance against DXA.
+
+## Box plot
+
+Distribution by group. Paste each group's values (one spreadsheet column works). The box is the first quartile, median and third quartile (R type 7). Whiskers reach the furthest value within 1.5 IQR, or the minimum and maximum. Outliers are open circles. Options for every data point, the mean, sample sizes, a grid and an axis from 0. Two groups get a Welch t-test or Mann-Whitney U test with a bracket. Three or more get one-way ANOVA or Kruskal-Wallis. These give one overall p value and do not adjust for multiple comparisons. Three starting points (simulated).
+
+## Volcano plot
+
+Effect size against significance for many features. Paste rows of name, log2 fold change and p value (commas, tabs or spaces; header rows are skipped). Set a fold-change cut and a p limit, and optionally use Benjamini-Hochberg adjusted p values. Up, down and not significant points are coloured and counted, threshold lines are optional, and the most significant points are labelled without overlap. The Results panel lists the top features with p and q values. Two starting points (simulated): gene expression and metabolomics.
 
 ## Gradient bar
 

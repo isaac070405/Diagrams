@@ -12,7 +12,7 @@ The project aims to meet [WCAG 2.2](https://www.w3.org/TR/WCAG22/) level AA for 
 
 - The drawing sheet (canvas) is mostly pointer-driven. Keyboard-only editing of every diagram element is incomplete.
 - Exported figures carry no alt text or long description.
-- Screen reader testing has not been done on all 34 diagram types.
+- Screen reader testing has not been done on all 36 diagram types.
 
 ## Tips for accessible figures
 

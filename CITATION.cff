@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use Diagram Workspace in your work, please cite it as below."
 title: "Diagram Workspace"
-abstract: "A browser editor for scientific figures: 34 diagram types for lab reports, essays and slides, exported as PNG, SVG or JPEG."
+abstract: "A browser editor for scientific figures: 36 diagram types for lab reports, essays and slides, exported as PNG, SVG or JPEG."
 type: software
 authors:
   - family-names: "Lee"

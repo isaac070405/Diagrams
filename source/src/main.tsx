@@ -11,6 +11,8 @@ import './lib/forest.js';
 import './lib/prisma.js';
 import './lib/diagnostic.js';
 import './lib/consort.js';
+import './lib/boxstats.js';
+import './lib/volcano.js';
 import './ds/tokens.css';
 import './ds/bundle.css';
 import './app.css';

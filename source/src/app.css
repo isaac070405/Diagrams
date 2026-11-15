@@ -486,6 +486,21 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .ba-lab { font-size: 11.5px; font-weight: 600; fill: var(--ink); }
 .ba-labv { font-weight: 400; font-variant-numeric: tabular-nums; }
 
+/* 35 box plot */
+.bx-whisk { stroke: var(--ink); stroke-width: 1.4; }
+.bx-box { stroke: var(--ink); stroke-width: 1.4; }
+.bx-med { stroke: var(--ink); stroke-width: 2.6; }
+.bx-pt { stroke: var(--ink); stroke-width: .8; fill-opacity: .8; }
+.bx-out { fill: var(--paper); stroke: var(--ink); stroke-width: 1.3; }
+.bx-mean { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
+.bx-brk { fill: none; stroke: var(--ink); stroke-width: 1.3; }
+
+/* 36 volcano plot */
+.vp-thr { stroke: var(--ink-muted); stroke-width: 1; stroke-dasharray: 5 4; }
+.vp-pt { fill-opacity: .72; stroke: var(--paper); stroke-width: .5; }
+.vp-ns { fill: var(--neutral-400); fill-opacity: .6; }
+.vp-lab { font-size: 11px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+
 .mk-fold { border-top: 1px solid var(--neutral-200); padding-top: var(--space-2); }
 .mk-fold > summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
 .mk-fold > summary::-webkit-details-marker { display: none; }

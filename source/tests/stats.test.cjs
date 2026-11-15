@@ -1,11 +1,11 @@
-// Run: node tests/stats.test.cjs   (special.js, survival.js, forest.js, prisma.js, diagnostic.js and consort.js)
+// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 36)
 const assert = require("assert");
 const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -122,5 +122,51 @@ t("CONSORT arithmetic follows the 2010 flow", () => {
 });
 t("CONSORT warns when allocation does not match randomisation", () => {
   assert.ok(Co.calc({ assessed: "100", arms: [{ allocated: "40" }, { allocated: "40" }] }).warnings.some(x => /does not equal/.test(x)));
+});
+
+t("quantiles (type 7): 1 to 10 gives 3.25, 5.5, 7.75", () => {
+  const r = Bx.summary([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]); near(r.q1, 3.25, 1e-12); near(r.median, 5.5, 1e-12); near(r.q3, 7.75, 1e-12); near(r.mean, 5.5, 1e-12); near(r.sd, 3.0276504, 1e-6);
+});
+t("Tukey whiskers stop at the last value inside 1.5 IQR and flag the rest", () => {
+  const r = Bx.summary([1, 2, 3, 4, 5, 6, 7, 8, 9, 30]); assert.strictEqual(r.hi, 9); assert.strictEqual(r.lo, 1); assert.deepStrictEqual(Array.from(r.outliers), [30]);
+  const m = Bx.summary([1, 2, 3, 4, 5, 6, 7, 8, 9, 30], false); assert.strictEqual(m.hi, 30); assert.strictEqual(m.outliers.length, 0);
+});
+t("parse accepts commas, spaces and new lines and skips text", () => { assert.deepStrictEqual(Array.from(Bx.parse("1, 2.5\n3;x 4\t5")), [1, 2.5, 3, 4, 5]); });
+t("Welch t-test: means 3 and 5, t = -2 on 8 df, p = 0.0805", () => {
+  const r = Bx.welch([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]); near(r.stat, -2, 1e-12); near(r.df, 8, 1e-9); near(r.p, 0.08051, 1e-4);
+});
+t("Mann-Whitney: complete separation of 5 against 5 gives U = 0 and p = 0.0122", () => {
+  const r = Bx.mannWhitney([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]); assert.strictEqual(r.stat, 0); near(r.p, 0.01219, 5e-4);
+});
+t("ANOVA: three groups with F = 13 on 2 and 6 df, p = (1 + 26/6)^-3", () => {
+  const r = Bx.anova([[1, 2, 3], [2, 3, 4], [5, 6, 7]]); near(r.stat, 13, 1e-9); near(r.p, Math.pow(1 + 26 / 6, -3), 1e-9);
+});
+t("Kruskal-Wallis: H = 7.2 on 2 df, p = exp(-3.6)", () => {
+  const r = Bx.kruskal([[1, 2, 3], [4, 5, 6], [7, 8, 9]]); near(r.stat, 7.2, 1e-9); near(r.p, Math.exp(-3.6), 1e-9);
+});
+t("test() picks the two-group or the many-group test", () => {
+  assert.strictEqual(Bx.test([[1, 2, 3], [4, 5, 6]], "param").name, "Welch t-test"); assert.strictEqual(Bx.test([[1, 2, 3], [4, 5, 6]], "rank").name, "Mann-Whitney U test");
+  assert.strictEqual(Bx.test([[1, 2, 3], [2, 3, 4], [5, 6, 7]], "param").name, "One-way ANOVA"); assert.strictEqual(Bx.test([[1, 2, 3]], "param"), null);
+});
+
+t("volcano parse: reads names with spaces, tabs and header lines", () => {
+  const r = Vo.parse("gene\tlog2FC\tp\nIL6\t1.8\t0.0003\nPalmitic acid, -0.7, 0.2\nbad, x, y\nTNF 2.1 1e-5"); assert.strictEqual(r.length, 3);
+  assert.deepStrictEqual([r[0].name, r[0].fc, r[0].p], ["IL6", 1.8, 0.0003]); assert.strictEqual(r[1].name, "Palmitic acid"); near(r[2].p, 1e-5, 1e-15);
+});
+t("Benjamini-Hochberg: five p values of 0.01 to 0.05 all become 0.05", () => { Vo.bh([0.01, 0.02, 0.03, 0.04, 0.05]).forEach(q => near(q, 0.05, 1e-12)); });
+t("Benjamini-Hochberg keeps input order and enforces monotonicity", () => {
+  const q = Vo.bh([0.2, 0.001, 0.04, 0.01]); near(q[0], 0.2, 1e-12); near(q[1], 0.004, 1e-12); near(q[2], 0.2 / 3 * 0.8, 1e-12); near(q[3], 0.02, 1e-12);
+});
+t("classify: up, down and not significant by fold change and p", () => {
+  const c = Vo.classify([{ name: "a", fc: 2, p: 0.001 }, { name: "b", fc: -1.5, p: 0.001 }, { name: "c", fc: 0.4, p: 0.001 }, { name: "d", fc: 3, p: 0.5 }], 1, 0.05, false);
+  assert.deepStrictEqual(c.map(x => x.cls), ["up", "down", "ns", "ns"]); near(c[0].y, 3, 1e-12);
+});
+t("classify can use adjusted p: three raw hits at 0.03 to 0.045 all adjust to 0.06", () => {
+  const rows = [{ name: "a", fc: 2, p: 0.03 }, { name: "b", fc: 2, p: 0.04 }, { name: "c", fc: 2, p: 0.045 }, { name: "d", fc: 2, p: 0.9 }];
+  assert.deepStrictEqual(Vo.classify(rows, 1, 0.05, false).map(x => x.cls), ["up", "up", "up", "ns"]);
+  assert.deepStrictEqual(Vo.classify(rows, 1, 0.05, true).map(x => x.cls), ["ns", "ns", "ns", "ns"]);
+});
+t("p = 0 plots above the largest finite value", () => {
+  const u = Vo.classify([{ name: "a", fc: 2, p: 1e-8 }, { name: "z", fc: 2, p: 0 }], 1, 0.05, false); assert.ok(u[1].y > u[0].y);
 });
 console.log(pass + " tests passed");
