@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 27 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 39 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -30,7 +30,13 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 11 | Gradient bar | 22 | Experimental workflow |
 | 23 | Well plate labelling | 24 | Gels and blots |
 | 25 | Contour plot | 26 | Belt transect and kite diagram |
-| 27 | Treemap | | |
+| 27 | Treemap | 28 | Radar chart |
+| 29 | PRISMA 2020 flow diagram | 30 | Forest plot |
+| 31 | Kaplan-Meier survival curve | 32 | CONSORT flow diagram |
+| 33 | ROC curve | 34 | Bland-Altman plot |
+| 35 | Box plot | 36 | Volcano plot |
+| 37 | Bar chart with error bars | 38 | Clustered heatmap |
+| 39 | Venn diagram | | |
 
 ## Contour plot
 
@@ -43,6 +49,54 @@ Quadrat counts along a belt transect, drawn as the belt with its quadrats and on
 ## Treemap
 
 Nested rectangles whose area is proportional to each item's value, laid out by the squarified algorithm so tiles stay close to square. Groups are coloured blocks with a title and share of the total. Items are a table of name, group and value. Switches for sorting, titles, names, values or percent of total, a gap and a fill strength. The Results panel lists each group's total and share. Three starting points: dietary energy by food group, fisheries catch and reef benthic cover (sample values).
+
+## Radar chart
+
+Several variables on spokes from one centre, with one polygon per series. Axes and series are tables. All axes share a minimum and maximum, and any axis can set its own maximum so different units fit one web. Polygon or circular rings, fill strength, dots, values beside dots, ring values and a legend. The Results panel gives each polygon's area as a share of the full web. Three starting points: nutrient adequacy of two diets, reef health scores at three sites and species traits on separate scales (sample values).
+
+## PRISMA 2020 flow diagram
+
+Study selection for a systematic review, in the three PRISMA phases: identification, screening and included. Enter the counts from the search. Records screened, reports sought, reports assessed and reports included are worked out, so the figure always adds up, and the Check panel warns when a step goes below 0. Reasons for excluding reports are a table. An optional second column covers websites, organisations and citation searching. Two starting points with sample counts.
+
+## Forest plot
+
+Meta-analysis figure. Enter each study's effect and 95% interval. Ratios (odds, risk, hazard) use a log axis with the null at 1 and are pooled on the log scale. Differences use a linear axis with the null at 0. Fixed-effect (inverse variance) or random-effects (DerSimonian-Laird) pooling, a diamond for the pooled estimate, weights, Cochran Q, I², τ² and a test for the overall effect. Three starting points with sample values.
+
+## Kaplan-Meier survival curve
+
+Time-to-event curves, one per group, from a table with one row per subject (group, time, event or censored). Tick marks for censored subjects, 95% confidence bands (log-log), median survival lines, a number-at-risk table and the log-rank test for two or more groups. The 6-MP leukaemia trial (Freireich et al., 1963) is a starting point and reproduces the published medians (23 and 8 weeks) and log-rank chi-square of 16.8. Two simulated examples.
+
+## CONSORT flow diagram
+
+Participant flow through a randomised trial in the four CONSORT 2010 phases: enrollment, allocation, follow-up and analysis, for two to four arms. Enter the number assessed, the exclusions with reasons, and per arm the allocated, did-not-receive, lost, discontinued and excluded-from-analysis counts, each with optional reasons. Randomised, received and analysed are worked out, and the Check panel flags counts that do not add up. Two starting points with sample counts.
+
+## ROC curve
+
+Diagnostic accuracy for one or more markers. One row per subject: tick Case if they have the condition, then a value for each marker. Tick Low on a marker where lower values mean disease. The AUC uses the trapezoid rule, with a 95% CI from the Hanley and McNeil standard error and a test against 0.5. The best cutoff by Youden's index is marked and reported with its sensitivity and specificity. Three starting points (simulated): a biomarker, two screening tools and serum ferritin for iron deficiency.
+
+## Bland-Altman plot
+
+Agreement between two measurement methods. One row per participant with both values. The plot shows the difference (or percent difference) against the mean, with the mean difference and 95% limits of agreement, each with a confidence interval from Student's t. A trend line and its slope test show whether the bias changes with the size of the measurement. Three starting points (simulated): a food frequency questionnaire against a food record, two vitamin D assays and bioimpedance against DXA.
+
+## Box plot
+
+Distribution by group. Paste each group's values (one spreadsheet column works). The box is the first quartile, median and third quartile (R type 7). Whiskers reach the furthest value within 1.5 IQR, or the minimum and maximum. Outliers are open circles. Options for every data point, the mean, sample sizes, a grid and an axis from 0. Two groups get a Welch t-test or Mann-Whitney U test with a bracket. Three or more get one-way ANOVA or Kruskal-Wallis. These give one overall p value and do not adjust for multiple comparisons. Three starting points (simulated).
+
+## Volcano plot
+
+Effect size against significance for many features. Paste rows of name, log2 fold change and p value (commas, tabs or spaces; header rows are skipped). Set a fold-change cut and a p limit, and optionally use Benjamini-Hochberg adjusted p values. Up, down and not significant points are coloured and counted, threshold lines are optional, and the most significant points are labelled without overlap. The Results panel lists the top features with p and q values. Two starting points (simulated): gene expression and metabolomics.
+
+## Bar chart with error bars
+
+Grouped bars (or dots) by category and series. Type each cell's replicates and the mean and the error bar (SEM, SD or 95% CI from Student's t) are worked out, or switch to Mean, error and type the values from a paper. Replicates can be drawn as dots. In replicate mode each category gets an overall test across the series (Welch t-test or one-way ANOVA, or the rank versions) shown as stars with a bracket, with no adjustment for the number of categories. Three starting points (simulated, plus one with entered summary values).
+
+## Clustered heatmap
+
+A matrix as colours. Paste a table with column names on top and row names on the left. Scale as entered, by row z-score or log10(x + 1). Rows and columns are reordered by agglomerative clustering (average, complete or single linkage; 1 − correlation or Euclidean distance) and drawn with dendrograms. Five colour ramps with a fixed range if wanted, values in large cells, a colour bar and the clustered order in the Results panel. Limit of 6,000 cells. Three starting points (simulated): gene expression, a nutrient correlation matrix and reef cover.
+
+## Venn diagram
+
+Overlaps between two or three lists. Paste each set's items, one per line, and the count in every region is worked out, with the shared items listed in the Results panel. Case can be ignored. Two sets can be drawn to scale (circle and overlap areas follow the counts); three sets use equal circles. Counts or percent, item names in small regions and set sizes in the titles. Three starting points.
 
 ## Gradient bar
 
