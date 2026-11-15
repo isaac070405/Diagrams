@@ -27,3 +27,4 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `tests/xyaxis.test.cjs`: run with `node tests/xyaxis.test.cjs`
 - `src/lib/contour.js`: contour lines and bands (25), run `node tests/contour.test.cjs`
 - `src/lib/kite.js`: kite outlines and diversity indices (26), run `node tests/kite.test.cjs`
+- `src/lib/treemap.js`: squarified treemap layout (27), run `node tests/treemap.test.cjs`

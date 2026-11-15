@@ -16,7 +16,7 @@ For security problems, follow [SECURITY.md](SECURITY.md) instead.
 
 1. Fork the repository and create a branch from `main`.
 2. Edit the code in `source/`. Build steps are in [source/README.md](source/README.md).
-3. Run the tests that cover your change, for example `node tests/xyaxis.test.cjs`, `node tests/contour.test.cjs` or `node tests/kite.test.cjs` from `source/`.
+3. Run the tests that cover your change, for example `node tests/xyaxis.test.cjs`, `node tests/contour.test.cjs` or `node tests/kite.test.cjs` or `node tests/treemap.test.cjs` from `source/`.
 4. Copy the rebuilt `bundle.html` to `site/index.html`. `site/pathway.html` and `site/icons/` stay beside it.
 5. Open a pull request that says what changed and why.
 
