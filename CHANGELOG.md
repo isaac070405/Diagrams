@@ -5,21 +5,38 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-15
+
+The workspace grows from 21 to 48 diagram types, with an icon library, many editor improvements and accessibility fixes.
+
 ### Added
 
-- PCA plot (46), rarefaction and species accumulation (47) and growth curve (48).
-- Standard curve (43), funnel plot with Egger's test (44) and pie and donut chart (45).
-- Scatter plot with regression (40), enzyme kinetics (41) and Sankey diagram (42).
-- Bar chart with error bars (37), clustered heatmap (38) and Venn diagram (39).
-- Box plot (35) and volcano plot (36).
-- CONSORT flow diagram (32), ROC curve (33) and Bland-Altman plot (34).
-- PRISMA 2020 flow diagram (29), forest plot (30) and Kaplan-Meier survival curve (31), with a new Evidence and clinical group on the home page.
-- Radar chart (28): axes and series tables, per-axis maxima, polygon or circular rings and three starting points.
-- Treemap (27): squarified layout with groups and items, group shares and three starting points.
+- 27 diagram types (22 to 48):
+  - Methods and measurement: experimental workflow (22), well plate labelling (23), gels and blots (24), contour plot (25), belt transect and kite diagram (26), treemap (27), radar chart (28), box plot (35), bar chart with error bars (37), clustered heatmap (38), Venn diagram (39), scatter plot with regression (40), Sankey diagram (42), PCA plot (46).
+  - Evidence and clinical (a new group on the home page): PRISMA 2020 flow diagram (29), forest plot (30), Kaplan-Meier survival curve (31), CONSORT flow diagram (32), ROC curve (33), Bland-Altman plot (34), funnel plot with Egger's test (44).
+  - Cells and measurement and ecology: volcano plot (36), enzyme kinetics (41), standard curve (43), pie and donut chart (45), rarefaction and species accumulation (47), growth curve (48).
+- An icon library of 80 BioRender icons in 7 groups, on the home page and inside Biological pathway, with Add icon and Add group (credits in `site/icons/CREDITS.md`).
+- Histological image: stain and colour sliders, multi-panel layout, calibrated grid, crop and rotate presets, spline contour and intensity profile.
+- Gradient bar: a line-only style, a colour-stop editor and four more templates.
+- Food web: curved arrows, hover path highlight, a hydrothermal vent template, accordions, themes, a link linter, a snap grid and crossing reduction.
+- Biological pathway: sidebar ordered by workflow, a Blank Template, more typefaces and text colours, and a typeface and colour for each node.
+- Copy as PNG or SVG in every editor.
 - Community files: ACCESSIBILITY, CHANGELOG, CITATION, CODE_OF_CONDUCT, CONTRIBUTING, LICENSE, SECURITY, SUPPORT and THIRD_PARTY_NOTICES.
+- Tests for the statistics behind the new diagrams (`source/tests/`), including exact reference values.
+
+### Changed
+
+- The Scale bar diagram is now Histological image.
+- Biological pathway no longer has the Claude first-draft bridge.
+- The CI build job now builds the site.
+
+### Fixed
+
+- Accessibility: 44 px targets, main landmarks, chip roles, focus rules and keyboard access for series, steps and pathway links.
+- A browser download is used when the Claude downloads capability is missing.
 
 ## [Earlier work]
 
 Changes before this file existed are in the
 [commit history](https://github.com/isaac070405/Diagrams/commits/main) and the pull requests.
-The workspace has 48 diagram types, an 80-icon library, and PNG, SVG and JPEG export.
+The workspace had 26 diagram types, an 80-icon library, and PNG, SVG and JPEG export.
