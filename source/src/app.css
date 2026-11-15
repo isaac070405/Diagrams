@@ -573,6 +573,28 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .pc-sub { font-size: 12px; fill: var(--ink-muted); }
 .pc-key { stroke: var(--ink); stroke-width: .7; }
 
+/* 46 PCA plot */
+.pa-zero { stroke: var(--neutral-400); stroke-width: .9; stroke-dasharray: 3 4; }
+.pa-pt { fill-opacity: .82; stroke: var(--paper); stroke-width: .9; }
+.pa-ell { fill-opacity: .1; stroke-width: 1.6; }
+.pa-lab { font-size: 10.5px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 2.5px; }
+.pa-arrow { stroke: var(--ink); stroke-width: 1.5; }
+.pa-head { fill: var(--ink); }
+.pa-var { font-size: 12px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+
+/* 47 rarefaction and species accumulation */
+.ra-line { fill: none; stroke-width: 2.3; stroke-linejoin: round; }
+.ra-end { stroke: var(--paper); stroke-width: 1; }
+.ra-at { fill: var(--paper); stroke-width: 2; }
+.ra-nmin { stroke: var(--ink-muted); stroke-width: 1.1; stroke-dasharray: 5 4; }
+.ra-band { fill: var(--swatch-3); fill-opacity: .18; stroke: none; }
+
+/* 48 growth curve */
+.gc-line { fill: none; stroke-width: 2.4; stroke-linejoin: round; }
+.gc-band { fill-opacity: .16; stroke: none; }
+.gc-asym { stroke-width: 1.1; stroke-dasharray: 6 4; opacity: .8; }
+.gc-pt { fill-opacity: .75; stroke: var(--paper); stroke-width: .8; }
+
 .mk-fold { border-top: 1px solid var(--neutral-200); padding-top: var(--space-2); }
 .mk-fold > summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
 .mk-fold > summary::-webkit-details-marker { display: none; }

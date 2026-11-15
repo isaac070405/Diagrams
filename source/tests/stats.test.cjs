@@ -1,11 +1,11 @@
-// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 45)
+// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 48)
 const assert = require("assert");
 const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js", "calib.js", "funnel.js", "pie.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk, SDCalib: Cb, SDFunnel: Fu, SDPie: Pi } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js", "calib.js", "funnel.js", "pie.js", "pca.js", "rarefy.js", "growth.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk, SDCalib: Cb, SDFunnel: Fu, SDPie: Pi, SDPCA: Pc, SDRare: Ra, SDGrowth: Gr } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -300,4 +300,59 @@ t("pie arc: points start at the top, clockwise; a full circle still draws", () =
   const p = Pi.point(100, 100, 50, 0), q = Pi.point(100, 100, 50, Math.PI / 2); near(p[0], 100, 1e-9); near(p[1], 50, 1e-9); near(q[0], 150, 1e-9); near(q[1], 100, 1e-9);
   assert.ok(/^M/.test(Pi.arc(0, 0, 0, 10, 0, 2 * Math.PI))); assert.ok(Pi.arc(0, 0, 5, 10, 0, 1).indexOf("A5") > 0);
 });
+
+t("Jacobi: eigenvalues 11, 2, 1 and A v = lambda v for [[2,0,0],[0,3,4],[0,4,9]]", () => {
+  const A = [[2, 0, 0], [0, 3, 4], [0, 4, 9]], e = Pc.jacobi(A); [11, 2, 1].forEach((v, i) => near(e.values[i], v, 1e-9));
+  for (let k = 0; k < 3; k++) for (let r = 0; r < 3; r++) near(A[r].reduce((s, a, c) => s + a * e.vectors[c][k], 0), e.values[k] * e.vectors[r][k], 1e-9);
+});
+t("PCA on two correlated variables: shares (1 + r) / 2 and (1 - r) / 2 of the standardised variance", () => {
+  const x = [1, 2, 3, 4, 5, 6], y = [2.1, 3.9, 6.5, 7.6, 10.4, 11.5], mx = 3.5, my = y.reduce((a, b) => a + b) / 6;
+  let sxy = 0, sxx = 0, syy = 0; x.forEach((v, i) => { sxy += (v - mx) * (y[i] - my); sxx += (v - mx) ** 2; syy += (y[i] - my) ** 2; });
+  const r = sxy / Math.sqrt(sxx * syy), p = Pc.run(x.map((v, i) => [v, y[i]]), true);
+  near(p.share[0], (1 + r) / 2, 1e-9); near(p.share[1], (1 - r) / 2, 1e-9); near(p.total, 2, 1e-9);
+});
+t("PCA: variance of the scores equals the eigenvalues, scores are uncorrelated, and loadings are correlations when scaled", () => {
+  const rows = [[2, 4, 1], [3, 6, 2], [5, 8, 2], [6, 9, 5], [8, 13, 4], [9, 15, 7], [11, 18, 6]], p = Pc.run(rows, true), n = rows.length;
+  [0, 1].forEach(k => { const m = p.scores.reduce((a, s) => a + s[k], 0) / n; near(m, 0, 1e-9); near(p.scores.reduce((a, s) => a + (s[k] - m) ** 2, 0) / (n - 1), p.values[k], 1e-9); });
+  near(p.scores.reduce((a, s) => a + s[0] * s[1], 0), 0, 1e-8);
+  const cor = (j, k) => { const a = rows.map(r => r[j]), b = p.scores.map(s => s[k]), ma = a.reduce((x, y) => x + y) / n, mb = b.reduce((x, y) => x + y) / n; let sab = 0, saa = 0, sbb = 0; for (let i = 0; i < n; i++) { sab += (a[i] - ma) * (b[i] - mb); saa += (a[i] - ma) ** 2; sbb += (b[i] - mb) ** 2; } return sab / Math.sqrt(saa * sbb); };
+  near(p.loadings[1][0], cor(1, 0), 1e-9); near(p.loadings[2][1], cor(2, 1), 1e-9);
+});
+t("PCA: rows with a missing value are dropped, and it needs 3 rows and 2 variables", () => {
+  const p = Pc.run([[1, 2], [2, NaN], [3, 5], [4, 7], [6, 8]], false); assert.strictEqual(p.n, 4); assert.deepStrictEqual(Array.from(p.keep), [0, 2, 3, 4]); assert.strictEqual(Pc.run([[1, 2], [2, 3]], true), null);
+});
+t("confidence ellipse: every point has Mahalanobis distance squared of 5.991 for 95%", () => {
+  const pts = [[1, 2], [2, 3.5], [3, 3], [4, 6], [5, 5.5], [6, 8], [2.5, 4], [4.5, 4]], e = Pc.ellipse(pts, 0.95, 40), n = pts.length;
+  const mx = e.mean[0], my = e.mean[1]; let sxx = 0, syy = 0, sxy = 0; pts.forEach(p => { sxx += (p[0] - mx) ** 2; syy += (p[1] - my) ** 2; sxy += (p[0] - mx) * (p[1] - my); }); sxx /= n - 1; syy /= n - 1; sxy /= n - 1;
+  const det = sxx * syy - sxy * sxy; e.points.forEach(q => { const dx = q[0] - mx, dy = q[1] - my; near((syy * dx * dx - 2 * sxy * dx * dy + sxx * dy * dy) / det, 5.991465, 1e-4); });
+});
+
+t("Hurlbert: counts 5, 3, 2 give E[S_2] = 1.6889, E[S_1] = 1 and E[S_10] = 3", () => {
+  near(Ra.hurlbert([5, 3, 2], 2), 1.68889, 1e-4); near(Ra.hurlbert([5, 3, 2], 1), 1, 1e-12); near(Ra.hurlbert([5, 3, 2], 10), 3, 1e-12); near(Ra.hurlbert([0, "x", 4, 6], 10), 2, 1e-12);
+});
+t("rarefaction curve never falls, starts at 1 and ends at the observed richness", () => {
+  const c = Ra.curve([40, 25, 10, 5, 3, 2, 1, 1, 1], 30); for (let i = 1; i < c.length; i++) assert.ok(c[i][1] >= c[i - 1][1] - 1e-12); near(c[0][1], 1, 1e-12); assert.strictEqual(c[c.length - 1][0], 88); near(c[c.length - 1][1], 9, 1e-12);
+});
+t("Chao1: singletons 2 and doubletons 1 add 0.5 to 5 observed species", () => {
+  const c = Ra.chao1([1, 1, 2, 5, 5]); assert.deepStrictEqual([c.observed, c.f1, c.f2], [5, 2, 1]); near(c.estimate, 5.5, 1e-12);
+});
+t("accumulation: three samples with disjoint species give 2, 4, 6 in every order; an interval brackets the mean", () => {
+  const a = Ra.accumulate([[1, 1, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 1]], 100, 7); [2, 4, 6].forEach((v, i) => { near(a[i].mean, v, 1e-12); assert.strictEqual(a[i].lo, v); assert.strictEqual(a[i].hi, v); });
+  const b = Ra.accumulate([[3, 1, 0], [0, 2, 1], [1, 0, 0], [0, 0, 5]], 200, 3); b.forEach(r => assert.ok(r.lo <= r.mean && r.mean <= r.hi)); near(b[b.length - 1].mean, 3, 1e-12); assert.strictEqual(Ra.accumulate([[1, 2]], 10, 1), null);
+});
+
+const vb = (L, K, t0) => t => L * (1 - Math.exp(-K * (t - t0)));
+const ages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+t("von Bertalanffy: exact data returns Linf 100, K 0.3, t0 -0.5 with R2 1", () => {
+  const f = Gr.fit(ages.map(a => [a, vb(100, 0.3, -0.5)(a)]), "vb"); near(f.q[0], 100, 1e-3); near(f.q[1], 0.3, 1e-4); near(f.q[2], -0.5, 1e-3); near(f.r2, 1, 1e-9); near(f.phi, Math.log10(0.3) + 4, 1e-4);
+});
+t("Gompertz and logistic: exact data returns the parameters", () => {
+  const g = Gr.fit(ages.map(a => [a, 80 * Math.exp(-Math.exp(-0.5 * (a - 4)))]), "gompertz"); near(g.q[0], 80, 1e-3); near(g.q[1], 0.5, 1e-4); near(g.q[2], 4, 1e-3);
+  const l = Gr.fit(ages.map(a => [a, 50 / (1 + Math.exp(-0.8 * (a - 6)))]), "logistic"); near(l.q[0], 50, 1e-3); near(l.q[1], 0.8, 1e-4); near(l.q[2], 6, 1e-3);
+});
+t("growth fit: noisy data gives standard errors, a curve band that widens off the data, and a lower AIC for the true model", () => {
+  const noise = [1.4, -2.0, 0.9, -1.1, 2.2, -0.8, 1.0, -1.7, 0.6, -0.3, 1.2, -1.5], pts = ages.map((a, i) => [a, vb(100, 0.3, -0.5)(a) + noise[i]]);
+  const f = Gr.fit(pts, "vb"), lg = Gr.fit(pts, "logistic"); assert.ok(f.se.every(v => v > 0)); assert.ok(f.half(30) > f.half(6)); assert.ok(f.aic < lg.aic + 40 && isFinite(f.aic)); near(f.q[0], 100, 6);
+});
+t("growth fit needs 5 points and a spread of ages", () => { assert.strictEqual(Gr.fit([[1, 2], [2, 3], [3, 4], [4, 5]], "vb"), null); assert.strictEqual(Gr.fit([[1, 2], [1, 3], [1, 4], [1, 5], [1, 6]], "vb"), null); });
 console.log(pass + " tests passed");
