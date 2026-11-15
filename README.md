@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 27 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 28 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -30,7 +30,7 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 11 | Gradient bar | 22 | Experimental workflow |
 | 23 | Well plate labelling | 24 | Gels and blots |
 | 25 | Contour plot | 26 | Belt transect and kite diagram |
-| 27 | Treemap | | |
+| 27 | Treemap | 28 | Radar chart |
 
 ## Contour plot
 
@@ -43,6 +43,10 @@ Quadrat counts along a belt transect, drawn as the belt with its quadrats and on
 ## Treemap
 
 Nested rectangles whose area is proportional to each item's value, laid out by the squarified algorithm so tiles stay close to square. Groups are coloured blocks with a title and share of the total. Items are a table of name, group and value. Switches for sorting, titles, names, values or percent of total, a gap and a fill strength. The Results panel lists each group's total and share. Three starting points: dietary energy by food group, fisheries catch and reef benthic cover (sample values).
+
+## Radar chart
+
+Several variables on spokes from one centre, with one polygon per series. Axes and series are tables. All axes share a minimum and maximum, and any axis can set its own maximum so different units fit one web. Polygon or circular rings, fill strength, dots, values beside dots, ring values and a legend. The Results panel gives each polygon's area as a share of the full web. Three starting points: nutrient adequacy of two diets, reef health scores at three sites and species traits on separate scales (sample values).
 
 ## Gradient bar
 

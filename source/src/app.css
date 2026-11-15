@@ -420,6 +420,17 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .tm-val { font-size: 11px; fill: var(--ink); font-variant-numeric: tabular-nums; }
 .tm-note { font-size: 11.5px; font-style: italic; fill: var(--ink-muted); }
 
+/* 28 radar chart */
+.rd-ring { fill: none; stroke: var(--neutral-400); stroke-width: .8; }
+.rd-spoke { stroke: var(--ink-muted); stroke-width: .9; }
+.rd-axis { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.rd-tick { font-size: 10.5px; fill: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.rd-poly { stroke-width: 2; stroke-linejoin: round; }
+.rd-dot { stroke: var(--paper); stroke-width: 1; }
+.rd-val { font-size: 11px; font-variant-numeric: tabular-nums; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+.rd-key { stroke: var(--ink); stroke-width: .6; }
+.rd-name { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+
 .mk-fold { border-top: 1px solid var(--neutral-200); padding-top: var(--space-2); }
 .mk-fold > summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
 .mk-fold > summary::-webkit-details-marker { display: none; }

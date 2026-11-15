@@ -4,6 +4,7 @@ import './lib/xyaxis.js';
 import './lib/contour.js';
 import './lib/kite.js';
 import './lib/treemap.js';
+import './lib/radar.js';
 import './ds/tokens.css';
 import './ds/bundle.css';
 import './app.css';
