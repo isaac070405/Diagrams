@@ -546,6 +546,33 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .sk-node { stroke: var(--ink); stroke-width: .8; }
 .sk-label { font-size: 12px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
 
+/* 43 standard curve */
+.cb-curve { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linejoin: round; }
+.cb-std { fill: var(--swatch-3); stroke: var(--ink); stroke-width: 1; }
+.cb-unk { fill: var(--swatch-12); stroke: var(--ink); stroke-width: 1.1; }
+.cb-proj { fill: none; stroke: var(--swatch-12); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.cb-name { font-size: 11.5px; font-weight: 600; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+.cb-minor { stroke: var(--ink); stroke-width: .8; }
+
+/* 44 funnel plot */
+.fn-shade { fill: var(--accent-100); opacity: .55; }
+.fn-lim { stroke: var(--ink); stroke-width: 1.2; }
+.fn-99 { stroke-dasharray: 5 4; stroke-width: 1; opacity: .75; }
+.fn-centre { stroke: var(--ink); stroke-width: 1.4; }
+.fn-null { stroke: var(--ink-muted); stroke-width: 1; stroke-dasharray: 2 4; }
+.fn-pt { fill: var(--swatch-3); fill-opacity: .85; stroke: var(--ink); stroke-width: 1; }
+.fn-lab { font-size: 10.5px; fill: var(--ink); }
+.fn-bold { font-weight: 700; }
+
+/* 45 pie and donut chart */
+.pc-slice { stroke: var(--paper); stroke-width: 2; }
+.pc-lead { fill: none; stroke: var(--ink-muted); stroke-width: 1; }
+.pc-lab { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+.pc-in { font-size: 12.5px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 2.5px; stroke-linejoin: round; }
+.pc-total { font-size: 24px; font-weight: 700; fill: var(--ink); }
+.pc-sub { font-size: 12px; fill: var(--ink-muted); }
+.pc-key { stroke: var(--ink); stroke-width: .7; }
+
 .mk-fold { border-top: 1px solid var(--neutral-200); padding-top: var(--space-2); }
 .mk-fold > summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
 .mk-fold > summary::-webkit-details-marker { display: none; }

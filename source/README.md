@@ -34,3 +34,4 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `src/lib/boxstats.js` and `volcano.js`: summary statistics, group tests, Benjamini-Hochberg and classification for diagrams 35 and 36, run with `node tests/stats.test.cjs`
 - `src/lib/heatmap.js` and `venn.js`: clustering and set-overlap maths for diagrams 38 and 39, run with `node tests/stats.test.cjs`
 - `src/lib/regress.js`, `enzyme.js` and `sankey.js`: regression, Michaelis-Menten fitting and Sankey layout for diagrams 40 to 42, run with `node tests/stats.test.cjs`
+- `src/lib/calib.js`, `funnel.js` and `pie.js`: calibration fits, Egger's test and pie geometry for diagrams 43 to 45, run with `node tests/stats.test.cjs`
