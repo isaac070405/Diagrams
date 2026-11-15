@@ -7,6 +7,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- PRISMA 2020 flow diagram (29), forest plot (30) and Kaplan-Meier survival curve (31), with a new Evidence and clinical group on the home page.
 - Radar chart (28): axes and series tables, per-axis maxima, polygon or circular rings and three starting points.
 - Treemap (27): squarified layout with groups and items, group shares and three starting points.
 - Community files: ACCESSIBILITY, CHANGELOG, CITATION, CODE_OF_CONDUCT, CONTRIBUTING, LICENSE, SECURITY, SUPPORT and THIRD_PARTY_NOTICES.
@@ -15,4 +16,4 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes before this file existed are in the
 [commit history](https://github.com/isaac070405/Diagrams/commits/main) and the pull requests.
-The workspace has 28 diagram types, an 80-icon library, and PNG, SVG and JPEG export.
+The workspace has 31 diagram types, an 80-icon library, and PNG, SVG and JPEG export.

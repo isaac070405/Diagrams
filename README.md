@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 28 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 31 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -31,6 +31,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 23 | Well plate labelling | 24 | Gels and blots |
 | 25 | Contour plot | 26 | Belt transect and kite diagram |
 | 27 | Treemap | 28 | Radar chart |
+| 29 | PRISMA 2020 flow diagram | 30 | Forest plot |
+| 31 | Kaplan-Meier survival curve | | |
 
 ## Contour plot
 
@@ -47,6 +49,18 @@ Nested rectangles whose area is proportional to each item's value, laid out by t
 ## Radar chart
 
 Several variables on spokes from one centre, with one polygon per series. Axes and series are tables. All axes share a minimum and maximum, and any axis can set its own maximum so different units fit one web. Polygon or circular rings, fill strength, dots, values beside dots, ring values and a legend. The Results panel gives each polygon's area as a share of the full web. Three starting points: nutrient adequacy of two diets, reef health scores at three sites and species traits on separate scales (sample values).
+
+## PRISMA 2020 flow diagram
+
+Study selection for a systematic review, in the three PRISMA phases: identification, screening and included. Enter the counts from the search. Records screened, reports sought, reports assessed and reports included are worked out, so the figure always adds up, and the Check panel warns when a step goes below 0. Reasons for excluding reports are a table. An optional second column covers websites, organisations and citation searching. Two starting points with sample counts.
+
+## Forest plot
+
+Meta-analysis figure. Enter each study's effect and 95% interval. Ratios (odds, risk, hazard) use a log axis with the null at 1 and are pooled on the log scale. Differences use a linear axis with the null at 0. Fixed-effect (inverse variance) or random-effects (DerSimonian-Laird) pooling, a diamond for the pooled estimate, weights, Cochran Q, I², τ² and a test for the overall effect. Three starting points with sample values.
+
+## Kaplan-Meier survival curve
+
+Time-to-event curves, one per group, from a table with one row per subject (group, time, event or censored). Tick marks for censored subjects, 95% confidence bands (log-log), median survival lines, a number-at-risk table and the log-rank test for two or more groups. The 6-MP leukaemia trial (Freireich et al., 1963) is a starting point and reproduces the published medians (23 and 8 weeks) and log-rank chi-square of 16.8. Two simulated examples.
 
 ## Gradient bar
 

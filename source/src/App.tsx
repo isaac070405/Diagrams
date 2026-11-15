@@ -25,14 +25,17 @@ import { contour } from './editors/contour';
 import { transect } from './editors/transect';
 import { treemap } from './editors/treemap';
 import { radar } from './editors/radar';
+import { prisma } from './editors/prisma';
+import { forest } from './editors/forest';
+import { km } from './editors/km';
 import { ICON_LIBRARY, IconLibraryPage, IconLibraryThumb } from './iconLibrary';
 
 const EDITORS: EditorDef[] = [wheel, phylo, flow, pedigree, foodweb, punnett, pyramid, dkey, iceberg, scalebar, gradient];
 const PATHWAY = { id: 'biological-pathway', num: '12', name: 'Biological pathway', field: 'Cells and measurement', blurb: 'Signalling and metabolic pathways with compartments, 80 BioRender icons and a Claude first draft.' };
-const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow, wellplate, blot, contour, transect, treemap, radar];
-const FIELDS = ['All', 'Methods', 'Evolution and genetics', 'Ecology', 'Cells and measurement', 'Pharmacology'];
+const ALL: any[] = [...EDITORS, PATHWAY, productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow, wellplate, blot, contour, transect, treemap, radar, prisma, forest, km];
+const FIELDS = ['All', 'Methods', 'Evolution and genetics', 'Ecology', 'Cells and measurement', 'Pharmacology', 'Evidence and clinical'];
 
-const WORDS: any = { 15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen', 20: 'Twenty', 21: 'Twenty-one', 22: 'Twenty-two', 23: 'Twenty-three', 24: 'Twenty-four', 25: 'Twenty-five', 26: 'Twenty-six', 27: 'Twenty-seven', 28: 'Twenty-eight' };
+const WORDS: any = { 15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eighteen', 19: 'Nineteen', 20: 'Twenty', 21: 'Twenty-one', 22: 'Twenty-two', 23: 'Twenty-three', 24: 'Twenty-four', 25: 'Twenty-five', 26: 'Twenty-six', 27: 'Twenty-seven', 28: 'Twenty-eight', 29: 'Twenty-nine', 30: 'Thirty', 31: 'Thirty-one' };
 
 function routeId() { const h = (location.hash || '').replace(/^#/, ''); return h === ICON_LIBRARY.id || ALL.some(e => e.id === h) ? h : ''; }
 
@@ -129,7 +132,7 @@ export default function App() {
   const go = (next: string) => { location.hash = next ? next : ''; setId(next); window.scrollTo(0, 0); };
   if (id === PATHWAY.id) return <PathwayFrame onHome={() => go('')} />;
   if (id === ICON_LIBRARY.id) return <IconLibraryPage onHome={() => go('')} />;
-  const def = EDITORS.concat(productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow, wellplate, blot, contour, transect, treemap, radar).find(e => e.id === id);
+  const def = EDITORS.concat(productflow, timeline, ternary, pkpd, pkcurve, doseresponse, sar, mechanism, popdyn, workflow, wellplate, blot, contour, transect, treemap, radar, prisma, forest, km).find(e => e.id === id);
   if (def) return <EditorShell key={def.id} def={def} onHome={() => go('')} />;
   return <Home />;
 }

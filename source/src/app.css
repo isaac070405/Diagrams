@@ -431,6 +431,46 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .rd-key { stroke: var(--ink); stroke-width: .6; }
 .rd-name { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
 
+/* 29 PRISMA flow diagram */
+.pr-box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.2; }
+.pr-band { fill: var(--accent-100); stroke: var(--ink-muted); stroke-width: .8; }
+.pr-phase { font-size: 12px; font-weight: 700; fill: var(--ink); }
+.pr-text { font-size: 12px; fill: var(--ink); white-space: pre; }
+.pr-bold { font-weight: 700; }
+.pr-arrow { stroke: var(--ink); stroke-width: 1.3; }
+.pr-head { fill: var(--ink); }
+.pr-side { font-size: 11.5px; font-style: italic; fill: var(--ink-muted); }
+.pr-warn { color: var(--ink); font-weight: 700; }
+
+/* 30 forest plot */
+.fp-head { font-size: 12.5px; font-weight: 700; fill: var(--ink); }
+.fp-rule { stroke: var(--ink); stroke-width: 1; }
+.fp-null { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 4 3; }
+.fp-name, .fp-num { font-size: 12.5px; fill: var(--ink); }
+.fp-num { font-variant-numeric: tabular-nums; }
+.fp-bold { font-weight: 700; }
+.fp-ci { stroke: var(--ink); stroke-width: 1.4; }
+.fp-box { fill: var(--ink); }
+.fp-diamond { fill: var(--accent-500, var(--ink)); stroke: var(--ink); stroke-width: 1.2; }
+.fp-axis, .fp-tick line { stroke: var(--ink); stroke-width: 1; }
+.fp-tick text { font-size: 11.5px; fill: var(--ink); font-variant-numeric: tabular-nums; }
+.fp-side { font-size: 12px; font-weight: 600; fill: var(--ink); }
+.fp-note { font-size: 12px; fill: var(--ink); }
+
+/* 31 Kaplan-Meier curve */
+.km-frame { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.km-grid { stroke: var(--neutral-400); stroke-width: .6; stroke-dasharray: 2 4; }
+.km-tick line { stroke: var(--ink); stroke-width: 1; }
+.km-tick text, .km-risk { font-size: 11.5px; fill: var(--ink); font-variant-numeric: tabular-nums; }
+.km-rname { font-weight: 700; }
+.km-line { fill: none; stroke-width: 2.2; stroke-linejoin: round; }
+.km-cens { stroke-width: 1.5; fill: none; }
+.km-ci { fill-opacity: .16; stroke: none; }
+.km-med line { stroke-width: 1; stroke-dasharray: 4 3; }
+.km-title { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.km-name { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+.km-note { font-size: 12px; fill: var(--ink); }
+
 .mk-fold { border-top: 1px solid var(--neutral-200); padding-top: var(--space-2); }
 .mk-fold > summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
 .mk-fold > summary::-webkit-details-marker { display: none; }
