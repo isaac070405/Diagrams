@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 26 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 27 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -30,6 +30,7 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 11 | Gradient bar | 22 | Experimental workflow |
 | 23 | Well plate labelling | 24 | Gels and blots |
 | 25 | Contour plot | 26 | Belt transect and kite diagram |
+| 27 | Treemap | | |
 
 ## Contour plot
 
@@ -38,6 +39,10 @@ Lines and filled bands of equal value. Type or paste (x, y, value) points, or pi
 ## Belt transect and kite diagram
 
 Quadrat counts along a belt transect, drawn as the belt with its quadrats and one kite per species. A kite is as wide as the count at each distance and pinches to its baseline where the count is 0. Species and quadrats are tables. The Results panel gives total and mean density per m² for each species, Shannon H′, Simpson 1 − D and Pielou J. Two starting points: three species along a transect and rocky shore zonation.
+
+## Treemap
+
+Nested rectangles whose area is proportional to each item's value, laid out by the squarified algorithm so tiles stay close to square. Groups are coloured blocks with a title and share of the total. Items are a table of name, group and value. Switches for sorting, titles, names, values or percent of total, a gap and a fill strength. The Results panel lists each group's total and share. Three starting points: dietary energy by food group, fisheries catch and reef benthic cover (sample values).
 
 ## Gradient bar
 
