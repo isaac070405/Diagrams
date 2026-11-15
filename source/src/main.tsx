@@ -9,6 +9,8 @@ import './lib/special.js';
 import './lib/survival.js';
 import './lib/forest.js';
 import './lib/prisma.js';
+import './lib/diagnostic.js';
+import './lib/consort.js';
 import './ds/tokens.css';
 import './ds/bundle.css';
 import './app.css';

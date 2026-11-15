@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 31 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 34 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -32,7 +32,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 25 | Contour plot | 26 | Belt transect and kite diagram |
 | 27 | Treemap | 28 | Radar chart |
 | 29 | PRISMA 2020 flow diagram | 30 | Forest plot |
-| 31 | Kaplan-Meier survival curve | | |
+| 31 | Kaplan-Meier survival curve | 32 | CONSORT flow diagram |
+| 33 | ROC curve | 34 | Bland-Altman plot |
 
 ## Contour plot
 
@@ -61,6 +62,18 @@ Meta-analysis figure. Enter each study's effect and 95% interval. Ratios (odds, 
 ## Kaplan-Meier survival curve
 
 Time-to-event curves, one per group, from a table with one row per subject (group, time, event or censored). Tick marks for censored subjects, 95% confidence bands (log-log), median survival lines, a number-at-risk table and the log-rank test for two or more groups. The 6-MP leukaemia trial (Freireich et al., 1963) is a starting point and reproduces the published medians (23 and 8 weeks) and log-rank chi-square of 16.8. Two simulated examples.
+
+## CONSORT flow diagram
+
+Participant flow through a randomised trial in the four CONSORT 2010 phases: enrollment, allocation, follow-up and analysis, for two to four arms. Enter the number assessed, the exclusions with reasons, and per arm the allocated, did-not-receive, lost, discontinued and excluded-from-analysis counts, each with optional reasons. Randomised, received and analysed are worked out, and the Check panel flags counts that do not add up. Two starting points with sample counts.
+
+## ROC curve
+
+Diagnostic accuracy for one or more markers. One row per subject: tick Case if they have the condition, then a value for each marker. Tick Low on a marker where lower values mean disease. The AUC uses the trapezoid rule, with a 95% CI from the Hanley and McNeil standard error and a test against 0.5. The best cutoff by Youden's index is marked and reported with its sensitivity and specificity. Three starting points (simulated): a biomarker, two screening tools and serum ferritin for iron deficiency.
+
+## Bland-Altman plot
+
+Agreement between two measurement methods. One row per participant with both values. The plot shows the difference (or percent difference) against the mean, with the mean difference and 95% limits of agreement, each with a confidence interval from Student's t. A trend line and its slope test show whether the bias changes with the size of the measurement. Three starting points (simulated): a food frequency questionnaire against a food record, two vitamin D assays and bioimpedance against DXA.
 
 ## Gradient bar
 

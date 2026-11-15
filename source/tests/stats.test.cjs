@@ -1,11 +1,11 @@
-// Run: node tests/stats.test.cjs   (special.js, survival.js, forest.js and prisma.js)
+// Run: node tests/stats.test.cjs   (special.js, survival.js, forest.js, prisma.js, diagnostic.js and consort.js)
 const assert = require("assert");
 const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -74,4 +74,53 @@ t("PRISMA other-methods column adds to the assessed total", () => {
   assert.strictEqual(r.otherIdentified, 20); assert.strictEqual(r.otherAssessed, 18); assert.strictEqual(r.included, 50 + 18);
 });
 t("PRISMA warns when a step goes below 0", () => { assert.ok(Pr.calc({ db: "10", dup: "20" }).warnings.length > 0); });
+
+t("Student t: critical values for 1, 4 and 10 df, and the matching p", () => {
+  near(Sp.tCrit(1, 0.05), 12.7062047, 1e-5); near(Sp.tCrit(4, 0.05), 2.7764451, 1e-6); near(Sp.tCrit(10, 0.05), 2.2281389, 1e-6);
+  near(Sp.tP2(2.7764451, 4), 0.05, 1e-8); near(Sp.tP2(0, 7), 1, 1e-12);
+});
+t("incomplete beta: I_0.5(2, 2) = 0.5 and I_x(1, 1) = x", () => { near(Sp.betaI(0.5, 2, 2), 0.5, 1e-12); near(Sp.betaI(0.3, 1, 1), 0.3, 1e-12); });
+
+t("ROC: AUC of a small tied example is 7.5 / 9", () => {
+  const r = Dg.roc([3, 4, 5], [1, 2, 4]); near(r.auc, 7.5 / 9, 1e-12); assert.strictEqual(r.n1, 3); assert.strictEqual(r.n0, 3);
+});
+t("ROC: Hanley-McNeil standard error for AUC 0.8333 with 3 and 3 is 0.18405", () => { near(Dg.roc([3, 4, 5], [1, 2, 4]).se, 0.18405, 1e-4); });
+t("ROC: perfect separation gives AUC 1 and a cutoff at the lowest case", () => {
+  const r = Dg.roc([5, 6], [1, 2]); near(r.auc, 1, 1e-12); assert.strictEqual(r.best.cut, 5); assert.strictEqual(r.best.sens, 1); assert.strictEqual(r.best.spec, 1); near(r.hi, 1, 1e-12);
+});
+t("ROC: identical distributions give AUC 0.5 and the curve runs from (0, 0) to (1, 1)", () => {
+  const r = Dg.roc([1, 2, 3, 4], [1, 2, 3, 4]); near(r.auc, 0.5, 1e-12);
+  assert.deepStrictEqual([r.points[0].fpr, r.points[0].tpr, r.points[r.points.length - 1].fpr, r.points[r.points.length - 1].tpr], [0, 0, 1, 1]);
+});
+t("ROC: flipping handles markers where low values mean disease", () => {
+  near(Dg.roc([1, 2], [5, 6], true).auc, 1, 1e-12); near(Dg.roc([1, 2], [5, 6], false).auc, 0, 1e-12);
+});
+t("ROC: returns null without both groups", () => { assert.strictEqual(Dg.roc([1, 2], []), null); });
+
+t("Bland-Altman: bias -0.4, SD 0.8944 and limits for a worked example", () => {
+  const r = Dg.blandAltman([1, 2, 3, 4, 5].map((a, i) => ({ a, b: [1, 2, 3, 4, 7][i] })));
+  near(r.bias, -0.4, 1e-12); near(r.sd, Math.sqrt(0.8), 1e-12); near(r.loa.hi, -0.4 + 1.959964 * Math.sqrt(0.8), 1e-6); near(r.loa.lo, -0.4 - 1.959964 * Math.sqrt(0.8), 1e-6);
+  near(r.biasCI.hi - r.biasCI.lo, 2 * 2.7764451 * Math.sqrt(0.8) / Math.sqrt(5), 1e-6);
+});
+t("Bland-Altman: no difference gives bias 0 and p = 1 for the bias test", () => {
+  const r = Dg.blandAltman([1, 2, 3, 4].map(a => ({ a, b: a + (a % 2 ? 0.5 : -0.5) }))); near(r.bias, 0, 1e-12); near(r.pBias, 1, 1e-9);
+});
+t("Bland-Altman: a difference that grows with the mean gives slope 0.1 and p near 0", () => {
+  const xs = [10, 20, 30, 40, 50, 60]; const r = Dg.blandAltman(xs.map((m, i) => ({ a: m + 0.05 * m + (i % 2 ? 0.02 : -0.02), b: m - 0.05 * m })));
+  near(r.slope, 0.1, 0.01); assert.ok(r.pSlope < 1e-4);
+});
+t("Bland-Altman: percent mode scales the difference by the pair mean", () => {
+  const r = Dg.blandAltman([{ a: 11, b: 9 }, { a: 22, b: 18 }, { a: 33, b: 27 }], "pct"); near(r.bias, 20, 1e-9); near(r.sd, 0, 1e-9);
+});
+t("Bland-Altman: needs 3 pairs", () => { assert.strictEqual(Dg.blandAltman([{ a: 1, b: 2 }, { a: 2, b: 3 }]), null); });
+
+t("CONSORT arithmetic follows the 2010 flow", () => {
+  const r = Co.calc({ assessed: "300", reasons: [{ reason: "Not meeting criteria", n: "120" }, { reason: "Declined", n: "30" }],
+    arms: [{ name: "A", allocated: "75", notReceived: "3", lost: "5", disc: "4", exclAn: "1" }, { name: "B", allocated: "75", notReceived: "2", lost: "8", disc: "2", exclAn: "0" }] });
+  assert.strictEqual(r.excluded, 150); assert.strictEqual(r.randomised, 150); assert.strictEqual(r.allocated, 150);
+  assert.strictEqual(r.arms[0].received, 72); assert.strictEqual(r.arms[0].analysed, 69); assert.strictEqual(r.arms[1].analysed, 67); assert.strictEqual(r.warnings.length, 0);
+});
+t("CONSORT warns when allocation does not match randomisation", () => {
+  assert.ok(Co.calc({ assessed: "100", arms: [{ allocated: "40" }, { allocated: "40" }] }).warnings.some(x => /does not equal/.test(x)));
+});
 console.log(pass + " tests passed");

@@ -1,23 +1,12 @@
 import { S } from '../sheet';
 import { Rows, TextIn, Toggle } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
+import { lay, LH, type Line } from './flowbits';
 
 const P = () => (window as any).SDPrisma;
 
 /* sheet geometry: phase band, main column, side column, other-methods column */
-const BX = 8, MX = 50, MW = 215, SX = 305, SW = 240, OX = 585, OW = 200, LH = 15, GAP = 36, CH = 6.3;
-
-/* wrap a line to a box width */
-function wrap(text: string, w: number): string[] {
-  const max = Math.max(8, Math.floor((w - 16) / CH)), words = text.split(' '), out: string[] = []; let cur = '';
-  words.forEach(wd => { if (cur && (cur + ' ' + wd).length > max) { out.push(cur); cur = wd; } else cur = cur ? cur + ' ' + wd : wd; });
-  if (cur) out.push(cur);
-  return out;
-}
-type Line = { t: string; b?: boolean };
-/* keep "(n = 31)" on one line */
-const nb = (s: string) => s.replace(/\(n = (\d+)\)/g, '(n\u00a0=\u00a0$1)');
-const lay = (lines: Line[], w: number) => lines.flatMap(l => wrap(nb(l.t), w).map((t, i) => ({ t, b: l.b && i === 0 })));
+const BX = 8, MX = 50, MW = 215, SX = 305, SW = 240, OX = 585, OW = 200, GAP = 36;
 
 function PrismaSheet({ data }: { data: any }) {
   const r = P().calc(data), out: any[] = []; let k = 0; const key = () => 'p' + k++;

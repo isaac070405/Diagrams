@@ -30,3 +30,4 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `src/lib/treemap.js`: squarified treemap layout (27), run `node tests/treemap.test.cjs`
 - `src/lib/radar.js`: radar chart geometry (28), run `node tests/radar.test.cjs`
 - `src/lib/special.js`, `survival.js`, `forest.js`, `prisma.js`: statistics for diagrams 29 to 31, run `node tests/stats.test.cjs`
+- `src/lib/diagnostic.js` and `consort.js`: ROC, Bland-Altman and CONSORT arithmetic for diagrams 32 to 34, run with `node tests/stats.test.cjs`
