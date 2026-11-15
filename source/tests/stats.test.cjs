@@ -4,8 +4,8 @@ const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -168,5 +168,42 @@ t("classify can use adjusted p: three raw hits at 0.03 to 0.045 all adjust to 0.
 });
 t("p = 0 plots above the largest finite value", () => {
   const u = Vo.classify([{ name: "a", fc: 2, p: 1e-8 }, { name: "z", fc: 2, p: 0 }], 1, 0.05, false); assert.ok(u[1].y > u[0].y);
+});
+
+t("error bars: SD 1.5811, SEM 0.7071 and 95% CI 1.9640 for 1 to 5", () => {
+  const v = [1, 2, 3, 4, 5]; near(Bx.errorOf(v, "sd"), 1.5811388, 1e-6); near(Bx.errorOf(v, "sem"), 0.7071068, 1e-6); near(Bx.errorOf(v, "ci"), 2.7764451 * 0.7071068, 1e-6); assert.ok(isNaN(Bx.errorOf([3], "sd")));
+});
+t("stars: thresholds at 0.05, 0.01 and 0.001", () => { assert.deepStrictEqual([0.2, 0.03, 0.005, 0.0004].map(Bx.stars), ["ns", "*", "**", "***"]); });
+
+t("heatmap parse: tab table with names and a missing value", () => {
+  const m = Hm.parse("\ts1\ts2\ts3\ng1\t1\t2\t3\ng2\t4\tNA\t6"); assert.deepStrictEqual(Array.from(m.cols), ["s1", "s2", "s3"]); assert.strictEqual(m.rows.length, 2); assert.ok(isNaN(m.rows[1].vals[1]));
+});
+t("heatmap parse: comma table", () => { const m = Hm.parse("x,a,b\nr1,1,2\nr2,3,4"); assert.deepStrictEqual(Array.from(m.rows[1].vals), [3, 4]); assert.strictEqual(Hm.parse("only one line"), null); });
+t("z-scores of a row have mean 0 and SD 1; a flat row is 0", () => {
+  const z = Hm.zRows([{ name: "a", vals: [1, 2, 3, 4, 5] }, { name: "b", vals: [7, 7, 7, 7, 7] }]); near(z[0].vals[0], -1.2649111, 1e-6); near(z[0].vals.reduce((a, b) => a + b, 0), 0, 1e-12); assert.deepStrictEqual(Array.from(z[1].vals), [0, 0, 0, 0, 0]);
+});
+t("distances: Euclidean 5 for (0,0) and (3,4); correlation distance 0 for a rescaled copy and 2 for a mirror", () => {
+  near(Hm.dist([0, 0], [3, 4], "euclid"), 5, 1e-12); near(Hm.dist([1, 2, 3], [2, 4, 6], "corr"), 0, 1e-12); near(Hm.dist([1, 2, 3], [3, 2, 1], "corr"), 2, 1e-12);
+});
+t("average linkage on 0, 1, 5, 6: merges at 1, 1 and 5", () => {
+  const r = Hm.cluster([[0], [1], [5], [6]], "euclid", "average");
+  near(r.tree.h, 5, 1e-12); near(r.tree.left.h, 1, 1e-12); near(r.tree.right.h, 1, 1e-12); assert.deepStrictEqual(Array.from(r.order).sort(), [0, 1, 2, 3]);
+  assert.ok(Math.abs(r.order.indexOf(0) - r.order.indexOf(1)) === 1 && Math.abs(r.order.indexOf(2) - r.order.indexOf(3)) === 1);
+});
+t("complete and single linkage give different top heights (6 and 4)", () => {
+  near(Hm.cluster([[0], [1], [5], [6]], "euclid", "complete").tree.h, 6, 1e-12); near(Hm.cluster([[0], [1], [5], [6]], "euclid", "single").tree.h, 4, 1e-12);
+});
+t("one row is its own tree; none is empty", () => { assert.deepStrictEqual(Array.from(Hm.cluster([[1, 2]], "euclid", "average").order), [0]); assert.deepStrictEqual(Array.from(Hm.cluster([], "euclid", "average").order), []); });
+
+t("Venn items: trims, drops blanks and duplicates, optional case folding", () => {
+  assert.deepStrictEqual(Array.from(Vn.items(" a, b\nB\n\na ;c", false)), ["a", "b", "B", "c"]); assert.deepStrictEqual(Array.from(Vn.items("a\nA\nb", true)), ["a", "b"]);
+});
+t("Venn regions for three sets", () => {
+  const r = Vn.regions([["a", "b", "c"], ["b", "c", "d"], ["c", "e"]], false);
+  assert.deepStrictEqual(Object.keys(r).sort(), ["A", "AB", "ABC", "B", "C"]); assert.deepStrictEqual(Array.from(r.AB), ["b"]); assert.deepStrictEqual(Array.from(r.ABC), ["c"]);
+});
+t("lens area: equal unit circles at d = 0, 1 and 2", () => { near(Vn.lens(1, 1, 0), Math.PI, 1e-12); near(Vn.lens(1, 1, 1), 2 * Math.PI / 3 - Math.sqrt(3) / 2, 1e-12); near(Vn.lens(1, 1, 2), 0, 1e-12); });
+t("solveD recovers the distance from an overlap area, and handles no overlap and containment", () => {
+  near(Vn.solveD(1, 1, Vn.lens(1, 1, 0.8)), 0.8, 1e-9); near(Vn.solveD(2, 1, Vn.lens(2, 1, 1.7)), 1.7, 1e-9); assert.strictEqual(Vn.solveD(1, 1, 0), 2); near(Vn.solveD(2, 1, Math.PI), 1, 1e-9);
 });
 console.log(pass + " tests passed");

@@ -84,6 +84,17 @@
     return { name: 'Kruskal-Wallis test', stat: H, df: k - 1, p: root.SDSpecial.chi2p(H, k - 1), text: 'H(' + (k - 1) + ') = ' + H.toFixed(2) };
   }
 
+  /* half-width of an error bar: 'sd', 'sem' or 'ci' (95%, Student's t) */
+  function errorOf(vals, kind) {
+    var n = vals.length; if (n < 2) return NaN;
+    var sd = Math.sqrt(variance(vals));
+    if (kind === 'sd') return sd;
+    var sem = sd / Math.sqrt(n);
+    return kind === 'ci' ? root.SDSpecial.tCrit(n - 1, 0.05) * sem : sem;
+  }
+  /* stars for a p value: *** below 0.001, ** below 0.01, * below 0.05, otherwise 'ns' */
+  function stars(p) { return !isFinite(p) ? '' : p < 0.001 ? '***' : p < 0.01 ? '**' : p < 0.05 ? '*' : 'ns'; }
+
   /* one test for a set of groups of values: 'param' or 'rank' */
   function test(groups, kind) {
     var g = groups.filter(function (x) { return x.length > 0; });
@@ -92,6 +103,6 @@
     return kind === 'rank' ? kruskal(g) : anova(g);
   }
 
-  SD.parse = parse; SD.quantile = quantile; SD.summary = summary; SD.welch = welch; SD.mannWhitney = mannWhitney; SD.anova = anova; SD.kruskal = kruskal; SD.test = test;
+  SD.errorOf = errorOf; SD.stars = stars; SD.parse = parse; SD.quantile = quantile; SD.summary = summary; SD.welch = welch; SD.mannWhitney = mannWhitney; SD.anova = anova; SD.kruskal = kruskal; SD.test = test;
   if (typeof module !== "undefined" && module.exports) module.exports = SD;
 })(typeof window !== "undefined" ? window : globalThis);

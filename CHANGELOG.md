@@ -7,6 +7,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Bar chart with error bars (37), clustered heatmap (38) and Venn diagram (39).
 - Box plot (35) and volcano plot (36).
 - CONSORT flow diagram (32), ROC curve (33) and Bland-Altman plot (34).
 - PRISMA 2020 flow diagram (29), forest plot (30) and Kaplan-Meier survival curve (31), with a new Evidence and clinical group on the home page.
@@ -18,4 +19,4 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 Changes before this file existed are in the
 [commit history](https://github.com/isaac070405/Diagrams/commits/main) and the pull requests.
-The workspace has 36 diagram types, an 80-icon library, and PNG, SVG and JPEG export.
+The workspace has 39 diagram types, an 80-icon library, and PNG, SVG and JPEG export.

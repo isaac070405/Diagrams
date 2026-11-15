@@ -13,6 +13,8 @@ import './lib/diagnostic.js';
 import './lib/consort.js';
 import './lib/boxstats.js';
 import './lib/volcano.js';
+import './lib/heatmap.js';
+import './lib/venn.js';
 import './ds/tokens.css';
 import './ds/bundle.css';
 import './app.css';

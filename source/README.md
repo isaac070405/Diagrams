@@ -32,3 +32,4 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `src/lib/special.js`, `survival.js`, `forest.js`, `prisma.js`: statistics for diagrams 29 to 31, run `node tests/stats.test.cjs`
 - `src/lib/diagnostic.js` and `consort.js`: ROC, Bland-Altman and CONSORT arithmetic for diagrams 32 to 34, run with `node tests/stats.test.cjs`
 - `src/lib/boxstats.js` and `volcano.js`: summary statistics, group tests, Benjamini-Hochberg and classification for diagrams 35 and 36, run with `node tests/stats.test.cjs`
+- `src/lib/heatmap.js` and `venn.js`: clustering and set-overlap maths for diagrams 38 and 39, run with `node tests/stats.test.cjs`
