@@ -5,6 +5,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Timeline (14): a "Stages (no dates)" scale with free-text labels and drag reorder.
+- 12 editors folded into 6 merged ones (48 to 36 types). See `docs/flexibility-project.md`.
+
 ## [1.1.0] - 2026-11-15
 
 The workspace grows from 21 to 48 diagram types, with an icon library, many editor improvements and accessibility fixes.
