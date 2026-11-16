@@ -28,7 +28,7 @@ function fmtDate(t: number, scale: string) {
   const y = Math.floor(t), mi = Math.min(11, Math.round((t - y) * 12));
   return MON[mi] + ' ' + y;
 }
-const tickLabel = (t: number, scale: string) => scale === 'seq' ? String(Math.round(t)) : scale === 'cycle' ? MON[((Math.round(t) % 12) + 12) % 12] : scale === 'ma' ? String(+t.toFixed(1)) : String(Math.round(t));
+const tickLabel = (t: number, scale: string) => scale === 'seq' ? 'Stage ' + Math.round(t) : scale === 'cycle' ? MON[((Math.round(t) % 12) + 12) % 12] : scale === 'ma' ? String(+t.toFixed(1)) : String(Math.round(t));
 
 const GEO: [string, string, string, number, number][] = (window as any).SciDiagram.GEO_TIME;
 const geoColor = (name: string) => 'var(--geo-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + ', var(--neutral-200))';
@@ -221,8 +221,8 @@ function Controls({ data, set, sel, setSel }: EditProps) {
         </S.Panel>
       ) : null}
       <S.Panel kicker="Scale">
-        <Seg value={data.scale} options={[['calendar', 'Years'], ['ma', 'Ma (geological)'], ['cycle', '12-month cycle'], ['seq', 'Free text (no dates)']]}
-          onChange={v => set(v === 'seq' ? { scale: v, step: 1, minor: 0, tickLabels: 'none' } : v === 'ma' ? { scale: v, from: 540, to: 0, step: 50 } : v === 'cycle' ? { scale: v, orient: 'c', step: 1 } : { scale: v, from: 2020, to: 2030, step: 1 })} />
+        <Seg value={data.scale} options={[['calendar', 'Years'], ['ma', 'Ma (geological)'], ['cycle', '12-month cycle'], ['seq', 'Stages (no dates)']]}
+          onChange={v => set(v === 'seq' ? { scale: v, step: 1, minor: 0, tickLabels: 'between' } : v === 'ma' ? { scale: v, from: 540, to: 0, step: 50 } : v === 'cycle' ? { scale: v, orient: 'c', step: 1 } : { scale: v, from: 2020, to: 2030, step: 1 })} />
         <Seg value={data.orient} options={[['h', 'Horizontal'], ['v', 'Vertical'], ['c', 'Circular']]} onChange={v => set({ orient: v })} />
         {data.scale !== 'cycle' && data.scale !== 'seq' ? <div className="mk-pair">
           <TextIn id="tl-from" label={data.scale === 'ma' ? 'Oldest (Ma)' : 'Start'} value={data.from} onChange={v => set({ from: v }, 'tl-from')} />
@@ -280,8 +280,8 @@ export const timeline: EditorDef = {
       data: { scale: 'ma', orient: 'v', length: 720, from: 66, to: 0, step: 5, minor: 4, tickLabels: 'ticks', showDate: true, boxes: true, geo: true, geoLevels: ['period', 'epoch'],
         events: [{ date: '66', label: 'K–Pg extinction', side: 'a' }, { date: '56', label: 'PETM warming', side: 'a' }, { date: '34', label: 'Antarctic ice sheet forms', side: 'a' }, { date: '7', label: 'First hominins', side: 'a' }, { date: '2.6', label: 'Ice ages begin', side: 'a' }],
         periods: [] } },
-    { name: 'Study phases', desc: 'Free text, no dates', title: 'Stages of the feeding trial',
-      data: { scale: 'seq', orient: 'h', step: 1, minor: 0, tickLabels: 'none', showDate: true, boxes: true,
+    { name: 'Study phases', desc: 'Numbered stages, no dates', title: 'Stages of the feeding trial',
+      data: { scale: 'seq', orient: 'h', step: 1, minor: 0, tickLabels: 'between', showDate: true, boxes: true,
         events: [{ date: 'Before trial', label: 'Recruitment', side: 'a' }, { date: 'Baseline', label: 'Diet record and bloods', side: 'b' }, { date: 'Intervention', label: 'Mediterranean diet', side: 'a' },
           { date: 'Follow-up', label: 'Repeat bloods', side: 'b' }, { date: 'After trial', label: 'Analysis', side: 'a', color: 'var(--accent-700)' }],
         periods: [{ from: '2', to: '4', label: 'Active phase', row: 0, color: 'var(--swatch-3)' }] } },
