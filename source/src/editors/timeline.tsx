@@ -2,13 +2,14 @@ import { S } from '../sheet';
 import { EmptyHint, num, Range, Rows, Seg, startDrag, Swatches, TextIn, Toggle, uid } from '../ui';
 import type { EditorDef, EditProps } from '../shell';
 
-/* ---------- dates: calendar years, millions of years ago, or a 12-month cycle ---------- */
+/* ---------- dates: calendar years, millions of years ago, a 12-month cycle, or a free sequence (no dates) ---------- */
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function monthOf(s: string) { const m = s.toLowerCase().match(/[a-z]{3}/); return m ? MONTHS.indexOf(m[0]) : -1; }
 export function parseDate(v: any, scale: string): number {
   const s = String(v == null ? '' : v).trim();
   if (!s) return NaN;
+  if (scale === 'seq') return parseFloat(s);
   if (scale === 'ma') return parseFloat(s.replace(/[^0-9.\-]/g, ''));
   if (scale === 'cycle') {
     const mi = monthOf(s), d = parseFloat((s.match(/\d+(\.\d+)?/) || ['1'])[0]);
@@ -27,7 +28,7 @@ function fmtDate(t: number, scale: string) {
   const y = Math.floor(t), mi = Math.min(11, Math.round((t - y) * 12));
   return MON[mi] + ' ' + y;
 }
-const tickLabel = (t: number, scale: string) => scale === 'cycle' ? MON[((Math.round(t) % 12) + 12) % 12] : scale === 'ma' ? String(+t.toFixed(1)) : String(Math.round(t));
+const tickLabel = (t: number, scale: string) => scale === 'seq' ? 'Stage ' + Math.round(t) : scale === 'cycle' ? MON[((Math.round(t) % 12) + 12) % 12] : scale === 'ma' ? String(+t.toFixed(1)) : String(Math.round(t));
 
 const GEO: [string, string, string, number, number][] = (window as any).SciDiagram.GEO_TIME;
 const geoColor = (name: string) => 'var(--geo-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + ', var(--neutral-200))';
@@ -40,7 +41,8 @@ const bandStart = (d: any) => (d.orient || 'h') === 'h' && d.tickLabels !== 'non
 const bandT = (d: any) => (d.orient || 'h') === 'v' ? 78 : 18;
 function geom(d: any) {
   const scale = d.scale || 'calendar', orient = d.orient || 'h';
-  const t0 = scale === 'cycle' ? 0 : num(d.from, 2000), t1 = scale === 'cycle' ? 12 : num(d.to, 2010);
+  /* seq: one equal slot per event, in list order, so labels need no dates */
+  const t0 = scale === 'cycle' || scale === 'seq' ? 0 : num(d.from, 2000), t1 = scale === 'cycle' ? 12 : scale === 'seq' ? Math.max(1, (d.events || []).length) : num(d.to, 2010);
   const frac = (t: number) => (t - t0) / ((t1 - t0) || 1);
   const len = orient === 'v' ? num(d.length, 640) : L;
   /* u = distance along the axis, v = distance off it (negative = side a) */
@@ -60,7 +62,7 @@ function geom(d: any) {
   return { scale, orient, t0, t1, len, P, U, inverse };
 }
 function eventLayout(d: any, g: any) {
-  const ev = (d.events || []).map((e: any, i: number) => ({ ...e, i, t: parseDate(e.date, g.scale) })).filter((e: any) => isFinite(e.t));
+  const ev = (d.events || []).map((e: any, i: number) => ({ ...e, i, t: g.scale === 'seq' ? i + 0.5 : parseDate(e.date, g.scale) })).filter((e: any) => isFinite(e.t));
   const T = bandT(d), geoDepth = bandStart(d) - 14 + (d.geo && g.scale === 'ma' ? (d.geoLevels || []).length * (T + 2) + 6 : 0) + (d.periods || []).reduce((m: number, p: any) => Math.max(m, (num(p.row, 0) + 1) * (T + 4)), 0);
   const placed: any = { a: [], b: [] };
   ev.sort((x: any, y: any) => g.U(x.t) - g.U(y.t));
@@ -140,7 +142,9 @@ function TimelineSheet({ data }: { data: any }) {
     depth += 6;
   }
   (data.periods || []).forEach((pd: any) => {
-    const a = parseDate(pd.from, g.scale), b = parseDate(pd.to, g.scale); if (!isFinite(a) || !isFinite(b)) return;
+    /* seq: periods name first and last slot (1-based), both included */
+    let a = parseDate(pd.from, g.scale), b = parseDate(pd.to, g.scale); if (!isFinite(a) || !isFinite(b)) return;
+    if (g.scale === 'seq') { a -= 1; }
     band(a, b, depth + num(pd.row, 0) * (T + 4), T, pd.color || 'var(--accent-200)', pd.label || '', K());
   });
   /* events: a leader from the axis to a label box */
@@ -181,6 +185,15 @@ function Overlay({ data, set, sel, setSel, toSvg }: EditProps & { toSvg: any }) 
         setSel({ kind: 'event', id: String(e.i) });
         startDrag(ev, toSvg, (_dx, _dy, at) => {
           const t = g.inverse(at[0], at[1]);
+          if (g.scale === 'seq') {
+            /* dragging reorders: the event moves to the slot under the pointer */
+            const list = data.events.slice(), from = list.findIndex((x: any) => x === data.events[e.i]);
+            const to = Math.max(0, Math.min(list.length - 1, Math.floor(t)));
+            if (from < 0 || to === from) return;
+            const [m] = list.splice(from, 1); list.splice(to, 0, m);
+            set({ events: list }, 'tl-drag-seq'); setSel({ kind: 'event', id: String(to) });
+            return;
+          }
           set({ events: data.events.map((x: any, j: number) => j === e.i ? { ...x, date: fmtDate(t, g.scale) } : x) }, 'tl-drag-' + e.i);
         });
       }} />;
@@ -192,14 +205,14 @@ function Controls({ data, set, sel, setSel }: EditProps) {
   const ev = data.events || [], pd = data.periods || [];
   const i = sel && sel.kind === 'event' ? +sel.id : -1, e = ev[i];
   const up = (patch: any, key?: string) => set({ events: ev.map((x: any, j: number) => j === i ? { ...x, ...patch } : x) }, key);
-  const dateHelp = data.scale === 'ma' ? 'Millions of years ago, e.g. 66 or 251.9' : data.scale === 'cycle' ? 'A month and day, e.g. Nov 15' : 'e.g. 2010, 2010-03, or Mar 2010';
+  const dateHelp = data.scale === 'seq' ? 'Any text, e.g. Week 3, Phase A or Before treatment' : data.scale === 'ma' ? 'Millions of years ago, e.g. 66 or 251.9' : data.scale === 'cycle' ? 'A month and day, e.g. Nov 15' : 'e.g. 2010, 2010-03, or Mar 2010';
   return (
     <>
       {e ? (
-        <S.Panel kicker="Selected event" help="Drag its dot along the line to move it in time.">
+        <S.Panel kicker="Selected event" help={data.scale === 'seq' ? 'Drag its dot along the line to change its place in the order.' : 'Drag its dot along the line to move it in time.'}>
           <TextIn id="tl-elabel" label="Label" value={e.label} onChange={v => up({ label: v }, 'tl-l')} />
           <div className="mk-pair">
-            <TextIn id="tl-edate" label="Date" value={e.date} placeholder={dateHelp} onChange={v => up({ date: v }, 'tl-d')} />
+            <TextIn id="tl-edate" label={data.scale === 'seq' ? 'Text' : 'Date'} value={e.date} placeholder={dateHelp} onChange={v => up({ date: v }, 'tl-d')} />
             <TextIn id="tl-esub" label="Second line" value={e.sub} placeholder="Shows the date if empty" onChange={v => up({ sub: v }, 'tl-s')} />
           </div>
           <Seg value={e.side || 'auto'} options={SIDE_OPTS} onChange={v => up({ side: v })} />
@@ -208,10 +221,10 @@ function Controls({ data, set, sel, setSel }: EditProps) {
         </S.Panel>
       ) : null}
       <S.Panel kicker="Scale">
-        <Seg value={data.scale} options={[['calendar', 'Years'], ['ma', 'Ma (geological)'], ['cycle', '12-month cycle']]}
-          onChange={v => set(v === 'ma' ? { scale: v, from: 540, to: 0, step: 50 } : v === 'cycle' ? { scale: v, orient: 'c', step: 1 } : { scale: v, from: 2020, to: 2030, step: 1 })} />
+        <Seg value={data.scale} options={[['calendar', 'Years'], ['ma', 'Ma (geological)'], ['cycle', '12-month cycle'], ['seq', 'Stages (no dates)']]}
+          onChange={v => set(v === 'seq' ? { scale: v, step: 1, minor: 0, tickLabels: 'between' } : v === 'ma' ? { scale: v, from: 540, to: 0, step: 50 } : v === 'cycle' ? { scale: v, orient: 'c', step: 1 } : { scale: v, from: 2020, to: 2030, step: 1 })} />
         <Seg value={data.orient} options={[['h', 'Horizontal'], ['v', 'Vertical'], ['c', 'Circular']]} onChange={v => set({ orient: v })} />
-        {data.scale !== 'cycle' ? <div className="mk-pair">
+        {data.scale !== 'cycle' && data.scale !== 'seq' ? <div className="mk-pair">
           <TextIn id="tl-from" label={data.scale === 'ma' ? 'Oldest (Ma)' : 'Start'} value={data.from} onChange={v => set({ from: v }, 'tl-from')} />
           <TextIn id="tl-to" label={data.scale === 'ma' ? 'Youngest (Ma)' : 'End'} value={data.to} onChange={v => set({ to: v }, 'tl-to')} />
         </div> : null}
@@ -237,11 +250,11 @@ function Controls({ data, set, sel, setSel }: EditProps) {
       ) : null}
       <Rows id="tl-ev" kicker="Events" help={'Dates: ' + dateHelp + '. Click a dot on the line to edit it.'} rows={ev}
         cols={[{ key: 'date', label: 'Date', w: '0.9fr' }, { key: 'label', label: 'Label', w: '1.3fr' }, { key: 'side', label: 'Side', type: 'select', options: [['auto', 'Auto'], ['a', 'Above'], ['b', 'Below']], w: '0.75fr' }, { key: 'color', label: 'Colour', type: 'color' }]}
-        blank={() => ({ date: data.scale === 'ma' ? '100' : data.scale === 'cycle' ? 'Jun 1' : String(Math.round((num(data.from, 2020) + num(data.to, 2030)) / 2)), label: 'New event', side: 'auto' })}
+        blank={() => ({ date: data.scale === 'seq' ? 'Step ' + (ev.length + 1) : data.scale === 'ma' ? '100' : data.scale === 'cycle' ? 'Jun 1' : String(Math.round((num(data.from, 2020) + num(data.to, 2030)) / 2)), label: 'New event', side: 'auto' })}
         addLabel="+ Add event" onChange={(rows, key) => set({ events: rows }, key)} />
-      <Rows id="tl-pd" kicker="Periods" help="Bars that span a range of dates. Row 0 sits nearest the line." rows={pd}
+      <Rows id="tl-pd" kicker="Periods" help={data.scale === 'seq' ? 'Bars that span events. From and To are event numbers (1 is the first). Row 0 sits nearest the line.' : 'Bars that span a range of dates. Row 0 sits nearest the line.'} rows={pd}
         cols={[{ key: 'from', label: 'From', w: '0.8fr' }, { key: 'to', label: 'To', w: '0.8fr' }, { key: 'label', label: 'Label', w: '1.2fr' }, { key: 'row', label: 'Row', type: 'num', w: '0.4fr' }, { key: 'color', label: 'Colour', type: 'color' }]}
-        blank={() => ({ from: data.scale === 'cycle' ? 'Jan' : data.from, to: data.scale === 'cycle' ? 'Mar' : data.to, label: 'Period', row: 0, color: 'var(--swatch-3)' })}
+        blank={() => ({ from: data.scale === 'seq' ? '1' : data.scale === 'cycle' ? 'Jan' : data.from, to: data.scale === 'seq' ? '2' : data.scale === 'cycle' ? 'Mar' : data.to, label: 'Period', row: 0, color: 'var(--swatch-3)' })}
         addLabel="+ Add period" onChange={(rows, key) => set({ periods: rows }, key)} />
     </>
   );
@@ -267,6 +280,11 @@ export const timeline: EditorDef = {
       data: { scale: 'ma', orient: 'v', length: 720, from: 66, to: 0, step: 5, minor: 4, tickLabels: 'ticks', showDate: true, boxes: true, geo: true, geoLevels: ['period', 'epoch'],
         events: [{ date: '66', label: 'K–Pg extinction', side: 'a' }, { date: '56', label: 'PETM warming', side: 'a' }, { date: '34', label: 'Antarctic ice sheet forms', side: 'a' }, { date: '7', label: 'First hominins', side: 'a' }, { date: '2.6', label: 'Ice ages begin', side: 'a' }],
         periods: [] } },
+    { name: 'Study phases', desc: 'Numbered stages, no dates', title: 'Stages of the feeding trial',
+      data: { scale: 'seq', orient: 'h', step: 1, minor: 0, tickLabels: 'between', showDate: true, boxes: true,
+        events: [{ date: 'Before trial', label: 'Recruitment', side: 'a' }, { date: 'Baseline', label: 'Diet record and bloods', side: 'b' }, { date: 'Intervention', label: 'Mediterranean diet', side: 'a' },
+          { date: 'Follow-up', label: 'Repeat bloods', side: 'b' }, { date: 'After trial', label: 'Analysis', side: 'a', color: 'var(--accent-700)' }],
+        periods: [{ from: '2', to: '4', label: 'Active phase', row: 0, color: 'var(--swatch-3)' }] } },
     { name: 'Reef year', desc: 'Circular 12-month cycle', title: 'A typical year on the Great Barrier Reef',
       data: { scale: 'cycle', orient: 'c', step: 1, minor: 0, tickLabels: 'between', showDate: false, boxes: true,
         events: [{ date: 'Nov 20', label: 'Coral mass spawning' }, { date: 'Jul 1', label: 'Humpbacks arrive' }, { date: 'Feb 15', label: 'Peak bleaching risk' }],
@@ -281,7 +299,7 @@ export const timeline: EditorDef = {
   remove: (d, sel) => sel.kind === 'event' ? { events: d.events.filter((_: any, j: number) => j !== +sel.id) } : null,
   duplicate: (d, sel) => { const e = d.events[+sel.id]; return e ? { patch: { events: [...d.events, { ...e, label: e.label + ' (copy)' }] }, sel: { kind: 'event', id: String(d.events.length) } } : null; },
   nudge: (d, sel, dx, dy) => {
-    if (sel.kind !== 'event') return null;
+    if (sel.kind !== 'event' || d.scale === 'seq') return null;
     const g = geom(d), e = d.events[+sel.id]; if (!e) return null;
     const t = parseDate(e.date, g.scale); if (!isFinite(t)) return null;
     const du = g.orient === 'v' ? dy : dx; if (!du) return null;

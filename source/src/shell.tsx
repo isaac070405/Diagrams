@@ -31,6 +31,10 @@ export interface EditorDef {
   connect?: { kind: string; label: string; plural?: string; make: (data: any, from: string, to: string) => any | null };
   blank?: any;
   hint?: string;
+  /* merged editors: pick the hint and connect mode from the current data, and the ids they replace */
+  hintFor?: (data: any) => string | undefined;
+  connectFor?: (data: any) => EditorDef['connect'];
+  legacy?: { id: string; mode: string }[];
 }
 
 export function blankDoc(def: EditorDef, t: Template = def.templates[0]): Doc {
@@ -68,7 +72,8 @@ export function Toast(p: { msg: string }) {
 export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
   const def = p.def;
   const docKey = 'sd-maker:doc:' + def.id;
-  const saved = store.get(docKey, null);
+  let saved = store.get(docKey, null);
+  if (!saved && def.legacy) for (const l of def.legacy) { const o = store.get('sd-maker:doc:' + l.id, null); if (o && o.v === 1 && o.editor === l.id) { saved = { ...o, editor: def.id, data: { mode: l.mode, [l.mode]: o.data } }; break; } }
   const first = saved && saved.v === 1 && saved.editor === def.id ? saved : blankDoc(def);
   const h = useHistory({ ...first, data: norm(def, first.data) });
   const doc = h.doc;
@@ -194,6 +199,8 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
       try {
         const d = JSON.parse(String(r.result));
         if (!d || d.v !== 1 || !d.data) throw new Error('shape');
+        const lg = def.legacy && def.legacy.find(l => l.id === d.editor);
+        if (lg) { d.data = { mode: lg.mode, [lg.mode]: d.data }; d.editor = def.id; }
         if (d.editor && d.editor !== def.id) { say('That file belongs to another editor (' + d.editor + ')'); return; }
         load(d, 'Opened ' + f.name + '. Undo to go back');
       } catch (err) { say('That file is not a Diagram Workspace project'); }
@@ -233,11 +240,12 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
     if (patch) { setData(patch); setSel(null); say('Deleted. Undo to bring it back'); }
   }
   /* every selection on the sheet passes through here, so connect mode can catch it */
+  const cn = def.connectFor ? def.connectFor(doc.data) : def.connect;
   const pick = (s: Sel) => {
-    if (conn.on && def.connect && s && s.kind === def.connect.kind) {
+    if (conn.on && cn && s && s.kind === cn.kind) {
       if (!conn.from) { setConn({ on: true, from: s.id }); setSel(s); say('Now click the item it points to'); return; }
       if (s.id !== conn.from) {
-        const patch = def.connect.make(docRef.current.data, conn.from, s.id);
+        const patch = (def.connectFor ? def.connectFor(docRef.current.data) : def.connect)!.make(docRef.current.data, conn.from, s.id);
         if (patch) { setData(patch); say('Connected. Click the next source, or press Esc to stop'); }
         setConn({ on: true, from: null }); setSel(null); return;
       }
@@ -298,13 +306,13 @@ export function EditorShell(p: { def: EditorDef; onHome: () => void }) {
         </div>
       </header>
       <aside className="mk-side">
-        <S.Panel kicker="Edit" help={def.hint}>
+        <S.Panel kicker="Edit" help={def.hintFor ? def.hintFor(doc.data) : def.hint}>
           <div className="sd-row-btns">
             <S.ToolButton compact icon={Undo} disabled={!h.canUndo} onClick={h.undo} title="Undo (Ctrl/Cmd+Z)">Undo</S.ToolButton>
             <S.ToolButton compact icon={Redo} disabled={!h.canRedo} onClick={h.redo} title="Redo (Shift+Ctrl/Cmd+Z)">Redo</S.ToolButton>
           </div>
-          {def.connect ? <S.ToolButton on={conn.on} onClick={() => { setConn({ on: !conn.on, from: null }); say(conn.on ? 'Connect mode off' : 'Click the ' + def.connect!.label + ' to start from'); }}>
-            {conn.on ? (conn.from ? 'Connecting: click the target' : 'Connecting: click the source') : 'Connect ' + (def.connect.plural || def.connect.label + 's')}</S.ToolButton> : null}
+          {cn ? <S.ToolButton on={conn.on} onClick={() => { setConn({ on: !conn.on, from: null }); say(conn.on ? 'Connect mode off' : 'Click the ' + cn!.label + ' to start from'); }}>
+            {conn.on ? (conn.from ? 'Connecting: click the target' : 'Connecting: click the source') : 'Connect ' + (cn.plural || cn.label + 's')}</S.ToolButton> : null}
           {sel ? <div className="sd-row-btns">
             <S.ToolButton compact onClick={duplicateSel} title="Ctrl/Cmd+D">Duplicate</S.ToolButton>
             <S.ToolButton compact onClick={deleteSel} title="Delete">Delete</S.ToolButton>

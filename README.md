@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 48 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 36 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -15,32 +15,46 @@ Download the latest build from the Releases page.
 
 Icon credits and licences are in `site/icons/CREDITS.md`.
 
-| No. | Diagram | No. | Diagram |
-|---|---|---|---|
-| 01 | System Thinking Circle | 12 | Biological pathway |
-| 02 | Phylogenetic tree | 13 | Product flow diagram |
-| 03 | Flow diagram | 14 | Timeline |
-| 04 | Pedigree | 15 | Ternary plot |
-| 05 | Food web | 16 | PK/PD compartment model |
-| 06 | Punnett square | 17 | Concentration–time curve |
-| 07 | Ecological pyramid | 18 | Dose–response curve |
-| 08 | Dichotomous key | 19 | SAR scheme |
-| 09 | Iceberg model | 20 | Curly-arrow mechanism |
-| 10 | Histological image | 21 | Population over time |
-| 11 | Gradient bar | 22 | Experimental workflow |
-| 23 | Well plate labelling | 24 | Gels and blots |
-| 25 | Contour plot | 26 | Belt transect and kite diagram |
-| 27 | Treemap | 28 | Radar chart |
-| 29 | PRISMA 2020 flow diagram | 30 | Forest plot |
-| 31 | Kaplan-Meier survival curve | 32 | CONSORT flow diagram |
-| 33 | ROC curve | 34 | Bland-Altman plot |
-| 35 | Box plot | 36 | Volcano plot |
-| 37 | Bar chart with error bars | 38 | Clustered heatmap |
-| 39 | Venn diagram | 40 | Scatter plot with regression |
-| 41 | Enzyme kinetics | 42 | Sankey diagram |
-| 43 | Standard curve | 44 | Funnel plot |
-| 45 | Pie and donut chart | 46 | PCA plot |
-| 47 | Rarefaction and species accumulation | 48 | Growth curve |
+| No. | Diagram |
+|---|---|
+| 01 | System Thinking Circle |
+| 02 | Phylogenetic tree |
+| 03 | Flow diagram (process, product, lab method) |
+| 04 | Pedigree |
+| 05 | Food web |
+| 06 | Punnett square |
+| 07 | Ecological pyramid |
+| 08 | Dichotomous key |
+| 09 | Iceberg model |
+| 10 | Histological image |
+| 11 | Gradient bar |
+| 12 | Biological pathway |
+| 14 | Timeline (dates or stages) |
+| 15 | Ternary plot |
+| 16 | PK/PD compartment model |
+| 17 | Curve with fit (concentration–time, dose–response, population, enzyme, standard, growth) |
+| 19 | SAR scheme |
+| 20 | Curly-arrow mechanism |
+| 23 | Well plate labelling |
+| 24 | Gels and blots |
+| 25 | Contour plot |
+| 26 | Belt transect and kite diagram |
+| 27 | Treemap |
+| 28 | Radar chart |
+| 29 | PRISMA and CONSORT flow diagram |
+| 30 | Forest plot |
+| 31 | Kaplan-Meier survival curve |
+| 33 | ROC, Bland-Altman and funnel plot |
+| 35 | Bar chart and box plot |
+| 36 | Volcano plot |
+| 38 | Clustered heatmap |
+| 39 | Venn diagram |
+| 40 | Scatter plot (regression or PCA) |
+| 42 | Sankey diagram |
+| 45 | Pie and donut chart |
+| 47 | Rarefaction and species accumulation |
+
+Numbers are not reused: the gaps are editors folded into another one. Old links such as `#product-flow` and saved projects open the merged editor.
 
 ## Contour plot
 
