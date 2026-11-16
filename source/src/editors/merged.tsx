@@ -16,6 +16,7 @@ import { blandaltman } from './blandaltman';
 import { funnel } from './funnel';
 import { barchart } from './barchart';
 import { boxplot } from './boxplot';
+import { violin } from './violin';
 
 /* 03 + 13 + 22 */
 export const flowAll = mergeEditors(
@@ -43,7 +44,7 @@ export const diagnosticPlots = mergeEditors(
   { id: 'diagnostic-plots', num: '33', name: 'ROC, Bland-Altman and funnel plot', field: 'Evidence and clinical', blurb: 'Test accuracy (ROC), agreement between two methods (Bland-Altman) and publication bias (funnel plot).', modeLabel: 'Plot type' },
   [{ mode: 'roc', label: 'ROC curve', def: roc }, { mode: 'ba', label: 'Bland-Altman', def: blandaltman }, { mode: 'funnel', label: 'Funnel plot', def: funnel }]);
 
-/* 35 + 37 */
+/* 35 + 37 + violin */
 export const groupCompare = mergeEditors(
-  { id: 'group-comparison', num: '35', name: 'Bar chart and box plot', field: 'Methods', blurb: 'Compare groups as means with error bars, or as box plots with the spread of the data.', modeLabel: 'Chart type' },
-  [{ mode: 'bar', label: 'Bar chart', def: barchart }, { mode: 'box', label: 'Box plot', def: boxplot }]);
+  { id: 'group-comparison', num: '35', name: 'Bar chart, box plot and violin plot', field: 'Methods', blurb: 'Compare groups as means with error bars, as box plots, or as violin plots that show the whole shape of the data.', modeLabel: 'Chart type' },
+  [{ mode: 'bar', label: 'Bar chart', def: barchart }, { mode: 'box', label: 'Box plot', def: boxplot }, { mode: 'violin', label: 'Violin plot', def: violin }]);

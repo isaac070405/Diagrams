@@ -37,7 +37,7 @@ Each editor is checked against these five points:
 | 17 Curve with fit | 17, 18, 21, 41, 43, 48 |
 | 40 Scatter plot | 40, 46 |
 | 33 ROC, Bland-Altman and funnel plot | 33, 34, 44 |
-| 35 Bar chart and box plot | 35, 37 |
+| 35 Bar chart, box plot and violin plot | 35, 37 (the violin plot was added as a mode of 35) |
 
 ## Decisions
 

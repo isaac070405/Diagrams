@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 36 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 38 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -45,7 +45,7 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 30 | Forest plot |
 | 31 | Kaplan-Meier survival curve |
 | 33 | ROC, Bland-Altman and funnel plot |
-| 35 | Bar chart and box plot |
+| 35 | Bar chart, box plot and violin plot |
 | 36 | Volcano plot |
 | 38 | Clustered heatmap |
 | 39 | Venn diagram |
@@ -53,6 +53,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 42 | Sankey diagram |
 | 45 | Pie and donut chart |
 | 47 | Rarefaction and species accumulation |
+| 49 | Population pyramid |
+| 50 | Epidemic curve |
 
 Numbers are not reused: the gaps are editors folded into another one. Old links such as `#product-flow` and saved projects open the merged editor.
 
@@ -96,9 +98,9 @@ Diagnostic accuracy for one or more markers. One row per subject: tick Case if t
 
 Agreement between two measurement methods. One row per participant with both values. The plot shows the difference (or percent difference) against the mean, with the mean difference and 95% limits of agreement, each with a confidence interval from Student's t. A trend line and its slope test show whether the bias changes with the size of the measurement. Three starting points (simulated): a food frequency questionnaire against a food record, two vitamin D assays and bioimpedance against DXA.
 
-## Box plot
+## Box plot and violin plot
 
-Distribution by group. Paste each group's values (one spreadsheet column works). The box is the first quartile, median and third quartile (R type 7). Whiskers reach the furthest value within 1.5 IQR, or the minimum and maximum. Outliers are open circles. Options for every data point, the mean, sample sizes, a grid and an axis from 0. Two groups get a Welch t-test or Mann-Whitney U test with a bracket. Three or more get one-way ANOVA or Kruskal-Wallis. These give one overall p value and do not adjust for multiple comparisons. Three starting points (simulated).
+Distribution by group. Paste each group's values (one spreadsheet column works). The box is the first quartile, median and third quartile (R type 7). Whiskers reach the furthest value within 1.5 IQR, or the minimum and maximum. Outliers are open circles. Options for every data point, the mean, sample sizes, a grid and an axis from 0. Two groups get a Welch t-test or Mann-Whitney U test with a bracket. Three or more get one-way ANOVA or Kruskal-Wallis. These give one overall p value and do not adjust for multiple comparisons. Three starting points (simulated). The Violin plot type in the same editor draws each group as a kernel density shape (Gaussian, Silverman bandwidth, adjustable) with the quartiles and median inside, optional data points and the same tests. Equal area, equal width or area by count, and the ends can be trimmed to the data. It shows what a box plot hides, such as two size classes in one group. Three starting points (simulated).
 
 ## Volcano plot
 
@@ -151,6 +153,14 @@ Species richness against sampling effort, from a table of counts with samples do
 ## Growth curve
 
 Size at age (or time) fitted with a von Bertalanffy, Gompertz or logistic curve by Levenberg-Marquardt, with a curve for each group. The figure shows the points, the fitted curves, a 95% confidence band from the delta method, the asymptote L∞ and the parameters. The Results panel gives L∞, K and t0 (or the inflection age) with standard errors, R², the growth performance index for von Bertalanffy, and the AIC of all three models so they can be compared. Three starting points (simulated): reef fish length at age, males against females, and a bacterial culture.
+
+## Population pyramid
+
+Age and sex structure as back-to-back bars. Paste age group, males and females on each row, youngest first. Bars show percent of the population (both sexes together, so the whole pyramid sums to 100%) or numbers. An optional second table with the same age labels is drawn as an outline, for example the same place 30 years earlier. Labels such as 0-4, 15-19 and 85+ are read to work out the median age, sex ratio and the dependency ratios (under 15s, 65 and overs, per 100 people aged 15 to 64). Names for the two sides, colours and values at the bar ends are editable. Three starting points (illustrative values, not real countries).
+
+## Epidemic curve
+
+Cases by date of onset as a histogram with a box for each case. Paste one line per case, or per day with a count, as yyyy-mm-dd with an optional count and category (for example Confirmed or Probable). Cases are grouped by 1, 2, 3 or 7 days, chosen automatically if you leave it on Auto, and weekly groups can start on a Monday. Categories are coloured and listed in a legend. An exposure date and other event lines are drawn on the curve, and the axis stretches back to cover them. The Results panel gives the number of cases, the busiest day, the median onset, the incubation period from the exposure date (median, shortest, longest) and the attack rate from the number of people at risk. Three starting points (simulated).
 
 ## Gradient bar
 

@@ -1,11 +1,11 @@
-// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 48)
+// Run: node tests/stats.test.cjs   (the libraries for diagrams 29 to 51)
 const assert = require("assert");
 const vm = require("vm"), fs = require("fs"), path = require("path");
 const box = { Math, Number, String, isFinite, Object, Array, parseFloat, module: { exports: {} } };
 box.globalThis = box; vm.createContext(box);
 const load = f => vm.runInContext(fs.readFileSync(path.join(__dirname, "../src/lib/" + f), "utf8"), box);
-["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js", "calib.js", "funnel.js", "pie.js", "pca.js", "rarefy.js", "growth.js"].forEach(load);
-const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk, SDCalib: Cb, SDFunnel: Fu, SDPie: Pi, SDPCA: Pc, SDRare: Ra, SDGrowth: Gr } = box;
+["special.js", "survival.js", "forest.js", "prisma.js", "diagnostic.js", "consort.js", "boxstats.js", "volcano.js", "heatmap.js", "venn.js", "regress.js", "enzyme.js", "sankey.js", "calib.js", "funnel.js", "pie.js", "pca.js", "rarefy.js", "growth.js", "violin.js", "pyramid.js", "epi.js"].forEach(load);
+const { SDSpecial: Sp, SDSurvival: Sv, SDForest: Fo, SDPrisma: Pr, SDDiag: Dg, SDConsort: Co, SDBox: Bx, SDVolcano: Vo, SDHeat: Hm, SDVenn: Vn, SDReg: Rg, SDEnz: En, SDSankey: Sk, SDCalib: Cb, SDFunnel: Fu, SDPie: Pi, SDPCA: Pc, SDRare: Ra, SDGrowth: Gr, SDViolin: Vi, SDPyramid: Py, SDEpi: Ep } = box;
 let pass = 0;
 const near = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, (msg || "") + " " + a + " vs " + b);
 function t(name, fn) { fn(); pass++; console.log("ok  " + name); }
@@ -355,4 +355,51 @@ t("growth fit: noisy data gives standard errors, a curve band that widens off th
   const f = Gr.fit(pts, "vb"), lg = Gr.fit(pts, "logistic"); assert.ok(f.se.every(v => v > 0)); assert.ok(f.half(30) > f.half(6)); assert.ok(f.aic < lg.aic + 40 && isFinite(f.aic)); near(f.q[0], 100, 6);
 });
 t("growth fit needs 5 points and a spread of ages", () => { assert.strictEqual(Gr.fit([[1, 2], [2, 3], [3, 4], [4, 5]], "vb"), null); assert.strictEqual(Gr.fit([[1, 2], [1, 3], [1, 4], [1, 5], [1, 6]], "vb"), null); });
+
+t("Silverman bandwidth for 1 to 10 is 0.9 x SD x n^-0.2 = 1.7194", () => { near(Vi.bandwidth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), 0.9 * 3.0276504 * Math.pow(10, -0.2), 1e-5); });
+t("kernel density integrates to about 1 and is symmetric for symmetric data", () => {
+  const k = Vi.kde([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1, false, 200); let a = 0; for (let i = 1; i < k.xs.length; i++) a += (k.xs[i] - k.xs[i - 1]) * (k.ys[i] + k.ys[i - 1]) / 2; near(a, 1, 0.005);
+  const m = k.ys.length - 1; near(k.ys[10], k.ys[m - 10], 1e-9);
+});
+t("kernel density: two clusters give two peaks, a larger multiplier smooths them into one", () => {
+  const v = [1, 1.2, 0.8, 1.1, 0.9, 5, 5.2, 4.8, 5.1, 4.9], peaks = k => { let c = 0; for (let i = 1; i < k.ys.length - 1; i++) if (k.ys[i] > k.ys[i - 1] && k.ys[i] > k.ys[i + 1]) c++; return c; };
+  assert.strictEqual(peaks(Vi.kde(v, 1, false, 200)), 2); assert.strictEqual(peaks(Vi.kde(v, 6, false, 200)), 1);
+});
+t("kernel density trimmed to the data range stays inside it; one value gives null", () => {
+  const k = Vi.kde([2, 3, 4], 1, true); near(k.xs[0], 2, 1e-12); near(k.xs[k.xs.length - 1], 4, 1e-12); assert.strictEqual(Vi.kde([3], 1, true), null);
+});
+
+t("age ranges: 0-4, 85+, <1 and a single year", () => {
+  const r = Py.ageRange; assert.deepStrictEqual([r("0-4").lo, r("0-4").hi], [0, 5]); assert.strictEqual(r("85+").lo, 85); assert.strictEqual(r("85+").hi, Infinity); assert.strictEqual(r("<1").hi, 1); assert.strictEqual(r("65–69").hi, 70); assert.strictEqual(r("abc"), null);
+});
+t("pyramid parse and totals: males 60, females 60, sex ratio 100, median interpolated to 10", () => {
+  const rows = Py.parse("0-4, 5, 5\n5-9, 10, 10\n10-14, 15, 15\nage,m,f"), s = Py.summary(rows);
+  assert.strictEqual(rows.length, 3); assert.strictEqual(s.total, 60); near(s.pctMale, 50, 1e-12); near(s.sexRatio, 100, 1e-12); near(s.median, 10, 1e-12);
+});
+t("dependency ratios: 20 under 15, 60 at 15 to 64 and 10 at 65 and over", () => {
+  const s = Py.summary(Py.parse("0-14, 10, 10\n15-64, 30, 30\n65+, 5, 5")); near(s.young, 100 / 3, 1e-9); near(s.old, 100 / 6, 1e-9); near(s.total_dep, 100 / 3 + 100 / 6, 1e-9);
+  assert.ok(isNaN(Py.summary(Py.parse("0-4, 1, 1\n5-9, 1, 1")).young)); assert.ok(isNaN(Py.summary(Py.parse("young, 5, 5\nold, 4, 4")).median));
+});
+
+t("epi dates: day numbers, formatting, rejects impossible dates, weekdays", () => {
+  assert.strictEqual(Ep.day("1970-01-02"), 1); assert.ok(isNaN(Ep.day("2026-02-30"))); assert.ok(isNaN(Ep.day("hello"))); const d = Ep.day("2026-03-01");
+  assert.strictEqual(Ep.fmt(d, true), "1 Mar 2026"); assert.strictEqual(Ep.iso(d + 31), "2026-04-01"); assert.strictEqual(Ep.weekday(Ep.day("2026-11-16")), 0);
+});
+t("epi parse: a count, a category or both after the date", () => {
+  const c = Ep.parse("2026-03-01\n2026-03-02, 4\n2026-03-02, Confirmed\n2026-03-03, 2, Probable cases\nbad, 3\n2026-03-04, 0"); assert.strictEqual(c.length, 4);
+  assert.deepStrictEqual([c[1].n, c[1].cat, c[2].n, c[2].cat, c[3].n, c[3].cat], [4, "", 1, "Confirmed", 2, "Probable cases"]);
+});
+t("epi bins: counts are conserved, bins start on the first day, weekly bins can start on a Monday", () => {
+  const c = Ep.parse("2026-03-01, 2\n2026-03-02, 3\n2026-03-04, 1\n2026-03-09, 5"), b = Ep.bin(c, 3, "first");
+  assert.strictEqual(b.total, 11); assert.strictEqual(b.bins.reduce((a, x) => a + x.total, 0), 11); assert.deepStrictEqual(Array.from(b.bins.map(x => x.total)), [5, 1, 5]); assert.strictEqual(b.bins.length, 3);
+  const w = Ep.bin(c, 7, "monday"); assert.strictEqual(Ep.weekday(w.bins[0].start), 0); assert.strictEqual(w.bins.reduce((a, x) => a + x.total, 0), 11);
+});
+t("epi bins can be extended back to an exposure date, with the first and last onset unchanged", () => {
+  const c = Ep.parse("2026-03-15, 2\n2026-03-16, 3"), b = Ep.bin(c, 1, "first", [Ep.day("2026-03-12"), Ep.day("2026-03-18")]);
+  assert.strictEqual(b.bins.length, 7); assert.strictEqual(Ep.iso(b.start), "2026-03-12"); assert.strictEqual(b.total, 5); assert.strictEqual(Ep.iso(b.first), "2026-03-15"); assert.strictEqual(Ep.iso(b.last), "2026-03-16"); assert.strictEqual(b.bins[0].total, 0);
+});
+t("epi summary: peak bin, median onset day and categories", () => {
+  const b = Ep.bin(Ep.parse("2026-03-01, 1, A\n2026-03-02, 6, A\n2026-03-02, 2, B\n2026-03-05, 1, B"), 1, "first");
+  assert.strictEqual(b.peak.total, 8); assert.strictEqual(Ep.iso(b.median), "2026-03-02"); assert.deepStrictEqual(Array.from(b.cats), ["A", "B"]); assert.deepStrictEqual(Array.from(b.bins[1].by), [6, 2]);
+});
 console.log(pass + " tests passed");

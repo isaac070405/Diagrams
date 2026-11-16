@@ -36,3 +36,4 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `src/lib/regress.js`, `enzyme.js` and `sankey.js`: regression, Michaelis-Menten fitting and Sankey layout for diagrams 40 to 42, run with `node tests/stats.test.cjs`
 - `src/lib/calib.js`, `funnel.js` and `pie.js`: calibration fits, Egger's test and pie geometry for diagrams 43 to 45, run with `node tests/stats.test.cjs`
 - `src/lib/pca.js`, `rarefy.js` and `growth.js`: principal components, rarefaction and growth-curve fitting for diagrams 46 to 48, run with `node tests/stats.test.cjs`
+- `src/lib/violin.js`, `pyramid.js` and `epi.js`: kernel density, age-sex tables and onset-date binning for the violin plot, population pyramid (49) and epidemic curve (50), run with `node tests/stats.test.cjs`

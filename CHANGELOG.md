@@ -5,6 +5,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Violin plot, a third chart type in the merged Bar chart, box plot and violin plot editor (35): kernel density shapes with quartiles, points and the same group tests.
+- Population pyramid (49): age and sex bars in percent or numbers, an outline for a second year, median age, sex ratio and dependency ratios.
+- Epidemic curve (50): onset dates as a histogram with a box for each case, categories, exposure and event lines, median onset, incubation period and attack rate.
+
 ### Changed
 
 - Timeline (14): a "Stages (no dates)" scale with free-text labels and drag reorder.
