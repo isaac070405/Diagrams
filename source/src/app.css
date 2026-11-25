@@ -665,3 +665,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-ied-over { position: absolute; inset: 0; pointer-events: none; }
 .mk-ied-row { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
 .mk-ied-row input[type=range] { width: 140px; min-height: 44px; }
+.mk-pick { display: grid; gap: 24px; }
+.mk-pick-back { position: fixed; inset: 0; z-index: 50; background: rgba(20, 24, 28, .45); display: grid; place-items: center; padding: 16px; }
+.mk-pick-box { background: var(--paper); border: 1px solid var(--divider); width: min(1100px, 100%); max-height: calc(100dvh - 32px); display: grid; grid-template-rows: auto 1fr; }
+.mk-pick-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--divider); }
+.mk-pick-scroll { overflow: auto; padding: 16px; }
+.mk-pick .mk-lib-head h1 { font-size: 28px; }
