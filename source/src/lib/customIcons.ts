@@ -4,7 +4,14 @@ import { ICON_GROUPS, ICON_LIST } from './iconCatalog';
 
 export const CUSTOM_ICON_KEY = 'sd-maker:custom-icons';
 export type CustomIcon = { key: string; name: string; group: string; ratio: number; data: string };
-export type CustomLib = { groups: string[]; icons: CustomIcon[] };
+export type IconOverride = { name?: string; group?: string; data?: string; ratio?: number; hidden?: boolean };
+/** over holds changes to the built-in catalogue (rename, move, replace image, delete), so the PNG files stay as shipped. */
+export type CustomLib = { groups: string[]; icons: CustomIcon[]; over?: { groups: Record<string, { name?: string; hidden?: boolean }>; icons: Record<string, IconOverride> } };
+export type OpResult = { lib?: CustomLib; error?: string; name?: string; moved?: number; deleted?: number };
+export type Tile = { key: string; name: string; group: string; ratio: number; data: string | null; custom: boolean; edited: boolean };
+
+/** Pure edit functions from src/lib/iconOps.js. B is the built-in group list, I the built-in icon list. */
+export const ops = () => (window as any).SDIconOps;
 
 const MAX_SIDE = 256;
 
@@ -22,22 +29,19 @@ export function saveCustom(lib: CustomLib): string {
   catch (e) { return 'Browser storage is full. Delete an icon you no longer need, then try again.'; }
 }
 
-export function allGroups(lib: CustomLib): string[] {
-  return [...ICON_GROUPS, ...lib.groups.filter(g => !ICON_GROUPS.includes(g))];
-}
-
-export function groupTaken(lib: CustomLib, name: string): boolean {
-  const t = name.trim().toLowerCase();
-  return allGroups(lib).some(g => g.toLowerCase() === t);
-}
-
-export function uniqueKey(lib: CustomLib, name: string): string {
-  const base = 'custom-' + (name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'icon');
-  const used = new Set([...ICON_LIST.map(i => i.key), ...lib.icons.map(i => i.key)]);
-  let k = base, n = 2;
-  while (used.has(k)) k = base + '-' + n++;
-  return k;
-}
+export const resolveLib = (lib: CustomLib): { groups: string[]; tiles: Tile[] } => ops().resolve(lib, ICON_GROUPS, ICON_LIST);
+export const addGroupOp = (lib: CustomLib, name: string): OpResult => ops().addGroup(lib, ICON_GROUPS, name);
+export const renameGroupOp = (lib: CustomLib, from: string, to: string): OpResult => ops().renameGroup(lib, ICON_GROUPS, from, to);
+export const deleteGroupOp = (lib: CustomLib, name: string, moveTo: string): OpResult => ops().deleteGroup(lib, ICON_GROUPS, ICON_LIST, name, moveTo);
+export const editIconOp = (lib: CustomLib, key: string, patch: { name?: string; group?: string; data?: string; ratio?: number }): OpResult => ops().editIcon(lib, ICON_GROUPS, ICON_LIST, key, patch);
+export const deleteIconOp = (lib: CustomLib, key: string): OpResult => ops().deleteIcon(lib, ICON_LIST, key);
+export const restoreIconOp = (lib: CustomLib, key: string): OpResult => ops().restoreIcon(lib, ICON_LIST, key);
+export const restoreGroupOp = (lib: CustomLib, orig: string): OpResult => ops().restoreGroup(lib, ICON_LIST, orig);
+export const restoreAllOp = (lib: CustomLib): OpResult => ops().restoreAll(lib);
+export const deletedBuiltins = (lib: CustomLib): { groups: { orig: string; name: string }[]; icons: { key: string; name: string }[] } => ops().deleted(lib, ICON_GROUPS, ICON_LIST);
+export const changeCount = (lib: CustomLib): number => ops().changes(lib);
+export const membersOf = (lib: CustomLib, name: string): { builtin: string[]; custom: string[] } => ops().members(lib, ICON_GROUPS, ICON_LIST, name);
+export const uniqueKey = (lib: CustomLib, name: string): string => ops().uniqueKey(lib, ICON_LIST, name);
 
 /** Reads an image file and scales it so the longest side is at most 256 px, as a PNG data URL. */
 export function readIconFile(file: File): Promise<{ data: string; ratio: number }> {

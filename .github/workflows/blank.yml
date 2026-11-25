@@ -34,7 +34,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run tests
-        run: node tests/xyaxis.test.cjs
+        run: |
+          node tests/xyaxis.test.cjs
+          node tests/iconops.test.cjs
 
       - name: Build with Parcel
         run: pnpm exec parcel build index.html --dist-dir dist --no-source-maps
