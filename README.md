@@ -204,7 +204,7 @@ The home page library also edits what is there:
 - **Save** replaces the icon; **Save as new icon** keeps the original and files the copy in a group. A built-in icon file is never changed.
 - Browsers block reading pixels from a page opened as a local file, so built-in icons need the workspace served from a web address such as GitHub Pages. Open an image file works everywhere.
 
-Your icons, groups and changes are stored in this browser. The Biological pathway editor shows your added icons and groups; it does not yet show renames, moves or deletions of built-in icons.
+Your icons, groups and changes are stored in this browser. The Biological pathway editor reads the same storage, so it shows your added icons and groups, and also renames, moves, replaced images and deletions of built-in icons. Open the pathway page again after editing the library to see the changes. A node that uses a deleted icon shows a blank space.
 
 ## Biological pathway
 

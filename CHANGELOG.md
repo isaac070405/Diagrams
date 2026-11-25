@@ -17,6 +17,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Shared icon picker: the library grid is now one component used by the Icon library, the Icon editor (when opened without an icon, and from Choose another icon) and later diagrams.
 
+- Biological pathway (12) shows edits made in the Icon library: renamed and moved built-in icons, replaced images, deleted icons and renamed groups.
+
 ### Changed
 
 - Ternary plot (15): the macronutrient template moved to the Macronutrient triangle (49). Saved ternary sheets keep their data.

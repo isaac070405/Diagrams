@@ -1200,9 +1200,18 @@ const CUSTOM_KEY = 'sd-maker:custom-icons', CUSTOM_DATA = {}, CUSTOM_KEYS = [];
 let CUSTOM_GROUPS = [];
 const readCustom = () => { try { const c = JSON.parse(localStorage.getItem(CUSTOM_KEY)); if (c && Array.isArray(c.groups) && Array.isArray(c.icons)) return c; } catch (e) {} return { groups: [], icons: [] }; };
 const writeCustom = c => { try { localStorage.setItem(CUSTOM_KEY, JSON.stringify(c)); return true; } catch (e) { return false; } };
+const BASE_ICONS = Object.assign({}, ICONS); /* the built-in catalogue as shipped; syncCustom rebuilds ICONS from it on every call */
 const syncCustom = () => {
-  CUSTOM_KEYS.forEach(k => { delete ICONS[k]; delete CUSTOM_DATA[k]; }); CUSTOM_KEYS.length = 0;
-  const c = readCustom(); CUSTOM_GROUPS = c.groups.slice();
+  Object.keys(CUSTOM_DATA).forEach(k => { delete CUSTOM_DATA[k]; }); Object.keys(ICONS).forEach(k => { delete ICONS[k]; }); CUSTOM_KEYS.length = 0;
+  const c = readCustom(), ov = c.over && typeof c.over === 'object' ? c.over : {}, og = ov.groups || {}, oi = ov.icons || {};
+  /* edits made on the Icon library page: renamed or moved built-ins, replaced images, deleted icons and renamed groups */
+  Object.keys(BASE_ICONS).forEach(k => {
+    const b = BASE_ICONS[k], o = oi[k] || {};
+    if (o.hidden) return;
+    ICONS[k] = [o.name || b[0], o.group || (og[b[1]] && og[b[1]].name) || b[1], o.ratio > 0 ? o.ratio : b[2]];
+    if (o.data) CUSTOM_DATA[k] = o.data;
+  });
+  CUSTOM_GROUPS = c.groups.slice();
   c.icons.forEach(ic => { if (ic && ic.key && ic.data && !ICONS[ic.key]) { ICONS[ic.key] = [ic.name || ic.key, ic.group || 'Custom', ic.ratio > 0 ? ic.ratio : 1]; CUSTOM_DATA[ic.key] = ic.data; CUSTOM_KEYS.push(ic.key); } });
 };
 const iconUrl = k => CUSTOM_DATA[k] ? `url(${CUSTOM_DATA[k]})` : `url(icons/${k}.png)`;
@@ -2072,7 +2081,7 @@ Transcription factor -> DNA : Gene transcription` },
     const libCat = libGroupNames.includes(this.libCat) ? this.libCat : 'All';
     const libMatch = ([k, [nm, g]]) => (libCat === 'All' || g === libCat) && (!libQ || (nm + ' ' + g + ' ' + k.replace(/-/g, ' ')).toLowerCase().includes(libQ));
     const libShownList = Object.entries(ICONS).filter(libMatch);
-    const libSections = libGroupNames.map(name => ({ name, custom: CUSTOM_GROUPS.includes(name) ? 1 : 0, items: libShownList.filter(([, v]) => v[1] === name).map(([key, v]) => ({ key, name: v[0], custom: CUSTOM_DATA[key] ? 1 : 0, bg: iconUrl(key), on: libSel && o.icon === key ? 1 : 0 })) })).filter(x => x.items.length || (!libQ && x.custom && (libCat === 'All' || libCat === x.name)));
+    const libSections = libGroupNames.map(name => ({ name, custom: CUSTOM_GROUPS.includes(name) ? 1 : 0, items: libShownList.filter(([, v]) => v[1] === name).map(([key, v]) => ({ key, name: v[0], custom: CUSTOM_KEYS.includes(key) ? 1 : 0, bg: iconUrl(key), on: libSel && o.icon === key ? 1 : 0 })) })).filter(x => x.items.length || (!libQ && x.custom && (libCat === 'All' || libCat === x.name)));
     const libReplace = libSel && this.libMode !== 'add';
     return {
       libOn: this.libOpen ? 1 : 0, libCount: Object.keys(ICONS).length, libGroupCount: libGroupNames.length, libShown: libShownList.length, libQ: this.libQ || '',
@@ -2120,7 +2129,7 @@ Transcription factor -> DNA : Gene transcription` },
         fr.readAsDataURL(f);
       },
       onLibDelete: e => {
-        const key = e.currentTarget.dataset.k, info = ICONS[key]; if (!info || !CUSTOM_DATA[key]) return;
+        const key = e.currentTarget.dataset.k, info = ICONS[key]; if (!info || !CUSTOM_KEYS.includes(key)) return;
         if (!window.confirm(`Delete the icon “${info[0]}”? Nodes that use it will show a blank space.`)) return;
         const c = readCustom(); c.icons = c.icons.filter(x => x.key !== key); writeCustom(c); syncCustom(); delete this.imgs[key]; this.toast(`Deleted ${info[0]}`); this.draw(); this.forceUpdate();
       },

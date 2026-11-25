@@ -1,7 +1,7 @@
 # Icon library and icon editor project
 
 Goal: let users manage the icon library (12a) and clean up icons in a separate editor page (12b).
-Status as of 2026-11-25: I1 to I5 done, I6 and I7 open.
+Status as of 2026-11-25: I1 to I6 done, I7 open.
 
 ## Scope
 
@@ -18,7 +18,7 @@ Status as of 2026-11-25: I1 to I5 done, I6 and I7 open.
 | I3 | 12a icon editing | Done | Edit icon changes name and group (move), replaces the image, and deletes built-in and custom icons |
 | I4 | 12b editor page | Done | New page `icon-editor` opens from a tile's Edit image button with crop, eraser and background removal, plus undo |
 | I5 | Shared icon picker | Done | One browser component (`source/src/iconBrowser.tsx`) serves 12a, 12b and later diagrams through `<IconPicker onPick>`; Biological pathway (12) adopts it in I6 |
-| I6 | Biological pathway reads overrides | Open | `source/public/pathway.html` shows renamed, moved, replaced and hidden icons from the same browser storage, and picks icons through the shared picker |
+| I6 | Biological pathway reads overrides | Done | `source/public/pathway.html` shows renamed, moved, replaced and hidden icons and renamed groups from the same browser storage |
 | I7 | Other diagrams place icons | Open | Each diagram that adopts the picker stores the icon key, not the image |
 
 ## 12a behaviour
@@ -55,3 +55,6 @@ Status as of 2026-11-25: I1 to I5 done, I6 and I7 open.
 - I5: `IconBrowser` (search, group chips, grid) is the one grid for the library page, the picker and the dialog. The library passes slots for group and tile actions, the picker passes none. `IconPicker` and `IconPickerDialog` return `{ key, name, group, ratio, url }`; a diagram stores `key`.
 - Biological pathway is an iframe with its own picker code, so it cannot render the React component. I6 either asks the parent page for a pick over `postMessage` or reads the same storage; the choice is open.
 - 12b uses the picker when opened without an icon and from Choose another icon.
+- I6: `pathway/template.html` rebuilds its icon table from the shipped catalogue on every `syncCustom()` and applies `over` (hidden, name, group, replaced image, group renames). Old libraries without `over` load as before.
+- Decision: Biological pathway keeps its own in-page picker. It is an iframe whose page is built from `pathway/template.html`, so it cannot render the React picker, and a `postMessage` bridge would duplicate a picker that already shows the edited data. The picker stays the single source of truth through storage, not through code.
+- Pathway reads storage when it loads. It does not live-update while the library page is open in another tab.
