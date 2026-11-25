@@ -11,6 +11,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Macronutrient triangle (49): the macronutrient template moved here from the ternary plot, plus the AU/NZ acceptable macronutrient distribution range and a diet-change path.
   - Nutritional geometry (50): nutrient space for nutritional ecology with food rails, an intake target, feeding paths, deficit and excess arrows and zones, an equal-energy line, and a performance landscape (peak or gradient) as colour bands and contours. Eight templates, including homeostatic regulation (regulated against unregulated intakes on four foods).
 
+- Icon library (12a): rename and delete any group, with the choice to move its icons or delete them. Edit icon renames an icon, moves it to another group or replaces its image. Built-in icons can be deleted and restored; the icon files are never changed.
+
 ### Changed
 
 - Ternary plot (15): the macronutrient template moved to the Macronutrient triangle (49). Saved ternary sheets keep their data.

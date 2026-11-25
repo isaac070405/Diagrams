@@ -187,7 +187,15 @@ Steps can be added, reordered and given any of 34 pictograms. Figures are switch
 - **Home page:** the Icon library card sits beside Biological pathway. It has search, group filters and a PNG download for each icon.
 - **Inside Biological pathway:** the Icon library button under step 4, Edit on the sheet, opens the same catalogue over the sheet. Click an icon to add it, or to replace the icon on the selected node.
 
-**Add icon** and **Add group** appear on both pages. Add icon takes a PNG, JPEG, SVG, WebP or GIF, scales it to 256 px and files it under a group. Add group creates a new group. Your icons and groups are stored in this browser, shared by both pages, and can be deleted with the × on a tile or the Delete group button.
+**Add icon** and **Add group** appear on both pages. Add icon takes a PNG, JPEG, SVG, WebP or GIF, scales it to 256 px and files it under a group. Add group creates a new group.
+
+The home page library also edits what is there:
+
+- **Rename group** and **Delete group** work on every group. Deleting asks whether to move the group's icons to another group or delete them with it.
+- **✎ on a tile** opens Edit icon: rename the icon, move it to another group, or replace its image. **×** deletes it.
+- Changes to the 80 built-in icons are stored as overrides, so the PNG files stay as shipped. **Built-in changes** lists deleted groups and icons with a Restore button, and Restore all built-ins undoes every change. Icons and groups you added stay.
+
+Your icons, groups and changes are stored in this browser. The Biological pathway editor shows your added icons and groups; it does not yet show renames, moves or deletions of built-in icons.
 
 ## Biological pathway
 

@@ -4,6 +4,7 @@ import './lib/xyaxis.js';
 import './lib/contour.js';
 import './lib/kite.js';
 import './lib/treemap.js';
+import './lib/iconOps.js';
 import './lib/radar.js';
 import './lib/special.js';
 import './lib/survival.js';
