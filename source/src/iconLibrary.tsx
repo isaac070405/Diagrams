@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { S } from './sheet';
 import { Toast } from './shell';
 import { saveFile } from './lib/platform';
+import { IconBrowser, iconUrl } from './iconBrowser';
 import { ThemeSwitch } from './theme';
 import { ICON_GROUPS, ICON_LIST } from './lib/iconCatalog';
 import { addGroupOp, changeCount, deleteGroupOp, deleteIconOp, deletedBuiltins, editIconOp, loadCustom, readIconFile, renameGroupOp, resolveLib, restoreAllOp, restoreGroupOp, restoreIconOp, saveCustom, uniqueKey } from './lib/customIcons';
@@ -20,10 +21,8 @@ export function IconLibraryThumb() {
 }
 
 const BTN = { flex: 'none', width: 'auto', padding: '8px 18px' } as const;
-const iconUrl = (t: Tile) => t.data || `icons/${t.key}.png`;
 
 export function IconLibraryPage(p: { onHome: () => void }) {
-  const [q, setQ] = useState('');
   const [cat, setCat] = useState('All');
   const [toast, setToast] = useState('');
   const [lib, setLib] = useState<CustomLib>(loadCustom);
@@ -48,16 +47,6 @@ export function IconLibraryPage(p: { onHome: () => void }) {
   const deleted = useMemo(() => deletedBuiltins(lib), [lib]);
   const nChanges = changeCount(lib);
   const customGroups = new Set(lib.groups);
-  const activeCat = cat === 'All' || groups.includes(cat) ? cat : 'All';
-
-  const shown = useMemo(() => {
-    const t = q.trim().toLowerCase();
-    return list.filter(i => (activeCat === 'All' || i.group === activeCat) && (!t || `${i.name} ${i.group} ${i.key.replace(/-/g, ' ')}`.toLowerCase().includes(t)));
-  }, [q, activeCat, list]);
-  const searching = q.trim() !== '';
-  const sections = groups.map(g => ({ g, items: shown.filter(i => i.group === g) }))
-    .filter(s => s.items.length || (!searching && (activeCat === 'All' || activeCat === s.g)));
-
   const commit = (next: CustomLib, ok: string) => {
     const err = saveCustom(next);
     if (err) { say(err); return false; }
@@ -145,16 +134,27 @@ export function IconLibraryPage(p: { onHome: () => void }) {
         <ThemeSwitch />
       </div>
       <div className="mk-lib-body">
-        <header className="mk-lib-head">
+        <IconBrowser
+          lib={lib}
+          cat={cat}
+          onCat={setCat}
+          onTile={download}
+          tileHint="Download PNG"
+          tileTitle={t => `Download ${t.name} (PNG)`}
+          showEmptyGroups
+          emptyGroupText="No icons in this group yet. Use Add icon and pick this group, or move an icon here with Edit."
+          intro={<>
           <h1>Icon library</h1>
           <p>{list.length} icons for the Biological pathway editor. Download any icon as a PNG, add, rename, move or delete icons and groups, or open the editor and use the <b>Icon library</b> button at the top of its sidebar to place icons on a sheet.</p>
-          <div className="mk-lib-tools">
-            <input className="mk-lib-search" type="search" value={q} onChange={e => setQ(e.target.value)} placeholder="Search icons, e.g. kinase, tube, ATP" aria-label="Search icons" />
+          </>}
+          toolbar={<>
             <S.ToolButton compact style={BTN} on={form === 'icon'} onClick={() => setForm(form === 'icon' ? '' : 'icon')}>Add icon</S.ToolButton>
             <S.ToolButton compact style={BTN} on={form === 'group'} onClick={() => setForm(form === 'group' ? '' : 'group')}>Add group</S.ToolButton>
             {nChanges ? <S.ToolButton compact style={BTN} on={form === 'deleted'} onClick={() => setForm(form === 'deleted' ? '' : 'deleted')}>Built-in changes ({nChanges})</S.ToolButton> : null}
             <a className="mk-lib-open" href="#biological-pathway">Open Biological pathway →</a>
-          </div>
+
+          </>}
+          forms={<>
           {form === 'group' ? (
             <div className="mk-lib-form">
               <input className="mk-lib-search" value={groupName} onChange={e => setGroupName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addGroup(); }} placeholder="Group name, e.g. Organelles" maxLength={40} aria-label="Group name" autoFocus />
@@ -185,49 +185,39 @@ export function IconLibraryPage(p: { onHome: () => void }) {
               <S.ToolButton compact style={BTN} on onClick={restoreAll}>Restore all built-ins</S.ToolButton>
             </div>
           ) : null}
-          <div className="mk-chips" role="group" aria-label="Filter by group">
-            {['All', ...groups].map(g => (
-              <S.ToolButton key={g} compact on={activeCat === g} onClick={() => setCat(g)}>{g} ({g === 'All' ? list.length : list.filter(i => i.group === g).length})</S.ToolButton>
-            ))}
-          </div>
-          <p className="mk-lib-count" aria-live="polite">{shown.length} of {list.length} icons</p>
-        </header>
-        {sections.length === 0 ? <p className="mk-lib-empty">{searching ? `No icon matches “${q}”. Try a shorter word or choose All.` : 'No groups. Use Add group to create one.'}</p> : null}
-        {sections.map(s => (
-          <section key={s.g} className="mk-lib-sec">
-            <h2 className="sd-kicker">
-              {s.g} · {s.items.length}
-              <button type="button" className="mk-lib-del-group" onClick={() => startRename(s.g)}>Rename group</button>
-              <button type="button" className="mk-lib-del-group" style={{ marginLeft: 8 }} onClick={() => startDelete(s.g)}>Delete group</button>
-            </h2>
-            {renaming === s.g ? (
+          </>}
+          groupExtras={(g) => (<>
+              <button type="button" className="mk-lib-del-group" onClick={() => startRename(g)}>Rename group</button>
+              <button type="button" className="mk-lib-del-group" style={{ marginLeft: 8 }} onClick={() => startDelete(g)}>Delete group</button>
+          </>)}
+          groupPanel={(g, items) => (<>
+            {renaming === g ? (
               <div className="mk-lib-form">
-                <input className="mk-lib-search" value={renameTo} onChange={e => setRenameTo(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveRename(); if (e.key === 'Escape') setRenaming(''); }} maxLength={40} aria-label={`New name for ${s.g}`} autoFocus />
+                <input className="mk-lib-search" value={renameTo} onChange={e => setRenameTo(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') saveRename(); if (e.key === 'Escape') setRenaming(''); }} maxLength={40} aria-label={`New name for ${g}`} autoFocus />
                 <S.ToolButton compact style={BTN} on onClick={saveRename}>Save name</S.ToolButton>
                 <S.ToolButton compact style={BTN} onClick={() => setRenaming('')}>Cancel</S.ToolButton>
               </div>
             ) : null}
-            {deleting === s.g ? (
+            {deleting === g ? (
               <div className="mk-lib-form">
                 <span className="mk-lib-hint" style={{ flex: '1 1 100%', fontStyle: 'normal' }}>
-                  {s.items.length === 0 ? `Delete the empty group “${s.g}”?` : `“${s.g}” holds ${list.filter(i => i.group === s.g).length} icon${list.filter(i => i.group === s.g).length === 1 ? '' : 's'}. Move them to another group, or delete them with the group.`}
-                  {customGroups.has(s.g) ? ' This cannot be undone.' : ' Built-in groups can be restored.'}
+                  {items.length === 0 ? `Delete the empty group “${g}”?` : `“${g}” holds ${list.filter(i => i.group === g).length} icon${list.filter(i => i.group === g).length === 1 ? '' : 's'}. Move them to another group, or delete them with the group.`}
+                  {customGroups.has(g) ? ' This cannot be undone.' : ' Built-in groups can be restored.'}
                 </span>
-                {list.some(i => i.group === s.g) && groups.length > 1 ? (
+                {list.some(i => i.group === g) && groups.length > 1 ? (
                   <>
                     <select className="mk-lib-search mk-lib-select" value={moveTo} onChange={e => setMoveTo(e.target.value)} aria-label="Move the icons to">
-                      {groups.filter(g => g !== s.g).map(g => <option key={g} value={g}>{g}</option>)}
+                      {groups.filter(g => g !== g).map(g => <option key={g} value={g}>{g}</option>)}
                     </select>
                     <S.ToolButton compact style={BTN} on onClick={() => confirmDelete(true)}>Move icons, delete group</S.ToolButton>
                   </>
                 ) : null}
-                <S.ToolButton compact style={BTN} on onClick={() => confirmDelete(false)}>{list.some(i => i.group === s.g) ? 'Delete group and icons' : 'Delete group'}</S.ToolButton>
+                <S.ToolButton compact style={BTN} on onClick={() => confirmDelete(false)}>{list.some(i => i.group === g) ? 'Delete group and icons' : 'Delete group'}</S.ToolButton>
                 <S.ToolButton compact style={BTN} onClick={() => setDeleting('')}>Cancel</S.ToolButton>
               </div>
             ) : null}
-            {s.items.length === 0 ? <p className="mk-lib-empty">No icons in this group yet. Use Add icon and pick this group, or move an icon here with Edit.</p> : null}
-            {s.items.some(i => i.key === editKey) ? (() => {
-              const t = s.items.find(i => i.key === editKey) as Tile;
+            {items.some(i => i.key === editKey) ? (() => {
+              const t = items.find(i => i.key === editKey) as Tile;
               return (
                 <div className="mk-lib-form">
                   <span className="mk-lib-edit-img" style={{ backgroundImage: `url(${editFile ? URL.createObjectURL(editFile) : iconUrl(t)})` }} aria-hidden="true" />
@@ -244,21 +234,13 @@ export function IconLibraryPage(p: { onHome: () => void }) {
                 </div>
               );
             })() : null}
-            <div className="mk-lib-grid">
-              {s.items.map(i => (
-                <div key={i.key} className="mk-lib-cell">
-                  <button type="button" className="mk-lib-tile" title={`Download ${i.name} (PNG)`} onClick={() => download(i)}>
-                    <span className="mk-lib-img" style={{ backgroundImage: `url(${iconUrl(i)})` }} />
-                    <span className="mk-lib-name">{i.name}</span>
-                    <span className="mk-lib-dl">Download PNG</span>
-                  </button>
+          </>)}
+          tileExtras={i => (<>
                   <button type="button" className="mk-lib-edit" aria-label={`Edit ${i.name}`} title={`Edit ${i.name}`} onClick={() => startEdit(i)}>✎</button>
                   <button type="button" className="mk-lib-del" aria-label={`Delete ${i.name}`} title={`Delete ${i.name}`} onClick={() => removeIcon(i)}>×</button>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+
+          </>)}
+        />
       </div>
       <Toast msg={toast} />
     </main>

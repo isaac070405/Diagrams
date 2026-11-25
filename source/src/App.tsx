@@ -134,7 +134,8 @@ function PathwayFrame(p: { onHome: () => void }) {
 
 export default function App() {
   const [id, setId] = useState(routeId());
-  useEffect(() => { const f = () => { setId(routeId()); window.scrollTo(0, 0); }; window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
+  const [, bump] = useState(0); /* the icon editor changes only the part of the address after the slash, so the route id stays the same but the page must still redraw */
+  useEffect(() => { const f = () => { setId(routeId()); bump(n => n + 1); window.scrollTo(0, 0); }; window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
   const go = (next: string) => { location.hash = next ? next : ''; setId(next); window.scrollTo(0, 0); };
   if (id === PATHWAY.id) return <PathwayFrame onHome={() => go('')} />;
   if (id === ICON_LIBRARY.id) return <IconLibraryPage onHome={() => go('')} />;

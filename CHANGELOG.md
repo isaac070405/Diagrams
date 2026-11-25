@@ -15,6 +15,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Icon editor (12b), opened from Edit icon in the library: remove a colour or the background, erase by brush or lasso, crop or trim margins, with undo and redo. Save replaces the icon or files a copy as a new icon.
 
+- Shared icon picker: the library grid is now one component used by the Icon library, the Icon editor (when opened without an icon, and from Choose another icon) and later diagrams.
+
 ### Changed
 
 - Ternary plot (15): the macronutrient template moved to the Macronutrient triangle (49). Saved ternary sheets keep their data.
