@@ -13,6 +13,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Icon library (12a): rename and delete any group, with the choice to move its icons or delete them. Edit icon renames an icon, moves it to another group or replaces its image. Built-in icons can be deleted and restored; the icon files are never changed.
 
+- Icon editor (12b), opened from Edit icon in the library: remove a colour or the background, erase by brush or lasso, crop or trim margins, with undo and redo. Save replaces the icon or files a copy as a new icon.
+
 ### Changed
 
 - Ternary plot (15): the macronutrient template moved to the Macronutrient triangle (49). Saved ternary sheets keep their data.

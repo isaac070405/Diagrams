@@ -657,3 +657,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .mk-lib-edit-img { flex: none; width: 56px; height: 56px; border: 1px solid var(--divider); background: center / contain no-repeat var(--paper); background-origin: content-box; padding: 4px; box-sizing: border-box; }
 .mk-lib-restore { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; margin-right: 12px; }
 .mk-lib-restore .mk-lib-del-group { margin-left: 0; }
+.mk-ied { display: grid; grid-template-columns: minmax(280px, 520px) 1fr; gap: 24px; align-items: start; }
+@media (max-width: 900px) { .mk-ied { grid-template-columns: 1fr; } }
+.mk-ied-tools { display: grid; gap: 12px; }
+.mk-ied-stage { display: grid; gap: 8px; justify-items: start; overflow: auto; max-width: 100%; }
+.mk-ied-canvas { position: relative; border: 1px solid var(--divider); touch-action: none; user-select: none; box-sizing: content-box; }
+.mk-ied-over { position: absolute; inset: 0; pointer-events: none; }
+.mk-ied-row { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; }
+.mk-ied-row input[type=range] { width: 140px; min-height: 44px; }

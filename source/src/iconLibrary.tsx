@@ -239,6 +239,7 @@ export function IconLibraryPage(p: { onHome: () => void }) {
                   <S.ToolButton compact style={BTN} on onClick={saveEdit}>Save icon</S.ToolButton>
                   <S.ToolButton compact style={BTN} onClick={closePanels}>Cancel</S.ToolButton>
                   {!t.custom && t.edited ? <S.ToolButton compact style={BTN} onClick={() => { if (apply(restoreIconOp(lib, t.key), `Reset ${t.name}`)) closePanels(); }}>Reset to built-in</S.ToolButton> : null}
+                  <a className="mk-lib-open" href={`#icon-editor/${encodeURIComponent(t.key)}`}>Edit image: crop, erase, remove background →</a>
                   <span className="mk-lib-hint">Choose a file only to replace the image. Moving changes the group, not the icon key, so saved pathways keep working.</span>
                 </div>
               );
