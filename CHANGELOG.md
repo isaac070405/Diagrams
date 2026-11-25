@@ -9,7 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Nutrition science, a new group on the home page, with two editors:
   - Macronutrient triangle (49): the macronutrient template moved here from the ternary plot, plus the AU/NZ acceptable macronutrient distribution range and a diet-change path.
-  - Nutritional geometry (50): nutrient space for nutritional ecology with food rails, an intake target, feeding paths, deficit and excess arrows and zones, an equal-energy line, and a performance landscape (peak or gradient) as colour bands and contours. Seven templates.
+  - Nutritional geometry (50): nutrient space for nutritional ecology with food rails, an intake target, feeding paths, deficit and excess arrows and zones, an equal-energy line, and a performance landscape (peak or gradient) as colour bands and contours. Eight templates, including homeostatic regulation (regulated against unregulated intakes on four foods).
 
 ### Changed
 

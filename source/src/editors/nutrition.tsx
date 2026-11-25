@@ -151,7 +151,8 @@ function NutriSheet({ data }: { data: any }) {
   foods.forEach((f, i) => {
     const e = railEnd(f, xm, ym); if (!e) return;
     const c = railCol(f, i), x2 = X(e[0]), y2 = Y(e[1]);
-    out.push(<line key={k()} className="ng-rail" x1={X(0)} y1={Y(0)} x2={x2} y2={y2} style={{ stroke: c }} />);
+    const hm = data.homeo && data.homeo.on, tot = num(f.x, 0) + num(f.y, 0), mx = Math.max(1e-9, ...foods.map(q => num(q.x, 0) + num(q.y, 0))), rel = tot / mx;
+    out.push(<line key={k()} className="ng-rail" x1={X(0)} y1={Y(0)} x2={x2} y2={y2} style={hm ? { stroke: c, strokeWidth: 1.4 + 2.6 * rel, opacity: 0.45 + 0.55 * rel } : { stroke: c }} />);
     if (f.label && data.railLabels !== false) {
       const ang = Math.atan2(y2 - Y(0), x2 - X(0)) * 180 / Math.PI, mx = X(0) + (x2 - X(0)) * 0.97, my = Y(0) + (y2 - Y(0)) * 0.97;
       out.push(<text key={k()} className="ng-rlabel" textAnchor="end" transform={'translate(' + mx.toFixed(1) + ' ' + my.toFixed(1) + ') rotate(' + ang.toFixed(1) + ') translate(-4 -6)'} style={ink('rail')}>{f.label}</text>);
@@ -201,6 +202,21 @@ function NutriSheet({ data }: { data: any }) {
     const cx = X(num(tg.x, 0)), cy = Y(num(tg.y, 0)), c = tg.color || 'var(--swatch-11)';
     out.push(<g key={k()} className="ng-target"><circle cx={cx} cy={cy} r={16} style={{ stroke: c, fill: 'var(--paper)' }} /><circle cx={cx} cy={cy} r={10} style={{ stroke: c, fill: 'var(--paper)' }} /><circle cx={cx} cy={cy} r={4} style={{ fill: c, stroke: c }} /></g>);
     if (tg.label) out.push(<text key={k()} className="ng-tlabel" x={cx + 22} y={cy - 12} style={{ fill: c, ...ink('target') }}>{tg.label}</text>);
+  }
+
+  /* 7b. homeostatic regulation: a regulator lands on the target whatever the food, a non-regulator eats a fixed mass and lands where the rail puts it */
+  const hs = data.homeo;
+  if (hs && hs.on && tg) {
+    const amt = num(hs.amount, 100) / 100, spr = num(hs.spread, 0.09), tx0 = num(tg.x, 0), ty0 = num(tg.y, 0), rr = num(data.pointSize, 7);
+    foods.forEach((f, i) => {
+      const a = i * 2.4 + 0.7, r = spr * (0.5 + ((i * 37) % 10) / 20);
+      out.push(<circle key={k()} className="ng-pt" cx={X(tx0 + Math.cos(a) * r * xm)} cy={Y(ty0 + Math.sin(a) * r * ym)} r={rr - 1} style={{ fill: 'var(--ink)' }} />);
+      const ux = Math.min(xm, amt * num(f.x, 0)), uy = Math.min(ym, amt * num(f.y, 0));
+      out.push(<circle key={k()} className="ng-pt" cx={X(ux)} cy={Y(uy)} r={rr} style={{ fill: 'var(--neutral-400)' }} />);
+    });
+    const ly = T + 8;
+    out.push(<g key={k()}><circle className="ng-pt" cx={L + PW - 190} cy={ly} r={6} style={{ fill: 'var(--ink)' }} /><text className="ng-plabel" x={L + PW - 178} y={ly + 4}>Homeostatic regulation</text>
+      <circle className="ng-pt" cx={L + PW - 190} cy={ly + 20} r={6} style={{ fill: 'var(--neutral-400)' }} /><text className="ng-plabel" x={L + PW - 178} y={ly + 24}>No homeostatic regulation</text></g>);
   }
 
   /* 9. colour bar for the surface */
@@ -269,6 +285,13 @@ function Controls({ data, set, sel, setSel }: EditProps) {
       <Rows id="ng-pts" kicker="Marked intakes" help="Points where an animal or diet ended up. With gaps switched on, each one shows its excess or deficit of each nutrient against the target." rows={pts}
         cols={[{ key: 'label', label: 'Label', w: '1.3fr' }, { key: 'x', label: nx.slice(0, 8), type: 'num', w: '0.6fr' }, { key: 'y', label: ny.slice(0, 8), type: 'num', w: '0.6fr' }, { key: 'color', label: 'Colour', type: 'color' }]}
         blank={() => ({ label: 'Intake ' + (pts.length + 1), x: xm / 2, y: ym / 2 })} addLabel="+ Add intake" onChange={(rows, key) => set({ points: rows }, key)} />
+      <S.Panel kicker="Homeostatic regulation" help="Adds one black and one grey dot per food. Black: an animal that regulates its intake lands on the target on every food. Grey: an animal that eats a fixed mass of every food lands where that rail puts it. Rails draw thicker for foods richer in nutrients. Needs an intake target.">
+        <Toggle on={!!(data.homeo && data.homeo.on)} label="Show regulated and unregulated intakes" onChange={v => set({ homeo: { ...(data.homeo || {}), on: v } })} />
+        {data.homeo && data.homeo.on ? <>
+          <TextIn id="ng-ha" label="Mass eaten without regulation (g)" value={data.homeo.amount} placeholder="100" onChange={v => set({ homeo: { ...data.homeo, amount: v } }, 'ng-ha')} />
+          <Range id="ng-hs" label="Scatter of regulated intakes" value={num(data.homeo.spread, 0.09)} min={0} max={0.15} step={0.005} onChange={v => set({ homeo: { ...data.homeo, spread: v } }, 'ng-hs')} />
+        </> : null}
+      </S.Panel>
       <S.Panel kicker="Performance landscape" help="A response surface over nutrient space, for growth, reproduction, lifespan or any other performance measure scaled 0 to 1.">
         <Seg wrap value={surf} options={[['none', 'None'], ['peak', 'Peak (optimum)'], ['gradient', 'Gradient (more is better)']]} onChange={v => set({ surface: v })} />
         {surf !== 'none' ? <>
@@ -324,6 +347,11 @@ export const nutrigeo: EditorDef = {
       caption: 'Each rail is a food with a different X:Y ratio. Open circles show where a food would match Y (horizontal guide) or match X (vertical guide), and so how much of the other nutrient it forces the animal to over- or under-eat.',
       data: { ...CONC, guides: true, railMarks: true, railLabels: false,
         foods: [F2('Low X:Y', 20, 80, 'var(--swatch-16)'), F2('', 33, 67, 'var(--swatch-2)'), F2('', 43, 57, 'var(--swatch-3)'), F2('Balanced', 50, 50, 'var(--swatch-11)'), F2('', 57, 43, 'var(--swatch-6)'), F2('', 67, 33, 'var(--swatch-5)'), F2('High X:Y', 80, 20, 'var(--swatch-4)')],
+        meals: [], target: { x: 45, y: 45, label: '' }, points: [] } },
+    { name: 'Homeostatic regulation', desc: 'Regulated and unregulated intakes on four foods', title: 'Homeostatic regulation of nutrient intake',
+      caption: 'Four foods differ in nutrient ratio (X:Y) and in total nutrient concentration (X+Y, thicker rails). Black dots: an animal that regulates its intake reaches the target on every food. Grey dots: without regulation, the same mass of each food lands where its rail puts it.',
+      data: { ...CONC, railLabels: true, homeo: { on: true, amount: 100, spread: 0.09 },
+        foods: [F2('Low X:Y (thick: high X+Y)', 16, 64, 'var(--swatch-2)'), F2('', 8, 32, 'var(--swatch-2)'), F2('', 32, 8, 'var(--swatch-5)'), F2('High X:Y (thick: high X+Y)', 64, 16, 'var(--swatch-5)')],
         meals: [], target: { x: 45, y: 45, label: '' }, points: [] } },
     { name: 'Protein vs fat + carbohydrate', desc: 'Energy-scaled axes, equal-energy line and deficit zones', title: 'Navigating to a protein-to-nonprotein energy target',
       caption: 'Energy from protein (horizontal) against energy from fat and carbohydrate (vertical). The diagonal is a constant total energy intake; the shaded zones show deficit and excess of each energy source around the regulatory target.',
