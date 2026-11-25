@@ -20,7 +20,7 @@ Copy `bundle.html` to `../site/index.html`. `public/pathway.html` and `public/ic
 - `pathway/`: readable source and pack script for `public/pathway.html` (see its README)
 - `src/App.tsx`: home page with all diagram cards
 - `src/shell.tsx`: shared editor shell (undo, zoom, autosave, export)
-- `src/editors/`: one file per diagram family
+- `src/editors/`: one file per diagram family (`nutrition.tsx`: macronutrient triangle 49 and nutritional geometry 50)
 - `src/lib/xyaxis.js`: x–y plots (17, 18, 21)
 - `src/lib/molecule.tsx`: molecules from SMILES (19, 20)
 - `src/ds/`: Scientific Diagram design system

@@ -4,7 +4,7 @@ Biological and metabolic diagrams.
 
 ## Diagram Workspace
 
-A browser editor for scientific figures: 36 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
+A browser editor for scientific figures: 38 diagram types for lab reports, essays and slides. Export as PNG, SVG or JPEG.
 
 Open it online: https://isaac070405.github.io/Diagrams/
 
@@ -30,7 +30,7 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 11 | Gradient bar |
 | 12 | Biological pathway |
 | 14 | Timeline (dates or stages) |
-| 15 | Ternary plot |
+| 15 | Ternary plot (rocks, sediments, coastal systems) |
 | 16 | PK/PD compartment model |
 | 17 | Curve with fit (concentration–time, dose–response, population, enzyme, standard, growth) |
 | 19 | SAR scheme |
@@ -53,6 +53,8 @@ Icon credits and licences are in `site/icons/CREDITS.md`.
 | 42 | Sankey diagram |
 | 45 | Pie and donut chart |
 | 47 | Rarefaction and species accumulation |
+| 49 | Macronutrient triangle (foods, meals and diets by % of energy; AU/NZ acceptable range) |
+| 50 | Nutritional geometry (nutrient space, food rails, intake target, performance landscape) |
 
 Numbers are not reused: the gaps are editors folded into another one. Old links such as `#product-flow` and saved projects open the merged editor.
 

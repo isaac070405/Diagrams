@@ -5,7 +5,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Nutrition science, a new group on the home page, with two editors:
+  - Macronutrient triangle (49): the macronutrient template moved here from the ternary plot, plus the AU/NZ acceptable macronutrient distribution range and a diet-change path.
+  - Nutritional geometry (50): nutrient space for nutritional ecology with food rails, an intake target, feeding paths, deficit and excess arrows and zones, an equal-energy line, and a performance landscape (peak or gradient) as colour bands and contours. Seven templates.
+
 ### Changed
+
+- Ternary plot (15): the macronutrient template moved to the Macronutrient triangle (49). Saved ternary sheets keep their data.
 
 - Timeline (14): a "Stages (no dates)" scale with free-text labels and drag reorder.
 - 12 editors folded into 6 merged ones (48 to 36 types). See `docs/flexibility-project.md`.

@@ -224,7 +224,7 @@ function TextPanel({ data, set }: { data: any; set: any }) {
 }
 
 /* the three "mostly" regions: each corner's kite, split at the edge midpoints and the centre */
-const KITES = (la: string, lb: string, lc: string, ca: string, cb: string, cc: string) => [
+export const KITES = (la: string, lb: string, lc: string, ca: string, cb: string, cc: string) => [
   { label: la, verts: '100,0,0; 50,50,0; 33.3,33.3,33.3; 50,0,50', color: ca },
   { label: lb, verts: '0,100,0; 50,50,0; 33.3,33.3,33.3; 0,50,50', color: cb },
   { label: lc, verts: '0,0,100; 50,0,50; 33.3,33.3,33.3; 0,50,50', color: cc },
@@ -232,16 +232,9 @@ const KITES = (la: string, lb: string, lc: string, ca: string, cb: string, cc: s
 
 export const ternary: EditorDef = {
   id: 'ternary-plot', num: '15', name: 'Ternary plot', field: 'Cells and measurement',
-  blurb: 'Three-part compositions in a triangle: foods by macronutrient energy, rocks by mineral or oxide content.',
+  blurb: 'Three-part compositions in a triangle: rocks by mineral or oxide content, coastal systems by river, wave and tide power.',
   hint: 'Click a point to edit it; drag it inside the triangle and its three percentages update.',
   templates: [
-    { name: 'Macronutrient energy', desc: 'Foods by % of energy from protein, fat and carbohydrate', title: 'Where foods sit by macronutrient energy',
-      caption: 'Share of energy from each macronutrient (Atwater factors 4, 9 and 4 kcal/g), approximate values per 100 g.',
-      data: { nameA: 'Protein', nameB: 'Fat', nameC: 'Carbohydrate', unit: '% of energy', grid: 10, ticks: true, labels: true, pointSize: 6,
-        regions: KITES('Mostly // protein', 'Mostly // fat', 'Mostly // carbohydrate', 'var(--swatch-13)', 'var(--swatch-7)', 'var(--swatch-3)'),
-        points: [['Chicken breast', 79, 21, 0], ['Canned tuna', 92, 8, 0], ['Salmon', 41, 59, 0], ['Eggs', 36, 62, 2], ['Firm tofu', 42, 50, 8], ['Cheddar', 25, 74, 1],
-          ['Whole milk', 21, 48, 31], ['Almonds', 13, 72, 15], ['Lentils', 30, 3, 67], ['Rolled oats', 14, 15, 71], ['White rice', 9, 2, 89], ['Banana', 4, 3, 93]]
-          .map(([label, a, b, c]) => ({ label, a, b, c, color: 'var(--ink)' })) } },
     { name: 'Sandstone (QFL)', desc: 'Quartz, feldspar and lithic fragments', title: 'Sandstone classification by framework grains',
       caption: 'Simplified QFL scheme: Q = quartz, F = feldspar, L = lithic fragments, as % of framework grains.',
       data: { nameA: 'Q', nameB: 'F', nameC: 'L', unit: '% of framework grains', grid: 10, ticks: true, labels: true, pointSize: 6,
