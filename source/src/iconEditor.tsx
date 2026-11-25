@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { S } from './sheet';
 import { Toast } from './shell';
 import { ThemeSwitch } from './theme';
+import { IconPicker, IconPickerDialog } from './iconBrowser';
+import type { PickedIcon } from './iconBrowser';
 import { editIconOp, loadCustom, readIconFile, resolveLib, saveCustom, uniqueKey } from './lib/customIcons';
 import type { CustomLib } from './lib/customIcons';
 
@@ -53,6 +55,7 @@ export function IconEditorPage(p: { onBack: () => void }) {
 
   const [toast, setToast] = useState('');
   const [loadMsg, setLoadMsg] = useState('');
+  const [choosing, setChoosing] = useState(false);
   const [tool, setTool] = useState<Tool>('bg');
   const [tol, setTol] = useState(12);
   const [contiguous, setContiguous] = useState(true);
@@ -211,6 +214,12 @@ export function IconEditorPage(p: { onBack: () => void }) {
     commit({ ...lib, icons: [...lib.icons, { key: uniqueKey(lib, name), name, group: saveGroup, ratio: r.ratio, data: r.data }] }, `Saved ${name} as a new icon`);
   };
 
+  const choose = (icon: PickedIcon) => {
+    if (cur.current && past.current.length && !window.confirm('Switch icons? Edits you have not saved will be lost.')) return;
+    setChoosing(false);
+    location.hash = 'icon-editor/' + encodeURIComponent(icon.key);
+  };
+
   const img = cur.current;
   const checker = { backgroundImage: 'linear-gradient(45deg, #d9d9dc 25%, transparent 25%, transparent 75%, #d9d9dc 75%), linear-gradient(45deg, #d9d9dc 25%, transparent 25%, transparent 75%, #d9d9dc 75%)', backgroundSize: '16px 16px', backgroundPosition: '0 0, 8px 8px', backgroundColor: '#f4f4f6' };
 
@@ -228,7 +237,7 @@ export function IconEditorPage(p: { onBack: () => void }) {
           <p>Crop the edges, erase unwanted parts and remove the background. Nothing is saved until you press Save. Built-in icon files are never changed; a saved edit replaces the icon in this browser only.</p>
         </header>
         {!tile ? (
-          <p className="mk-lib-empty">No icon is selected, or it was deleted. Open the <a href="#icon-library">Icon library</a>, press ✎ on a tile, then Edit image.</p>
+          <IconPicker onPick={choose} hint="Edit image" intro={<p className="mk-lib-empty">{key ? 'That icon was not found or was deleted.' : 'No icon is selected.'} Choose the icon to edit.</p>} />
         ) : (
           <div className="mk-ied">
             <div className="mk-ied-tools">
@@ -266,6 +275,7 @@ export function IconEditorPage(p: { onBack: () => void }) {
                 <S.ToolButton compact style={BTN} onClick={undo}>Undo</S.ToolButton>
                 <S.ToolButton compact style={BTN} onClick={redo}>Redo</S.ToolButton>
                 <S.ToolButton compact style={BTN} onClick={reset}>Reset to start</S.ToolButton>
+                <S.ToolButton compact style={BTN} onClick={() => setChoosing(true)}>Choose another icon</S.ToolButton>
                 <label className="mk-ied-row">Zoom {zoom}×<input type="range" min={1} max={6} value={zoom} onChange={e => setZoom(+e.target.value)} aria-label="Zoom" /></label>
                 <span className="mk-lib-hint">Or open another image file to edit instead:</span>
                 <input className="mk-lib-file" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp,image/gif" onChange={e => openFile((e.target.files && e.target.files[0]) || null)} aria-label="Open an image file" />
@@ -300,6 +310,7 @@ export function IconEditorPage(p: { onBack: () => void }) {
           </div>
         )}
       </div>
+      {choosing ? <IconPickerDialog title="Choose an icon to edit" onPick={choose} onClose={() => setChoosing(false)} /> : null}
       <Toast msg={toast} />
     </main>
   );

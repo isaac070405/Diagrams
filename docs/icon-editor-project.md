@@ -1,7 +1,7 @@
 # Icon library and icon editor project
 
 Goal: let users manage the icon library (12a) and clean up icons in a separate editor page (12b).
-Status as of 2026-11-25: I1 to I4 done, I5 to I7 open.
+Status as of 2026-11-25: I1 to I5 done, I6 and I7 open.
 
 ## Scope
 
@@ -17,8 +17,8 @@ Status as of 2026-11-25: I1 to I4 done, I5 to I7 open.
 | I2 | 12a group editing | Done | Add group, rename group and delete group work for built-in and custom groups; deleting asks what happens to the icons |
 | I3 | 12a icon editing | Done | Edit icon changes name and group (move), replaces the image, and deletes built-in and custom icons |
 | I4 | 12b editor page | Done | New page `icon-editor` opens from a tile's Edit image button with crop, eraser and background removal, plus undo |
-| I5 | Shared icon picker | Open | One component serves 12a, 12 and later diagrams through `onPick(icon)` |
-| I6 | Biological pathway reads overrides | Open | `source/public/pathway.html` shows renamed, moved, replaced and hidden icons from the same browser storage |
+| I5 | Shared icon picker | Done | One browser component (`source/src/iconBrowser.tsx`) serves 12a, 12b and later diagrams through `<IconPicker onPick>`; Biological pathway (12) adopts it in I6 |
+| I6 | Biological pathway reads overrides | Open | `source/public/pathway.html` shows renamed, moved, replaced and hidden icons from the same browser storage, and picks icons through the shared picker |
 | I7 | Other diagrams place icons | Open | Each diagram that adopts the picker stores the icon key, not the image |
 
 ## 12a behaviour
@@ -52,3 +52,6 @@ Status as of 2026-11-25: I1 to I4 done, I5 to I7 open.
 - I4: pixel logic is in `source/src/lib/iconPixels.js` (15 tests in `source/tests/iconpixels.test.cjs`, run in CI); the page is `source/src/iconEditor.tsx`, reached at `#icon-editor/<key>`.
 - Browsers block pixel reads for pages opened as local files, so built-in icons load only when served over http(s). The page explains this and offers Open an image file.
 - Recolour and rotate stay out of 12b for now.
+- I5: `IconBrowser` (search, group chips, grid) is the one grid for the library page, the picker and the dialog. The library passes slots for group and tile actions, the picker passes none. `IconPicker` and `IconPickerDialog` return `{ key, name, group, ratio, url }`; a diagram stores `key`.
+- Biological pathway is an iframe with its own picker code, so it cannot render the React component. I6 either asks the parent page for a pick over `postMessage` or reads the same storage; the choice is open.
+- 12b uses the picker when opened without an icon and from Choose another icon.
