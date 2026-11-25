@@ -37,6 +37,7 @@ jobs:
         run: |
           node tests/xyaxis.test.cjs
           node tests/iconops.test.cjs
+          node tests/iconpixels.test.cjs
 
       - name: Build with Parcel
         run: pnpm exec parcel build index.html --dist-dir dist --no-source-maps

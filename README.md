@@ -195,6 +195,15 @@ The home page library also edits what is there:
 - **✎ on a tile** opens Edit icon: rename the icon, move it to another group, or replace its image. **×** deletes it.
 - Changes to the 80 built-in icons are stored as overrides, so the PNG files stay as shipped. **Built-in changes** lists deleted groups and icons with a Restore button, and Restore all built-ins undoes every change. Icons and groups you added stay.
 
+**Edit image** (inside Edit icon) opens the icon editor, 12b, on that icon:
+
+- **Remove colour:** click a colour to make it transparent. Tolerance takes near colours too, and Only the area touching the click keeps islands of the same colour inside an outline. Remove background from corners fills in from all four corners.
+- **Eraser** and **Lasso erase** remove parts by brush or by a loop.
+- **Crop** keeps a dragged rectangle, and Trim transparent margins crops to the visible part.
+- Undo, Redo (also Ctrl+Z and Ctrl+Shift+Z), Reset to start and Zoom.
+- **Save** replaces the icon; **Save as new icon** keeps the original and files the copy in a group. A built-in icon file is never changed.
+- Browsers block reading pixels from a page opened as a local file, so built-in icons need the workspace served from a web address such as GitHub Pages. Open an image file works everywhere.
+
 Your icons, groups and changes are stored in this browser. The Biological pathway editor shows your added icons and groups; it does not yet show renames, moves or deletions of built-in icons.
 
 ## Biological pathway

@@ -31,6 +31,7 @@ import { sankey } from './editors/sankey';
 import { pie } from './editors/pie';
 import { rarefaction } from './editors/rarefaction';
 import { ICON_LIBRARY, IconLibraryPage, IconLibraryThumb } from './iconLibrary';
+import { ICON_EDITOR, IconEditorPage } from './iconEditor';
 
 const EDITORS: EditorDef[] = [wheel, phylo, flowAll, pedigree, foodweb, punnett, pyramid, dkey, iceberg, scalebar, gradient];
 const PATHWAY = { id: 'biological-pathway', num: '12', name: 'Biological pathway', field: 'Cells and measurement', blurb: 'Signalling and metabolic pathways with compartments, 80 BioRender icons and a Claude first draft.' };
@@ -41,7 +42,8 @@ const WORDS: any = { 15: 'Fifteen', 16: 'Sixteen', 17: 'Seventeen', 18: 'Eightee
 
 /* ids of editors folded into a merged one still open the merged editor */
 const unalias = (h: string) => { const m = ALL.find((e: any) => e.legacy && e.legacy.some((l: any) => l.id === h)); return m ? m.id : h; };
-function routeId() { const h = unalias((location.hash || '').replace(/^#/, '')); return h === ICON_LIBRARY.id || ALL.some(e => e.id === h) ? h : ''; }
+/* #icon-editor/<key> opens the icon editor on that icon, so only the part before the slash is the route */
+function routeId() { const h = unalias((location.hash || '').replace(/^#/, '').split('/')[0]); return h === ICON_LIBRARY.id || h === ICON_EDITOR.id || ALL.some(e => e.id === h) ? h : ''; }
 
 function PathwayThumb() {
   const ins = { role: 'ligand', label: 'Insulin', x: 250, y: 30 }, insr = { role: 'receptor', label: 'INSR', x: 250, y: 84 }, akt = { role: 'kinase', label: 'AKT', x: 250, y: 150, badge: true };
@@ -136,6 +138,7 @@ export default function App() {
   const go = (next: string) => { location.hash = next ? next : ''; setId(next); window.scrollTo(0, 0); };
   if (id === PATHWAY.id) return <PathwayFrame onHome={() => go('')} />;
   if (id === ICON_LIBRARY.id) return <IconLibraryPage onHome={() => go('')} />;
+  if (id === ICON_EDITOR.id) return <IconEditorPage key={location.hash} onBack={() => go(ICON_LIBRARY.id)} />;
   const def = ALL.find(e => e.id === id && e.templates);
   if (def) return <EditorShell key={def.id} def={def} onHome={() => go('')} />;
   return <Home />;
